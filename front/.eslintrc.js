@@ -2,8 +2,8 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
-    jest: true
+    'jest/globals': true,
+    node: true
   },
   parserOptions: {
     parser: '@babel/eslint-parser',
@@ -14,6 +14,7 @@ module.exports = {
     'plugin:nuxt/recommended'
   ],
   plugins: [
+    'jest'
   ],
   // add your custom rules here
   rules: {}

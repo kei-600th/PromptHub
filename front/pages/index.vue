@@ -10,7 +10,6 @@
       <button @click="getSomething">
         タスク取得
       </button>
-      <!-- 取得した tasks をリスト形式で表示する -->
       <ul v-for=" task in tasks" :key="task.id">
         <li style="text-align: left;">{{ task.title }}</li>
       </ul>
