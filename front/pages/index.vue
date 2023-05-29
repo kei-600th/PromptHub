@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     async getSomething () {
-      // タスク一覧を取得するための API を叩く
       const response = await this.$axios.$get('http://localhost:3000/api/v1/tasks')
       this.tasks = JSON.parse(response.tasks)
     }
