@@ -1,6 +1,7 @@
 FROM ruby:2.7.2-alpine
 
 ARG WORKDIR
+ARG API_PORT
 ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git"
 ARG DEV_PACKAGES="build-base curl-dev"
 
@@ -20,5 +21,10 @@ RUN apk update && \
     apk del build-dependencies
 
 COPY . ./
+
+
+# 本番環境用の設定
+
+EXPOSE ${API_PORT}
 
 CMD ["rails", "server", "-b", "0.0.0.0"]

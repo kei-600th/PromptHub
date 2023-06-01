@@ -19,6 +19,7 @@ services:
       context: ./api
       args:
         WORKDIR: $WORKDIR
+        API_PORT: $API_PORT
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
