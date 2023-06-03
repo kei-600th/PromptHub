@@ -27,4 +27,6 @@ COPY . ./
 
 EXPOSE ${API_PORT}
 
+RUN rm -f /app/tmp/pids/server.pid
+
 CMD ["rails", "server", "-b", "0.0.0.0"]
