@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: mysql:5.7.30
+    image: mysql:8.0.31
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
@@ -19,12 +19,14 @@ services:
       context: ./api
       args:
         WORKDIR: $WORKDIR
+        API_PORT: $API_PORT
     environment:
+      API_PORT: $API_PORT
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
-      API_DOMAIN: "localhost:$FRONT_PORT"
+      FRONT_DOMAIN: "localhost:$FRONT_PORT"
       BASE_URL: "http://localhost:$API_PORT"
     volumes:
       - "./api:/$WORKDIR"
@@ -39,6 +41,7 @@ services:
       args:
         WORKDIR: $WORKDIR
         API_URL: "http://localhost:$API_PORT"
+        FRONT_PORT: $FRONT_PORT
     command: yarn run dev
     volumes:
       - "./front:/$WORKDIR"
