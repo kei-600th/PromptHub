@@ -30,6 +30,7 @@ test:
   database: prompthub_test
   username: root
   password:
+  port: 3306
   host: 127.0.0.1
   
 
