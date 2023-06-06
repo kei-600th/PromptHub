@@ -1,0 +1,35 @@
+name: build-and-test
+on: [push]
+
+jobs:
+  test_api:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+    defaults:
+      run:
+        working-directory: api
+    services:
+      mysql:
+        image: mysql:8.0.31
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          BIND-ADDRESS: 0.0.0.0
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7.2"
+          bundler-cache: true
+          working-directory: api
+      - name: DB migration
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+      - name: Rspec
+        run: bundle exec rspec
