@@ -34,3 +34,22 @@ jobs:
           bundle exec rails db:migrate
       - name: Rspec
         run: bundle exec rspec
+
+  test_front:
+    name: test_frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.13.1"
+          cache: "yarn"
+          cache-dependency-path: "front/package.json"
+      - name: install
+        run: yarn install
+      - name: jest
+        run: yarn run test
