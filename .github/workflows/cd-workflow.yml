@@ -1,14 +1,10 @@
 name: deploy
 
-on: [push]
-
-# TODO:起動条件の変更
-
-# on:
-#   pull_request:
-#     branches:
-#       - main
-#     types: [closed]
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
 
 env:
   AWS_REGION: ap-northeast-1
