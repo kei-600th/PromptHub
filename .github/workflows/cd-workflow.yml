@@ -77,3 +77,8 @@ jobs:
         docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:latest
         docker push $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
         docker push $ECR_REGISTRY/$API_IMAGE_NAME:latest
+
+    - name: Deploy to ECS
+      run: |
+        aws ecs update-service --service $PROMPTHUB_FRONT_SERVICE--cluster prompthub-cluster --force-new-deployment
+        aws ecs update-service --service $PROMPTHUB_API_SERVICE --cluster prompthub-cluster --force-new-deployment
