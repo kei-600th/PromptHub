@@ -80,5 +80,5 @@ jobs:
 
     - name: Deploy to ECS
       run: |
-        aws ecs update-service --service $PROMPTHUB_FRONT_SERVICE--cluster prompthub-cluster --force-new-deployment
+        aws ecs update-service --service $PROMPTHUB_FRONT_SERVICE --cluster prompthub-cluster --force-new-deployment
         aws ecs update-service --service $PROMPTHUB_API_SERVICE --cluster prompthub-cluster --force-new-deployment
