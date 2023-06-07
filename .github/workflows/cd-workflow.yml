@@ -44,6 +44,15 @@ jobs:
 
     - name: build image
       id: build-image
+      env:
+        MYSQL_ROOT_PASSWORD : rootpassword
+        MYSQL_DATABASE: mydatabase
+        MYSQL_USER: myuser
+        MYSQL_PASSWORD: password
+        DB_PORT: 4306
+        WORKDIR: app
+        API_PORT: 3000
+        FRONT_PORT: 8080
       run: |
         docker-compose build
 
