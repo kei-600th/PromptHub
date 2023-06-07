@@ -38,28 +38,27 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-- name: build image
-      id: build-image
-      run: |
-        docker-compose build
+    - name: build image
+          id: build-image
+          run: |
+            docker-compose build
 
-- name: front push to ECR
-      id: build-image-api
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: |
-        cd api
-        docker tag $FRONT_IMAGE_NAME $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
-        docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:$WEBAPP_TAG
-        docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
+    - name: front push to ECR
+          id: build-image-api
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          run: |
+            cd api
+            docker tag $FRONT_IMAGE_NAME $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
+            docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:$WEBAPP_TAG
+            docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
 
-
-- name: api push to ECR
-      id: build-image-api
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      run: |
-        cd api
-        docker tag $API_IMAGE_NAME $ECR_REGISTRY/$API_IMAGE_NAME:latest
-        docker push $ECR_REGISTRY/$API_IMAGE_NAME:$WEBAPP_TAG
-        docker push $ECR_REGISTRY/$API_IMAGE_NAME:latest
+    - name: api push to ECR
+          id: build-image-api
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          run: |
+            cd api
+            docker tag $API_IMAGE_NAME $ECR_REGISTRY/$API_IMAGE_NAME:latest
+            docker push $ECR_REGISTRY/$API_IMAGE_NAME:$WEBAPP_TAG
+            docker push $ECR_REGISTRY/$API_IMAGE_NAME:latest
