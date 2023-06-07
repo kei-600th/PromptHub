@@ -6,6 +6,7 @@ class Api::V1::TasksController < ApplicationController
     if Task.count.zero?
       ['1st task', '2nd task', '3rd task'].each do |title|
         Task.create!(title: title)
+        puts "Hello CICD!"
       end
     end
 # この辺りも本来であればきちんとシリアライズした方が良いです...

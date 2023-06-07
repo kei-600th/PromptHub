@@ -1,0 +1,80 @@
+name: deploy
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+env:
+  AWS_REGION: ap-northeast-1
+  PROMPTHUB_FRONT_SERVICE: prompthub-front-service
+  PROMPTHUB_API_SERVICE: prompthub-api-service
+  FRONT_CONTAINER_NAME: prompthub-front-container
+  API_CONTAINER_NAME: prompthub-api-container
+  FRONT_IMAGE_NAME: prompthub-front
+  API_IMAGE_NAME: prompthub-api
+  API_TAG: 0.0.2
+  FRONT_TAG: 0.0.2
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: build image
+      id: build-image
+      env:
+        MYSQL_ROOT_PASSWORD : rootpassword
+        MYSQL_DATABASE: mydatabase
+        MYSQL_USER: myuser
+        MYSQL_PASSWORD: password
+        DB_PORT: 4306
+        WORKDIR: app
+        API_PORT: 3000
+        FRONT_PORT: 8080
+      run: |
+        docker-compose build
+
+    - name: front push to ECR
+      id: build-image-front
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        cd front
+        docker tag prompthub_front:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:$FRONT_TAG
+        docker tag prompthub_front:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
+        docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:$FRONT_TAG
+        docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
+
+    - name: api push to ECR
+      id: build-image-api
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        cd api
+        docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
+        docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:latest
+        docker push $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
+        docker push $ECR_REGISTRY/$API_IMAGE_NAME:latest
+
+    - name: Deploy to ECS
+      run: |
+        aws ecs update-service --service $PROMPTHUB_FRONT_SERVICE --cluster prompthub-cluster --force-new-deployment
+        aws ecs update-service --service $PROMPTHUB_API_SERVICE --cluster prompthub-cluster --force-new-deployment
