@@ -48,7 +48,7 @@ jobs:
         docker-compose build
 
     - name: front push to ECR
-      id: build-image-api
+      id: build-image-front
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
