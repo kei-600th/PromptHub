@@ -21,7 +21,7 @@
 export default {
   data () {
     return {
-      subTitle: 'Zenn is good service!!',
+      subTitle: 'Zenn is nice service!!',
       tasks: []
     }
   },
