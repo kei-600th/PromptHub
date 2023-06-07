@@ -61,9 +61,10 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        cd api
+        cd front
+        docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:$FRONT_TAG
         docker tag prompthub_front:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
-        docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:$API_TAG
+        docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:$FRONT_TAG
         docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
 
     - name: api push to ECR
@@ -72,6 +73,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         cd api
+        docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
         docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:latest
-        docker push $ECR_REGISTRY/$API_IMAGE_NAME:$FRONT_TAG
+        docker push $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
         docker push $ECR_REGISTRY/$API_IMAGE_NAME:latest
