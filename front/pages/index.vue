@@ -7,9 +7,9 @@
       <h2 class="subtitle">
         {{ subTitle }}
       </h2>
-      <button @click="getSomething">
+      <v-btn @click="getSomething">
         タスク取得
-      </button>
+      </v-btn>
       <ul v-for=" task in tasks" :key="task.id">
         <li style="text-align: left;">{{ task.title }}</li>
       </ul>
