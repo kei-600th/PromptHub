@@ -54,8 +54,8 @@ jobs:
           --build-arg FRONT_PORT=$FRONT_PORT \
           --build-arg API_URL=$API_URL \
           .
-        docker tag prompthub_front:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:$FRONT_TAG
-        docker tag prompthub_front:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
+        docker tag $FRONT_IMAGE_NAME:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:$FRONT_TAG
+        docker tag $FRONT_IMAGE_NAME:latest $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
         docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:$FRONT_TAG
         docker push $ECR_REGISTRY/$FRONT_IMAGE_NAME:latest
 
@@ -71,8 +71,8 @@ jobs:
           --build-arg WORKDIR=$WORKDIR \
           --build-arg API_PORT=$API_PORT \
           .
-        docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
-        docker tag prompthub_api:latest $ECR_REGISTRY/$API_IMAGE_NAME:latest
+        docker tag $API_IMAGE_NAME:latest $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
+        docker tag $API_IMAGE_NAME:latest $ECR_REGISTRY/$API_IMAGE_NAME:latest
         docker push $ECR_REGISTRY/$API_IMAGE_NAME:$API_TAG
         docker push $ECR_REGISTRY/$API_IMAGE_NAME:latest
 
