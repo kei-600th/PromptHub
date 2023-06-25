@@ -25,6 +25,6 @@ RUN yarn install
 # ソースコードは最後にコピー
 COPY . ${HOME}
 
-RUN yarn run build
+RUN yarn build
 EXPOSE ${FRONT_PORT}
 CMD ["yarn", "start"]
