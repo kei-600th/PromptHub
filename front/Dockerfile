@@ -18,10 +18,13 @@ RUN apk update && \
     apk upgrade && \
     rm -rf /var/cache/apk/*
 
+# 依存関係を先にコピー
 COPY package*.json ./
 RUN yarn install
 
-ADD . ${HOME}
-EXPOSE ${FRONT_PORT}
+# ソースコードは最後にコピー
+COPY . ${HOME}
+
 RUN yarn run build
+EXPOSE ${FRONT_PORT}
 CMD ["yarn", "start"]
