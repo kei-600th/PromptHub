@@ -5,16 +5,27 @@
     clipped
     :mobile-breakpoint="mobileBreakpoint"
   >
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title class="text-h6">
-          Application
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          subtext
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
+    <template
+      v-if="isMobileBreakpointLessThan"
+    >
+      <v-list-item
+        @click="$emit('update:drawer', false)"
+      >
+        <v-list-item-content
+          class="text-center"
+        >
+          <v-list-item-action-text
+            class="d-flex justify-center align-center"
+          >
+            <v-icon>
+              mdi-chevron-double-left
+            </v-icon>
+            閉じる
+          </v-list-item-action-text>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider />
+    </template>
 
     <v-divider></v-divider>
 
@@ -62,6 +73,11 @@
       setDrawer: {
         get () { return this.drawer },
         set (newVal) { return this.$emit('update:drawer', newVal) }
+      },
+      isMobileBreakpointLessThan () {
+        // 現在のビューポートの幅を取得しwindowwidthに当てはめる
+        const windowWidth = this.$vuetify.breakpoint.width
+        return this.mobileBreakpoint > windowWidth
       },
     }
   }
