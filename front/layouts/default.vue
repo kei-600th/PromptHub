@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <app-bar
+      clipped-left
     >
       <template
         v-slot:navigation-toggle-button

@@ -2,7 +2,7 @@
   <v-navigation-drawer
     v-model="setDrawer"
     app
-    style="margin-top: 64px;"
+    clipped
   >
     <v-list-item>
       <v-list-item-content>

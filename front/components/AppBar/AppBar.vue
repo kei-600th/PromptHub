@@ -1,6 +1,8 @@
 <template>
   <div>
     <v-app-bar
+      app
+      :clipped-left="clippedLeft"
       color="rgb(52,53,65)"
       dark
     >
@@ -15,3 +17,14 @@
     </v-app-bar>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    clippedLeft: {
+      type: Boolean,
+      default: false
+    }
+  },
+}
+</script>
