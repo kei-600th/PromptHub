@@ -3,6 +3,8 @@
     v-model="setDrawer"
     app
     clipped
+    color="rgb(52,53,65)"
+    dark
     :mobile-breakpoint="mobileBreakpoint"
   >
     <template
@@ -63,7 +65,8 @@
         mobileBreakpoint: 960,
         items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
+          { title: 'Workplace', icon: 'mdi-notebook-edit ' },
+          { title: 'Share', icon: 'mdi-crowd ' },
           { title: 'About', icon: 'mdi-help-box' },
         ],
         right: null,

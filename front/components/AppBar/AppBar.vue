@@ -3,7 +3,6 @@
     <v-app-bar
       app
       :clipped-left="clippedLeft"
-      color="rgb(52,53,65)"
       dark
     >
       <slot name="navigation-toggle-button" />
