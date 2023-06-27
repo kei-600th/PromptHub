@@ -3,6 +3,7 @@
     v-model="setDrawer"
     app
     clipped
+    :mobile-breakpoint="mobileBreakpoint"
   >
     <v-list-item>
       <v-list-item-content>
@@ -48,6 +49,7 @@
     },
     data () {
       return {
+        mobileBreakpoint: 960,
         items: [
           { title: 'Dashboard', icon: 'mdi-view-dashboard' },
           { title: 'Photos', icon: 'mdi-image' },
