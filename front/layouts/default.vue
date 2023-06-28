@@ -4,12 +4,12 @@
       clipped-left
     >
       <template
-        v-slot:navigation-toggle-button
+        #navigation-toggle-button
       >
         <v-app-bar-nav-icon @click="drawer = !drawer" />
       </template>
     </app-bar>
-    <navigation-drawer 
+    <navigation-drawer
       :drawer.sync="drawer"
     />
     <v-main>
