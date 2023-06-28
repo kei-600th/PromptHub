@@ -17,8 +17,10 @@ RUN apk update && \
     apk upgrade && \
     apk add --no-cache ${RUNTIME_PACKAGES} && \
     apk add --virtual build-dependencies --no-cache ${DEV_PACKAGES} && \
-    bundle install -j4 && \
-    apk del build-dependencies
+    bundle install -j4
+
+    # rubocop導入に伴い以下の処理を削除
+    # apk del build-dependencies
 
 COPY . ./
 
