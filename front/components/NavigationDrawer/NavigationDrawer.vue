@@ -38,7 +38,7 @@
       <v-list-item
         v-for="item in items"
         :key="item.title"
-        link
+        :to="item.path"
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -64,10 +64,10 @@
       return {
         mobileBreakpoint: 960,
         items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Workplace', icon: 'mdi-notebook-edit ' },
-          { title: 'Share', icon: 'mdi-crowd ' },
-          { title: 'About', icon: 'mdi-help-box' },
+          { title: 'Dashboard', path: '/', icon: 'mdi-view-dashboard' },
+          { title: 'Workplace', path: 'workplace', icon: 'mdi-notebook-edit ' },
+          { title: 'Share', path: 'share', icon: 'mdi-crowd ' },
+          { title: 'About', path: 'about', icon: 'mdi-help-box' },
         ],
         right: null,
       }

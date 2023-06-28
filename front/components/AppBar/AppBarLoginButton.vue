@@ -3,6 +3,7 @@
     outlined
     text
     class="ml-2"
+    :to="'login'"
   >
     login
   </v-btn>

@@ -3,6 +3,7 @@
     outlined
     text
     class="ml-2"
+    :to="'signup'"
   >
     signup
   </v-btn>
