@@ -1,0 +1,64 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  SuggestExtensions: false
+  # 最新のルールを適用する
+  NewCops: enable
+  # 何のルールに引っかかったか表示する
+  DisplayCopNames: true
+  # rubocop対象外(リポジトリ毎で調節)
+  Exclude:
+    - "Gemfile"
+    - "bin/**/*"
+    - "db/**/*"
+    - "log/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+    - "lib/tasks/auto_annotate_models.rake"
+    - "config/environments/*"
+    - "config/puma.rb"
+
+
+
+# ルールの設定
+
+# Layout
+
+
+
+
+
+# Style
+
+
+
+
+
+# ASCII以外の文字を含むコメント（日本語コメントなど）を許可
+Style/AsciiComments:
+  Enabled: false
+
+# クラスやモジュールのネストされた宣言を許可
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# クラスにコメントを残さなくても良い
+Style/Documentation:
+  Enabled: false
+
+# 文字列のfreeze（Ruby3からは自動でfreezeされるので要らない）
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# 文字列リテラルのダブルクォートチェックを無効化
+Style/StringLiterals:
+  Enabled: false
+
+# シンボル配列の%記法に関するチェックを無効化
+Style/SymbolArray:
+  Enabled: false

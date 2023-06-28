@@ -1,4 +1,6 @@
 /.env
 /.DS_Store
 
+/api/.cache/
+
 /front/.ash_history

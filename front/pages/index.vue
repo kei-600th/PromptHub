@@ -11,7 +11,9 @@
         タスク取得
       </v-btn>
       <ul v-for=" task in tasks" :key="task.id">
-        <li style="text-align: left;">{{ task.title }}</li>
+        <li style="text-align: left;">
+          {{ task.title }}
+        </li>
       </ul>
     </div>
     <v-container>
@@ -39,7 +41,7 @@
         </v-card-title>
         <v-card-text>
           <v-simple-table dense>
-            <template v-slot:default>
+            <template #default>
               <thead>
                 <tr>
                   <th>en</th>

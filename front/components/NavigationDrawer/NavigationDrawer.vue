@@ -29,7 +29,7 @@
       <v-divider />
     </template>
 
-    <v-divider></v-divider>
+    <v-divider />
 
     <v-list
       dense
@@ -53,35 +53,35 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      drawer: {
-        type: Boolean,
-        default: null
-      }
+export default {
+  props: {
+    drawer: {
+      type: Boolean,
+      default: null
+    }
+  },
+  data () {
+    return {
+      mobileBreakpoint: 960,
+      items: [
+        { title: 'Dashboard', path: '/', icon: 'mdi-view-dashboard' },
+        { title: 'Workplace', path: 'workplace', icon: 'mdi-notebook-edit ' },
+        { title: 'Share', path: 'share', icon: 'mdi-crowd ' },
+        { title: 'About', path: 'about', icon: 'mdi-help-box' }
+      ],
+      right: null
+    }
+  },
+  computed: {
+    setDrawer: {
+      get () { return this.drawer },
+      set (newVal) { return this.$emit('update:drawer', newVal) }
     },
-    data () {
-      return {
-        mobileBreakpoint: 960,
-        items: [
-          { title: 'Dashboard', path: '/', icon: 'mdi-view-dashboard' },
-          { title: 'Workplace', path: 'workplace', icon: 'mdi-notebook-edit ' },
-          { title: 'Share', path: 'share', icon: 'mdi-crowd ' },
-          { title: 'About', path: 'about', icon: 'mdi-help-box' },
-        ],
-        right: null,
-      }
-    },
-    computed: {
-      setDrawer: {
-        get () { return this.drawer },
-        set (newVal) { return this.$emit('update:drawer', newVal) }
-      },
-      isMobileBreakpointLessThan () {
-        // 現在のビューポートの幅を取得しwindowwidthに当てはめる
-        const windowWidth = this.$vuetify.breakpoint.width
-        return this.mobileBreakpoint > windowWidth
-      },
+    isMobileBreakpointLessThan () {
+      // 現在のビューポートの幅を取得しwindowwidthに当てはめる
+      const windowWidth = this.$vuetify.breakpoint.width
+      return this.mobileBreakpoint > windowWidth
     }
   }
+}
 </script>

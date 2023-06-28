@@ -9,7 +9,7 @@
 
       <v-toolbar-title>Prompthub</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <app-bar-signup-button />
       <app-bar-login-button />
@@ -24,6 +24,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
+  }
 }
 </script>
