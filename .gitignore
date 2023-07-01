@@ -3,4 +3,6 @@
 
 /api/.cache/
 
+/api/.irb_history
+
 /front/.ash_history
