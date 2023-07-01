@@ -13,7 +13,7 @@ jobs:
       run:
         working-directory: api
     services:
-      mysql:
+      db:
         image: mysql:8.0.31
         ports:
           - 4306:3306
