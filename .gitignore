@@ -3,6 +3,8 @@
 
 /api/.cache/
 
+/api/.local/share/pry/pry_history
+/api/.ash_history
 /api/.irb_history
 
 /front/.ash_history
