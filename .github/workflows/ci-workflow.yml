@@ -22,7 +22,6 @@ jobs:
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          BIND-ADDRESS: 0.0.0.0
     steps:
       - uses: actions/checkout@v3
       - name: set up ruby
@@ -31,11 +30,6 @@ jobs:
           ruby-version: "2.7.2"
           bundler-cache: true
           working-directory: api
-      - name: Wait for MySQL
-        run: |
-          until nc -zv db 3306; do
-            sleep 1
-          done
       - name: DB migration
         run: |
           bundle exec rails db:create
