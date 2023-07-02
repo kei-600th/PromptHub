@@ -45,10 +45,9 @@ jobs:
           rubocop_version: gemfile
           rubocop_flags: -a
           rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile
+          github_token: ${{ secrets.REVIEWDOG_GITHUB_API_TOKEN }}
           reporter: github-pr-review # Default is github-pr-check
           fail_on_error: true
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.REVIEWDOG_GITHUB_API_TOKEN }}
       - name: Rspec
         run: bundle exec rspec
 
