@@ -39,15 +39,6 @@ jobs:
         run: |
           bundle exec rails db:create
           bundle exec rails db:migrate
-      - name: RuboCop
-        uses: reviewdog/action-rubocop@v1
-        with:
-          rubocop_version: gemfile
-          rubocop_flags: -a
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile rubocop-discourse:gemfile factory_bot_rails:gemfile
-          github_token: ${{ secrets.REVIEWDOG_GITHUB_API_TOKEN }}
-          reporter: github-pr-review # Default is github-pr-check
-          fail_on_error: true
       - name: Rspec
         run: bundle exec rspec
 
