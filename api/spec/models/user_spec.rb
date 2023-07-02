@@ -53,7 +53,7 @@ RSpec.describe User, type: :model do
       # 文字数制限
       context 'when email is too long' do
         let(:domain) { '@example.com' }
-        let(:email) { 'a' * (256 - domain.length) + domain }
+        let(:email) { ('a' * (256 - domain.length)) + domain }
   
         before { user.email = email }
   
