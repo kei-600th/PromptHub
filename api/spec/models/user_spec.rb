@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:user) { FactoryBot.build(:user) }
 
-  #user.nameバリデーションテスト
+  # user.nameバリデーションテスト
   describe 'name validation' do
-
     # 入力必須
     context 'when name is not present' do
       before { user.name = '' }
@@ -32,42 +31,40 @@ RSpec.describe User, type: :model do
 
       it 'is valid and can be saved' do
         expect(user).to be_valid
-        expect{ user.save }.to change(User, :count).by(1)
+        expect { user.save }.to change(User, :count).by(1)
       end
     end
 
-
-    #user.emailバリデーションテスト
+    # user.emailバリデーションテスト
     describe 'email validation' do
-
       # 入力必須
       context 'when email is not present' do
         before { user.email = '' }
-  
+
         it 'is invalid' do
           expect(user).not_to be_valid
           expect(user.errors.full_messages).to include('メールアドレスを入力してください')
         end
       end
-  
+
       # 文字数制限
       context 'when email is too long' do
         let(:domain) { '@example.com' }
         let(:email) { ('a' * (256 - domain.length)) + domain }
-  
+
         before { user.email = email }
-  
+
         it 'is invalid' do
           expect(email.length).to be > 255
           expect(user).not_to be_valid
           expect(user.errors.full_messages).to include('メールアドレスは255文字以内で入力してください')
         end
       end
-  
+
       # 書式チェック format = /\A\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*\z/
       context 'when email format is valid' do
         let(:valid_emails) { %w[A@EX.COM a-_@e-x.c-o_m.j_p a.a@ex.com a@e.co.js 1.1@ex.com a.a+a@ex.com] }
-  
+
         it 'is valid' do
           valid_emails.each do |email|
             user.email = email
@@ -75,11 +72,14 @@ RSpec.describe User, type: :model do
           end
         end
       end
-  
+
       # 間違った書式はエラーを吐いているか
       context 'when email format is invalid' do
-        let(:invalid_emails) { %w[aaa a.ex.com メール@ex.com a~a@ex.com a@|.com a@ex. .a@ex.com a＠ex.com Ａ@ex.com a@?,com １@ex.com "a"@ex.com a@ex@co.jp] }
-  
+        let(:invalid_emails) do
+          %w[aaa a.ex.com メール@ex.com a~a@ex.com a@|.com a@ex. .a@ex.com a＠ex.com Ａ@ex.com a@?,com １@ex.com "a"@ex.com
+             a@ex@co.jp]
+        end
+
         it 'is invalid' do
           invalid_emails.each do |email|
             user.email = email
@@ -89,16 +89,16 @@ RSpec.describe User, type: :model do
         end
       end
     end
-  
+
     # email小文字化テスト
     describe 'email downcase' do
       let(:email) { 'USER@EXAMPLE.COM' }
-  
+
       before do
         user.email = email
         user.save
       end
-  
+
       it 'is saved as downcase' do
         expect(user.reload.email).to eq email.downcase
       end
@@ -114,25 +114,27 @@ RSpec.describe User, type: :model do
           expect { 3.times { FactoryBot.create(:user, email: email) } }.to change(User, :count).by(3)
         end
       end
-  
+
       # ユーザーがアクティブになった場合、バリデーションエラーを吐いているか
       context 'when a user becomes active' do
         before do
           FactoryBot.create(:user, email: email, activated: true)
         end
-      
+
         it 'does not allow a new user with the same email' do
-          expect { FactoryBot.create(:user, email: email) }.to raise_error(ActiveRecord::RecordInvalid, /メールアドレスはすでに存在します/)
+          expect do
+            FactoryBot.create(:user, email: email)
+          end.to raise_error(ActiveRecord::RecordInvalid, /メールアドレスはすでに存在します/)
           expect(User.count).to eq 1
         end
       end
-  
+
       # アクティブユーザーがいなくなった場合、ユーザーは保存できているか
       context 'when the active user is destroyed' do
         let!(:active_user) { FactoryBot.create(:user, email: email, activated: true) }
-      
+
         before { active_user.destroy }
-      
+
         it 'allows a new user with the same email' do
           expect { FactoryBot.create(:user, email: email, activated: true) }.to change(User, :count).by(1)
           expect(User.where(email: email, activated: true).count).to eq 1
@@ -143,37 +145,37 @@ RSpec.describe User, type: :model do
     # user.passwordバリデーションテスト
     describe 'password validation' do
       let(:user) { User.new(name: "test", email: "test@example.com") }
-  
+
       # 入力必須
       context 'when password is blank' do
-        it 'should not be valid' do
+        it 'is not valid' do
           user.password = nil
           expect(user).not_to be_valid
           expect(user.errors.full_messages).to include('パスワードを入力してください')
         end
       end
-  
+
       # min文字以上
       context 'when password is less than 8 characters' do
-        it 'should not be valid' do
+        it 'is not valid' do
           user.password = 'a' * 7
           expect(user).not_to be_valid
           expect(user.errors.full_messages).to include('パスワードは8文字以上で入力してください')
         end
       end
-  
+
       # max文字以下
       context 'when password is more than 72 characters' do
-        it 'should not be valid' do
+        it 'is not valid' do
           user.password = 'a' * 73
           expect(user).not_to be_valid
           expect(user.errors.full_messages).to include('パスワードは72文字以内で入力してください')
         end
       end
-  
+
       # 書式チェック VALID_PASSWORD_REGEX = /\A[\w\-]+\z/
       context 'when password format is valid' do
-        let(:ok_passwords) { 
+        let(:ok_passwords) do
           [
             'pass---word',
             '________',
@@ -182,19 +184,19 @@ RSpec.describe User, type: :model do
             'pass----',
             'PASSWORD'
           ]
-        }
-        
-        it 'should be valid' do
+        end
+
+        it 'is valid' do
           ok_passwords.each do |password|
             user.password = password
             expect(user).to be_valid
           end
         end
       end
-  
+
       # 書式チェック VALID_PASSWORD_REGEX = /\A[\w\-]+\z/
       context 'when password format is invalid' do
-        let(:ng_passwords) {
+        let(:ng_passwords) do
           [
             'pass/word',
             'pass.word',
@@ -203,9 +205,9 @@ RSpec.describe User, type: :model do
             'ＡＢＣＤＥＦＧＨ',
             'password@'
           ]
-        }
-        
-        it 'should not be valid' do
+        end
+
+        it 'is not valid' do
           ng_passwords.each do |password|
             user.password = password
             expect(user).not_to be_valid
@@ -214,16 +216,5 @@ RSpec.describe User, type: :model do
         end
       end
     end
-
   end
-
-
-
-
-
-
-
-
-
-
 end
