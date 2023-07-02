@@ -1,5 +1,7 @@
 name: test
-on: [push]
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   test_api:
@@ -7,6 +9,9 @@ jobs:
     timeout-minutes: 10
     env:
       RAILS_ENV: test
+      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       FRONT_DOMAIN: none
     defaults:
@@ -16,10 +21,12 @@ jobs:
       mysql:
         image: mysql:8.0.31
         ports:
-          - 3306:3306
+          - 4306:3306
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          BIND-ADDRESS: 0.0.0.0
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
     steps:
       - uses: actions/checkout@v3
       - name: set up ruby

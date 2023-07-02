@@ -1,10 +1,7 @@
 name: deploy
 
 on:
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+  workflow_dispatch:
 
 env:
   AWS_REGION: ap-northeast-1
@@ -14,8 +11,8 @@ env:
   API_CONTAINER_NAME: prompthub-api-container
   FRONT_IMAGE_NAME: prompthub-front
   API_IMAGE_NAME: prompthub-api
-  API_TAG: 0.0.4
-  FRONT_TAG: 0.0.4
+  API_TAG: 0.0.5
+  FRONT_TAG: 0.0.5
 
 jobs:
   deploy:
