@@ -65,7 +65,7 @@ Style/SymbolArray:
 
 
 
-# Rspec
+# Rspec/FactoryBot
 
 # 1つのテストケース（example）に対して複数の期待値を許可する
 RSpec/MultipleExpectations:
@@ -75,3 +75,11 @@ RSpec/MultipleExpectations:
 # テストグループのネスト深度を4までとする
 RSpec/NestedGroups:
   Max: 4
+
+# described_classは使用しない
+RSpec/DescribedClass:
+  Enabled: false
+
+# FactoryBot::Syntax::Methodsモジュールのbuildメソッドを使用しない
+FactoryBot/SyntaxMethods:
+  Enabled: false
