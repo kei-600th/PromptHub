@@ -117,8 +117,10 @@ RSpec.describe User, type: :model do
   
       # ユーザーがアクティブになった場合、バリデーションエラーを吐いているか
       context 'when a user becomes active' do
-        let!(:active_user) { FactoryBot.create(:user, email: email, activated: true) }
-  
+        before do
+          FactoryBot.create(:user, email: email, activated: true)
+        end
+      
         it 'does not allow a new user with the same email' do
           expect { FactoryBot.create(:user, email: email) }.to raise_error(ActiveRecord::RecordInvalid, /メールアドレスはすでに存在します/)
           expect(User.count).to eq 1
