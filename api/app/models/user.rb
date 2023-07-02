@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :email, presence: true,
                     email: { allow_blank: true }
 
-  VALID_PASSWORD_REGEX = /\A[\w\-]+\z/
+  VALID_PASSWORD_REGEX = /\A[\w\-]+\z/.freeze
   validates :password, presence: true,
                        length: { minimum: 8,
                                  allow_blank: true },
@@ -35,13 +35,13 @@ class User < ApplicationRecord
   # 自分以外の同じemailのアクティブなユーザーがいる場合にtrueを返す
   def email_activated?
     users = User.where.not(id: id)
-    users.find_by_activated(email).present?
+    users.find_by(activated: email).present?
   end
 
   private
 
   # email小文字化
   def downcase_email
-    email.downcase! if email
+    email&.downcase!
   end
 end
