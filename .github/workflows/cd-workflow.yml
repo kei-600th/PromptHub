@@ -11,8 +11,8 @@ env:
   API_CONTAINER_NAME: prompthub-api-container
   FRONT_IMAGE_NAME: prompthub-front
   API_IMAGE_NAME: prompthub-api
-  API_TAG: 0.0.5
-  FRONT_TAG: 0.0.5
+  API_TAG: 0.0.6
+  FRONT_TAG: 0.0.6
 
 jobs:
   deploy:
