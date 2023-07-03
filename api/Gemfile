@@ -42,6 +42,8 @@ group :development, :test do
   # gem 'rubocop-discourse', require: false
   gem 'rubocop-rspec', require: false
 
+  # Gem for manipulating time during testing and debugging
+  gem 'timecop'
 end
 
 group :development do
