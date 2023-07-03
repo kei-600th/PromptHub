@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "RefreshToken", type: :request do
+RSpec.describe "RefreshToken" do
   before do
     @user = FactoryBot.create(:user, activated: true) # activate_userに相当するFactoryBotのメソッドが見当たらないため、直接作成しています
     @encode = UserAuth::RefreshToken.new(user_id: @user.id)
@@ -59,7 +59,7 @@ RSpec.describe "RefreshToken", type: :request do
 
     # トークンが書き換えられた場合エラーを吐いているか
     it "throws an error when token is tampered with" do
-      invalid_token = @encode.token + "a"
+      invalid_token = "#{@encode.token}a"
       expect { UserAuth::RefreshToken.new(token: invalid_token) }
         .to raise_error(JWT::VerificationError)
     end
@@ -81,6 +81,8 @@ RSpec.describe "RefreshToken", type: :request do
         .to raise_error(JWT::InvalidJtiError, "Invalid jti")
     end
 
+    # rubocop:disable RSpec/ExampleLength
+
     # userにjtiが存在しない場合
     it "throws an error when user's jti does not exist" do
       @user.reload
@@ -90,6 +92,7 @@ RSpec.describe "RefreshToken", type: :request do
       expect { UserAuth::RefreshToken.new(token: @encode.token) }
         .to raise_error(JWT::InvalidJtiError)
     end
-  end
 
+    # rubocop:enable RSpec/ExampleLength
+  end
 end

@@ -71,6 +71,7 @@ Style/SymbolArray:
 RSpec/MultipleExpectations:
   Exclude:
     - "spec/models/user_spec.rb"
+    - "spec/requests/api/v1/users_spec.rb"
 
 # テストグループのネスト深度を4までとする
 RSpec/NestedGroups:
@@ -79,6 +80,12 @@ RSpec/NestedGroups:
 # described_classは使用しない
 RSpec/DescribedClass:
   Enabled: false
+
+# 特定のテストではインスタンス変数を許可する
+RSpec/InstanceVariable: 
+  Exclude:
+    - "spec/requests/api/v1/users_spec.rb"
+
 
 # FactoryBot::Syntax::Methodsモジュールのbuildメソッドを使用しない
 FactoryBot/SyntaxMethods:

@@ -38,7 +38,7 @@ class User < ApplicationRecord
     users.find_by(activated: email).present?
   end
 
-  #　リフレッシュトークンのJWT IDを記憶する
+  # 　リフレッシュトークンのJWT IDを記憶する
   def remember(jti)
     update!(refresh_jti: jti)
   end
