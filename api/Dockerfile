@@ -27,8 +27,10 @@ COPY . ./
 
 # 本番環境用の設定
 
+# エントリーポイントを設定
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+
 EXPOSE ${API_PORT}
 
-RUN rm -f /app/tmp/pids/server.pid
-
-CMD rails server -p $API_PORT -b 0.0.0.0
+CMD ["/usr/bin/entrypoint.sh"]
