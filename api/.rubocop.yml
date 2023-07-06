@@ -28,6 +28,12 @@ AllCops:
 # ルールの設定
 
 
+# Naming
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/services/user_authenticate_service.rb
+
+
 # Metrics
 Metrics/AbcSize:
   Exclude:
