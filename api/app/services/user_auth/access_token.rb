@@ -29,7 +29,7 @@ module UserAuth
 
     # @lifetimeの日本語テキストを返す
     def lifetime_text
-      time, period = @lifetime.inspect.sub(/s\z/, "").split
+      time, period = @lifetime.inspect.delete_suffix('s').split
       time + I18n.t("datetime.periods.#{period}", default: "")
     end
 
@@ -81,7 +81,7 @@ module UserAuth
 
     # @optionsにsubjectがある場合にtrueを返す
     def verify_subject?
-      @options.has_key?(:sub)
+      @options.key?(:sub)
     end
 
     # @optionsのsubの値を返す
