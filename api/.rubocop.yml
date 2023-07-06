@@ -30,10 +30,12 @@ AllCops:
 
 # Metrics
 Metrics/AbcSize:
-  Enabled: false
+  Exclude:
+    - "app/services/user_auth/access_token.rb"
 
 Metrics/MethodLength:
-  Enabled: false
+  Exclude:
+    - "app/services/user_auth/access_token.rb"
 
 
 
