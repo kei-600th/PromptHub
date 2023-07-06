@@ -27,6 +27,16 @@ AllCops:
 
 # ルールの設定
 
+
+# Metrics
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+
+
 # Layout
 
 
