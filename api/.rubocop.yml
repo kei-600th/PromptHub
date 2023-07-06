@@ -32,6 +32,7 @@ AllCops:
 Naming/MemoizedInstanceVariableName:
   Exclude:
     - app/services/user_authenticate_service.rb
+    - app/services/user_sessionize_service.rb
 
 
 # Metrics
