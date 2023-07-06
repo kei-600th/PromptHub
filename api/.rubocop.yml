@@ -48,6 +48,12 @@ Metrics/MethodLength:
 # Style
 
 
+# Lint
+Lint/UnderscorePrefixedVariableName:
+  Exclude:
+    - "app/services/user_auth/access_token.rb"
+
+
 
 
 
