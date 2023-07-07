@@ -37,7 +37,7 @@ class User < ApplicationRecord
   # 自分以外の同じemailのアクティブなユーザーがいる場合にtrueを返す
   def email_activated?
     users = User.where.not(id: id)
-    users.find_by(activated: email).present?
+    users.find_by(email: email, activated: true).present?
   end
 
   # 　リフレッシュトークンのJWT IDを記憶する
