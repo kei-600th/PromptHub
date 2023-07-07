@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   # 共通のJSONレスポンス
-  def response_json(payload = {} )
+  def response_json(payload = {})
     as_json(only: [:id, :name]).merge(payload).with_indifferent_access
   end
 

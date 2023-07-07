@@ -34,6 +34,15 @@ Naming/MemoizedInstanceVariableName:
     - app/services/user_authenticate_service.rb
     - app/services/user_sessionize_service.rb
 
+Naming/VariableNumber:
+  Exclude:
+    - app/controllers/application_controller.rb
+
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/controllers/api/v1/auth_token_controller.rb
+    - app/services/user_authenticate_service.rb
+    - app/services/user_sessionize_service.rb
 
 # Metrics
 Metrics/AbcSize:
@@ -45,6 +54,15 @@ Metrics/MethodLength:
     - "app/services/user_auth/access_token.rb"
 
 
+# Rails
+Rails/DynamicFindBy:
+  Exclude:
+    - app/controllers/api/v1/auth_token_controller.rb
+
+Rails/TimeZone:
+  Exclude:
+    - app/controllers/api/v1/auth_token_controller.rb
+
 
 # Layout
 
@@ -53,6 +71,10 @@ Metrics/MethodLength:
 
 
 # Style
+
+Style/ReturnNilInPredicateMethodDefinition:
+  Exclude:
+    - app/controllers/application_controller.rb
 
 
 # Lint
