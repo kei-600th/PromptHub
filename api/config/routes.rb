@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :tasks, only: :index
-      resources :users, only: [:index]
+      resources :auth_token, only:[:create] do
+        post :refresh, on: :collection
+        delete :destroy, on: :collection
+      end
       get :health_check, to: 'health_check#index'
     end
   end
