@@ -1,13 +1,12 @@
 require "rails_helper"
-include ActiveSupport::Testing::TimeHelpers
 
-RSpec.describe "RefreshToken" do
+RSpec.describe "AccessToken" do
+  include ActiveSupport::Testing::TimeHelpers
   before do
     @user = FactoryBot.create(:user, activated: true) # activate_userに相当するFactoryBotのメソッドが見当たらないため、直接作成しています
     @encode = UserAuth::AccessToken.new(user_id: @user.id)
     @lifetime = UserAuth.access_token_lifetime
   end
-
 
   describe "auth_token_methods" do
     # 初期設定値は想定通りか
@@ -40,13 +39,12 @@ RSpec.describe "RefreshToken" do
   end
 
   describe "encode_token" do
-    
     # トークン有効期限は期待される時間と同じか(1秒許容)
     it "checks token expiration is expected time with 1 second allowance" do
       expect_lifetime = @lifetime.from_now.to_i
       expect(@encode.send(:token_expiration)).to be_within(1.second).of(expect_lifetime)
     end
-  
+
     # 発行時の@payloadは想定通りか
     it "checks if @payload at the time of issue is as expected" do
       expect_lifetime = @lifetime.from_now.to_i
@@ -57,12 +55,12 @@ RSpec.describe "RefreshToken" do
       expect(payload[:iss]).to eq(UserAuth.token_issuer)
       expect(payload[:aud]).to eq(UserAuth.token_audience)
     end
-  
+
     # lifetime_textメソッドは想定通りか
     it "checks if lifetime_text method is as expected" do
       expect(@encode.lifetime_text).to eq("30分")
     end
-  
+
     context "when lifetime key is present" do
       it "checks if the value of claims has changed" do
         time = 1
@@ -73,7 +71,7 @@ RSpec.describe "RefreshToken" do
         expect_lifetime = lifetime.from_now.to_i
         expect(claims[:exp]).to eq(expect_lifetime)
       end
-  
+
       # lifetime_textは想定通りか
       it "checks if lifetime_text is as expected" do
         time = 1
@@ -84,22 +82,17 @@ RSpec.describe "RefreshToken" do
     end
   end
 
-
   describe "decode_token" do
     before do
       @decode = UserAuth::AccessToken.new(token: @encode.token)
       @payload = @decode.payload
     end
 
-    after do
-      travel_back
-    end
-  
     it "checks if decoded user matches" do
       token_user = @decode.entity_for_user
       expect(token_user).to eq(@user)
     end
-  
+
     it "checks if verify_claims is as expected" do
       verify_claims = @decode.send(:verify_claims)
       expect(verify_claims[:iss]).to eq(UserAuth.token_issuer)
@@ -111,37 +104,37 @@ RSpec.describe "RefreshToken" do
       expect(verify_claims[:sub]).to be_falsy
       expect(verify_claims[:verify_sub]).to be_falsy
     end
-  
+
     context "when within the validity period" do
       it "does not raise an error" do
-        travel_to (@lifetime.from_now - 1.second) do
+        travel_to(@lifetime.from_now - 1.second) do
           expect { UserAuth::AccessToken.new(token: @encode.token) }.not_to raise_error
         end
       end
     end
-  
+
     context "when after the validity period" do
       it "raises an expired signature error" do
-        travel_to (@lifetime.from_now) do
+        travel_to(@lifetime.from_now) do
           expect { UserAuth::AccessToken.new(token: @encode.token) }.to raise_error(JWT::ExpiredSignature)
         end
       end
     end
-  
+
     context "when the token has been tampered with" do
       it "raises a verification error" do
         invalid_token = @encode.token + "a"
         expect { UserAuth::AccessToken.new(token: invalid_token) }.to raise_error(JWT::VerificationError)
       end
     end
-  
+
     context "when the issuer is tampered with" do
       it "raises an invalid issuer error" do
         invalid_token = UserAuth::AccessToken.new(payload: { iss: "invalid" }).token
         expect { UserAuth::AccessToken.new(token: invalid_token) }.to raise_error(JWT::InvalidIssuerError)
       end
     end
-  
+
     context "when the audience is tampered with" do
       it "raises an invalid audience error" do
         invalid_token = UserAuth::AccessToken.new(payload: { aud: "invalid" }).token
@@ -150,51 +143,44 @@ RSpec.describe "RefreshToken" do
     end
   end
 
-
   describe "verify_claims" do
     context "when sub option is valid" do
       let(:sub) { @encode.user_id }
       let(:options) { { sub: sub } }
       let(:decode) { UserAuth::AccessToken.new(token: @encode.token, options: options) }
       let(:verify_claims) { decode.send(:verify_claims) }
-  
+
       it "sets the sub and verify_sub claims correctly" do
         expect(verify_claims[:sub]).to eq(sub)
         expect(verify_claims[:verify_sub]).to be_truthy
       end
-  
+
       it "returns the correct user" do
         token_user = decode.entity_for_user
         expect(token_user).to eq(@user)
       end
     end
-  
+
     context "when sub option is invalid" do
       let(:options) { { sub: "invalid" } }
-  
+
       it "raises an InvalidSubError" do
-        expect { UserAuth::AccessToken.new(token: @encode.token, options: options) }.to raise_error(JWT::InvalidSubError)
+        expect do
+          UserAuth::AccessToken.new(token: @encode.token, options: options)
+        end.to raise_error(JWT::InvalidSubError)
       end
     end
   end
-
 
   describe "not_active_user" do
     before do
       @not_active = User.create(name: "a", email: "a@a.a", password: "password")
       @encode_token = UserAuth::AccessToken.new(user_id: @not_active.id).token
     end
-  
+
     it "allows retrieval of non-active users" do
       decode_token_user = UserAuth::AccessToken.new(token: @encode_token).entity_for_user
       expect(decode_token_user).to eq(@not_active)
     end
   end
-  
-  
-  
-
-
-
-
 end

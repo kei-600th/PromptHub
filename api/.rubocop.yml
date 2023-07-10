@@ -119,6 +119,7 @@ RSpec/MultipleExpectations:
   Exclude:
     - "spec/models/user_spec.rb"
     - "spec/requests/api/v1/refresh_token_spec.rb"
+    - "spec/requests/api/v1/access_token_spec.rb"
 
 # テストグループのネスト深度を4までとする
 RSpec/NestedGroups:
@@ -132,6 +133,12 @@ RSpec/DescribedClass:
 RSpec/InstanceVariable: 
   Exclude:
     - "spec/requests/api/v1/refresh_token_spec.rb"
+    - "spec/requests/api/v1/access_token_spec.rb"
+
+# Exampleの長さを固定しない
+RSpec/ExampleLength:
+  Exclude:
+    - "spec/requests/api/v1/access_token_spec.rb"
 
 
 # FactoryBot::Syntax::Methodsモジュールのbuildメソッドを使用しない
