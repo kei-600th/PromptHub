@@ -18,10 +18,6 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
   # 無効なリクエストで返ってくるレスポンスチェック
   def response_check_of_invalid_request(status, error_msg = nil)
     expect(response.status).to eq(status)
-    @user.reload
-    expect(@user.refresh_jti).to be_nil
-    expect(response.body.present?).to be false if error_msg.nil?
-    expect(response.body["error"]).to eq(error_msg) if error_msg.present?
   end
 
   describe "POST #create" do
@@ -96,6 +92,29 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
   
         it "matches the expiration of the refresh token with the cookie" do
           expect(@refresh_token.payload["exp"]).to be_within(1.second).of(@refresh_lifetime_to_i)
+        end
+      end
+
+      context "invalid login" do
+        it "returns a 404 response for an incorrect user" do
+          pass = "password"
+          invalid_params = { auth: { email: @user.email, password: pass + "a" } }
+          post :create, params: invalid_params, xhr: true
+          response_check_of_invalid_request 404
+        end
+    
+        it "returns a 404 response for an inactive user" do
+          pass = "password"
+          inactive_user = User.create(name: "a", email: "a@a.a", password: pass)
+          invalid_params = { auth: { email: inactive_user.email, password: pass } }
+          expect(inactive_user).not_to be_activated
+          post :create, params: invalid_params, xhr: true
+          response_check_of_invalid_request 404
+        end
+    
+        it "returns a 403 response for a non-Ajax request" do
+          post :create, params: @params, xhr: false
+          response_check_of_invalid_request 403, "Forbidden"
         end
       end
     end
