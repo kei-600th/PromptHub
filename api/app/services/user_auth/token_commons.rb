@@ -43,7 +43,7 @@ module UserAuth
       crypt.encrypt_and_sign(user_id.to_s, purpose: :authorization)
     end
 
-    # user_id複合化(複合エラーの場合はnilを返す)
+    # user_id復号化(復号エラーの場合はnilを返す)
     def decrypt_for(user_id)
       return unless user_id
 
