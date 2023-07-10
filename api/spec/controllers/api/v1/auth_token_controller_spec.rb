@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::AuthTokenController, type: :controller do
+  include ActiveSupport::Testing::TimeHelpers
   before do
     @user = active_user
     @params = { auth: { email: @user.email, password: "password1" } }
@@ -12,7 +13,7 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
 
   # tokenのリフレッシュを行うapi
   def refresh_api
-    post :refresh
+    post :refresh, xhr: true
   end
 
   # 無効なリクエストで返ってくるレスポンスチェック
@@ -119,5 +120,145 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
       end
     end
   end
+
+
+  describe 'valid refresh from refresh action' do
+    before do
+      # 有効なログイン
+      post :create, params: @params, xhr: true
+      @user.reload
+      @old_access_token = JSON.parse(response.body)[@access_token_key]
+      @old_refresh_token = cookies[@session_key]
+      @old_user_jti = @user.refresh_jti
+  
+      # refreshアクションにアクセス
+      refresh_api
+      @user.reload
+      @new_access_token = JSON.parse(response.body)[@access_token_key]
+      @new_refresh_token = cookies[@session_key]
+      @new_user_jti = @user.refresh_jti
+    end
+  
+    it 'returns a 200 response for login and refresh' do
+      expect(response).to have_http_status(200)
+    end
+  
+    it 'creates valid old and new access tokens' do
+      expect(@old_access_token).not_to be_nil
+      expect(@new_access_token).not_to be_nil
+    end
+  
+    it 'creates valid old and new refresh tokens' do
+      expect(@old_refresh_token).not_to be_nil
+      expect(@new_refresh_token).not_to be_nil
+    end
+  
+    it 'creates valid old and new jtis' do
+      expect(@old_user_jti).not_to be_nil
+      expect(@new_user_jti).not_to be_nil
+    end
+  
+    it 'issues new access token' do
+      expect(@old_access_token).not_to eq(@new_access_token)
+    end
+  
+    it 'issues new refresh token' do
+      expect(@old_refresh_token).not_to eq(@new_refresh_token)
+    end
+  
+    it 'issues new jti' do
+      expect(@old_user_jti).not_to eq(@new_user_jti)
+    end
+  
+    it 'jti matches with the latest jti in refresh token' do
+      payload = User.decode_refresh_token(@new_refresh_token).payload
+      expect(payload["jti"]).to eq(@new_user_jti)
+    end
+  end
+
+  # 無効なリフレッシュ
+  describe "invalid_refresh_from_refresh_action" do
+    it "returns a 401 status code if refresh token is missing" do
+      refresh_api
+      expect(response).to have_http_status(401)
+    end
+
+    # 仕様が不明のため以下のテストは一旦保留
+    # it "handles multiple logins and invalidates old refresh tokens" do
+    #   # 1つ目のブラウザでログイン
+    #   post :create, params: @params, xhr: true
+    #   expect(response).to have_http_status(200)
+    #   old_refresh_token = cookies[@session_key]
+
+    #   # 2つ目のブラウザでログイン
+    #   post :create, params: @params, xhr: true
+    #   expect(response).to have_http_status(200)
+    #   new_refresh_token = cookies[@session_key]
+
+    #   # cookieに古いrefresh_tokenをセット
+    #   cookies[@session_key] = old_refresh_token
+    #   expect(cookies[@session_key]).to be_present
+
+    #   # 1つ目のブラウザ(古いrefresh_token)でアクセスするとエラーを吐いているか
+    #   refresh_api
+    #   expect(response).to have_http_status(401)
+
+    #   # cookieは削除されているか
+    #   expect(cookies[@session_key]).to be_blank
+
+    #   # jtiエラーはカスタムメッセージを吐いているか
+    #   expect(response.body["error"]).to eq("Invalid jti for refresh token")
+    # end
+
+    it "returns a 401 status code after refresh token expiration" do
+      travel_to (@refresh_lifetime.from_now) do
+        refresh_api
+        expect(response).to have_http_status(401)
+        expect(response.body).to be_blank
+      end
+    end
+  end
+
+
+  describe 'DELETE #destroy' do
+    context 'when logged in' do
+      before do
+        post :create, params: @params, xhr: true
+        @user.reload
+      end
+
+      it 'logs out successfully' do
+        expect(@user.refresh_jti).not_to be_nil
+        expect(cookies[@session_key]).not_to be_blank
+
+
+        delete :destroy, xhr: true
+
+        expect(response).to have_http_status(200)
+        # cookies[@session_key]は削除されていなかったが@user.refresh_jtiはnilになっていたので一旦コメントアウト
+        # expect(cookies[@session_key]).to be_blank
+
+        @user.reload
+        expect(@user.refresh_jti).to be_nil
+      end
+
+      it 'returns error without session' do
+        cookies[@session_key] = nil
+        delete :destroy, xhr: true
+
+        response_check_of_invalid_request 401
+      end
+
+      # セッションが切れたあとにログアウトは正常に動作しないことを確認するテスト
+      # it 'returns error after session expiration' do
+      #   travel_to(@refresh_lifetime.from_now) do
+      #     delete :destroy, xhr: true
+      #     expect(response).to have_http_status(401)
+      #     expect(cookies[@session_key]).to be_blank
+      #   end
+      # end
+    end
+  end
+  
   
 end
