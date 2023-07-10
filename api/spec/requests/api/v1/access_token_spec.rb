@@ -123,7 +123,7 @@ RSpec.describe "AccessToken" do
 
     context "when the token has been tampered with" do
       it "raises a verification error" do
-        invalid_token = @encode.token + "a"
+        invalid_token = "#{@encode.token}a"
         expect { UserAuth::AccessToken.new(token: invalid_token) }.to raise_error(JWT::VerificationError)
       end
     end
