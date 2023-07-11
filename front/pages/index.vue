@@ -54,7 +54,7 @@
                   :key="`path-${i}`"
                 >
                   <td>{{ path }}</td>
-                  <td>{{ $t(`title.${path}`) }}</td>
+                  <td>{{ $t(`pages.${path}`) }}</td>
                 </tr>
               </tbody>
             </template>

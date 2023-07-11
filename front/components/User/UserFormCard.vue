@@ -9,7 +9,7 @@
         class="my-8 text-center"
       >
         <h1 class="text-h5 font-weight-bold">
-          {{ appName }}に{{ pageTitle }}
+          {{ $t(pageTitle) }}
         </h1>
       </v-col>
 
@@ -27,6 +27,9 @@
 
 <script>
 export default {
+  created () {
+    console.log(this.pageTitle)
+  },
   data ({ $route, $config: { appName }, $my }) {
     return {
       appName,
