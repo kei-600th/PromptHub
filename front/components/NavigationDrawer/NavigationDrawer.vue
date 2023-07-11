@@ -49,6 +49,7 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <navigation-drawer-user-card />
   </v-navigation-drawer>
 </template>
 
