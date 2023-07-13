@@ -11,7 +11,9 @@ export const state = () => ({
 })
 
 // 算出プロパティ
-export const getters = {}
+export const getters = {
+  isLoggedIn: state => !!state.user.current
+}
 // stateの値を変更する場所
 export const mutations = {
   setCurrentUser (state, payload) {

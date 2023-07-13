@@ -10,20 +10,27 @@
       <v-toolbar-title>Prompthub</v-toolbar-title>
 
       <v-spacer />
-
-      <app-bar-signup-button />
-      <app-bar-login-button />
+      <div v-if="!isLoggedIn">
+        <app-bar-signup-button />
+        <app-bar-login-button />
+      </div>
     </v-app-bar>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     clippedLeft: {
       type: Boolean,
       default: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ])
   }
 }
 </script>
