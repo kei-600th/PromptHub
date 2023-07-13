@@ -37,6 +37,10 @@ class Authentication {
   login (response) {
     this.setAuth(response)
   }
+
+  resolveUnauthorized (status) {
+    return (status >= 200 && status < 300) || (status === 401)
+  }
 }
 
 export default ({ store, $axios }, inject) => {
