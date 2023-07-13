@@ -8,7 +8,26 @@
         </v-list-item-title>
       </v-list-item-content>
       <v-list-item-icon>
-        <v-icon>mdi-cog-outline</v-icon>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            dark
+            icon
+            v-bind="attrs"
+            v-on="on"
+            >
+              <v-icon>mdi-cog-outline</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-list-item-icon>
     </v-list-item>
   </div>
@@ -26,5 +45,13 @@
 
 <script>
 export default {
+  data: () => ({
+    items: [
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' }
+    ]
+  })
 }
 </script>
