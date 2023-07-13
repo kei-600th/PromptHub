@@ -38,8 +38,20 @@ class Authentication {
     this.setAuth(response)
   }
 
+  resetVuex () {
+    this.setAuth({ token: null, expires: 0, user: null })
+  }
+
   resolveUnauthorized (status) {
     return (status >= 200 && status < 300) || (status === 401)
+  }
+
+  async logout () {
+    await this.$axios.$delete(
+      '/api/v1/auth_token',
+      { validateStatus: status => this.resolveUnauthorized(status) }
+    )
+    this.resetVuex()
   }
 }
 

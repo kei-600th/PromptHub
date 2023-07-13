@@ -8,7 +8,10 @@
         </v-list-item-title>
       </v-list-item-content>
       <v-list-item-icon>
-        <v-menu offset-y>
+        <v-menu
+          top
+          offset-y
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
             dark
@@ -21,10 +24,16 @@
           </template>
           <v-list>
             <v-list-item
-              v-for="(item, index) in items"
-              :key="index"
+              v-for="item in items"
+              :key="item.title"
+              :to="item.title"
             >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-icon class="mr-2">
+                <v-icon size="22">{{ item.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -45,13 +54,13 @@
 
 <script>
 export default {
-  data: () => ({
-    items: [
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me 2' }
-    ]
-  })
+  data () {
+    return {
+      items: [
+        { title: 'Logout', icon: 'mdi-logout' }
+      ],
+      right: null
+    }
+  }
 }
 </script>
