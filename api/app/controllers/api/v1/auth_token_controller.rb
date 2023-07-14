@@ -16,6 +16,10 @@ class Api::V1::AuthTokenController < ApplicationController
   # ログイン
   def create
     @user = login_user
+    save_cookie_and_response
+  end
+
+  def save_cookie_and_response
     set_refresh_token_to_cookie
     render json: login_response
   end
