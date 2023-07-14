@@ -2,7 +2,7 @@ module TestHelpers
   # Add more helper methods to be used by all tests here...
 
   def active_user
-    FactoryBot.create(:user, password: "password1", activated: true) # activate_userに相当するFactoryBotのメソッドが見当たらないため、直接作成しています
+    FactoryBot.create(:user, password: "password1", activated: true) # activate_userを作成
   end
 
   # api path

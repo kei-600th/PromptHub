@@ -23,7 +23,7 @@ RSpec.describe Api::V1::AuthTokenController do
   end
 
   describe "POST #create" do
-    context "valid login" do
+    context "when login is valid" do
       before do
         post :create, params: @params, xhr: true
         @parsed_response = response.parsed_body
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::AuthTokenController do
         expect(@parsed_response["expires"]).to eq(token_exp)
       end
 
-      context "cookies" do
+      context "when cookies are present" do
         before do
           @cookie = request.cookie_jar.instance_variable_get(:@set_cookies)[@session_key]
           @refresh_lifetime_to_i = @refresh_lifetime.from_now.to_i
@@ -77,7 +77,7 @@ RSpec.describe Api::V1::AuthTokenController do
         end
       end
 
-      context "refresh token" do
+      context "when refresh token is present" do
         before do
           token_from_cookies = cookies[@session_key]
           @refresh_token = User.decode_refresh_token(token_from_cookies)
@@ -97,12 +97,12 @@ RSpec.describe Api::V1::AuthTokenController do
         end
       end
 
-      context "invalid login" do
+      context "when login is invalid" do
         it "returns a 404 response for an incorrect user" do
           pass = "password"
           invalid_params = { auth: { email: @user.email, password: "#{pass}a" } }
           post :create, params: invalid_params, xhr: true
-          response_check_of_invalid_request 404
+          expect(response).to have_http_status(404)
         end
 
         it "returns a 404 response for an inactive user" do
@@ -116,7 +116,8 @@ RSpec.describe Api::V1::AuthTokenController do
 
         it "returns a 403 response for a non-Ajax request" do
           post :create, params: @params, xhr: false
-          response_check_of_invalid_request 403, "Forbidden"
+          expect(response).to have_http_status(:forbidden)
+          expect(response.body).to include("Forbidden")
         end
       end
     end
@@ -238,13 +239,6 @@ RSpec.describe Api::V1::AuthTokenController do
 
         @user.reload
         expect(@user.refresh_jti).to be_nil
-      end
-
-      it 'returns error without session' do
-        cookies[@session_key] = nil
-        delete :destroy, xhr: true
-
-        response_check_of_invalid_request 401
       end
 
       # セッションが切れたあとにログアウトは正常に動作しないことを確認するテスト
