@@ -17,10 +17,6 @@ class MyInject {
     return dateTimeFormat.format(new Date(dateStr))
   }
 
-  projectLinkTo (id, name = 'project-id-dashboard') {
-    return { name, params: { id } }
-  }
-
   apiErrorHandler (response) {
     // ネットワークエラーの場合はresponseが存在しないので500を代入
     const statusCode = (response) ? response.status : 500

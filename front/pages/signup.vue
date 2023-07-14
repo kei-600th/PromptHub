@@ -61,14 +61,7 @@ export default {
       this.loading = false
     },
     authSuccessful (response) {
-      console.log('authSuccessful', response)
       this.$auth.login(response)
-      // test
-      console.log('token', this.$auth.token)
-      console.log('expires', this.$auth.expires)
-      console.log('payload', this.$auth.payload)
-      console.log('user', this.$auth.user)
-      // TODO リダイレクト処理
       this.$router.push('/')
     },
     authFailure (error) {
