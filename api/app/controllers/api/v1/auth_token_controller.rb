@@ -19,6 +19,22 @@ class Api::V1::AuthTokenController < ApplicationController
     save_cookie_and_response
   end
 
+  # 新規登録
+  def registration
+    puts params
+    @user = User.new(auth_params)
+    # メール認証をスキップする
+    @user.activated = true
+    if @user.save
+      puts "user created!"
+    else
+      puts "errormessage: "
+      @user.errors.full_messages.each do |message|
+        puts message
+      end
+    end
+  end
+
   def save_cookie_and_response
     set_refresh_token_to_cookie
     render json: login_response
@@ -125,6 +141,6 @@ class Api::V1::AuthTokenController < ApplicationController
   end
 
   def auth_params
-    params.require(:auth).permit(:email, :password)
+    params.require(:auth).permit(:name, :email, :password)
   end
 end
