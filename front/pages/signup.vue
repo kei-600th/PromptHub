@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>
+    <v-alert v-if="errorMessage" type="error" :value="true" dismissible>{{ errorMessage }}</v-alert>
     <user-form-card>
       <template
         #user-form-card-content
@@ -80,7 +80,6 @@ export default {
         // エラーメッセージを受け取る
         const messages = error.response.data.errors
         this.errorMessage = messages.join(', ')
-        console.log(this.errorMessage)
       }
     },
     formReset () {
