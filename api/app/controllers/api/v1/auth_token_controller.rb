@@ -21,7 +21,6 @@ class Api::V1::AuthTokenController < ApplicationController
 
   # 新規登録
   def registration
-    puts params
     @user = User.new(auth_params)
     # メール認証をスキップする
     @user.activated = true
@@ -29,13 +28,11 @@ class Api::V1::AuthTokenController < ApplicationController
       # 登録直後にログインする
       save_cookie_and_response
     else
-      puts "errormessage: "
-      @user.errors.full_messages.each do |message|
-        puts message
-      end
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
+  # Cookie保存とレスポンス
   def save_cookie_and_response
     set_refresh_token_to_cookie
     render json: login_response

@@ -53,7 +53,9 @@ export default {
       if (this.isValid) {
         await this.$axios.$post('/api/v1/auth_token/registration', this.params)
           .then(response => this.authSuccessful(response))
-          .catch(error => this.authFailure(error))
+          .catch((error) => {
+            this.authFailure(error)
+          })
       }
       this.loading = false
     },
@@ -68,11 +70,15 @@ export default {
       // TODO リダイレクト処理
       this.$router.push('/')
     },
-    authFailure ({ response }) {
-      if (response && response.status === 404) {
-        // TODO トースター出力
+    authFailure (error) {
+      if (error.response && error.response.status === 422) {
+        // エラーメッセージを受け取る
+        const messages = error.response.data.errors
+        messages.forEach((message) => {
+          // TODO: ここでエラーメッセージをハンドリングします。
+          console.log(message)
+        })
       }
-      // TODO エラー処理
     },
     formReset () {
       this.$refs.form.reset()
