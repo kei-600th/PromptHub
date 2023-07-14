@@ -1,39 +1,42 @@
 <template>
-  <user-form-card>
-    <template
-      #user-form-card-content
-    >
-      <v-form
-      ref="form"
-      v-model="isValid"
-      @submit.prevent="signup"
+  <div>
+    <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>
+    <user-form-card>
+      <template
+        #user-form-card-content
       >
-        <user-form-name
-          :name.sync="params.auth.name"
-        />
-        <user-form-email
-          :email.sync="params.auth.email"
-          placeholder
-        />
-        <user-form-password
-          :password.sync="params.auth.password"
-          set-validation
-        />
-        <v-btn
-        type="submit"
-        :disabled="!isValid || loading"
-        :loading="loading"
-        block
-        color="appblue"
-        class="white--text"
-      >
-        登録する
-        </v-btn>
-      </v-form>
-      <v-card-text>
-      </v-card-text>
-    </template>
-  </user-form-card>
+        <v-form
+        ref="form"
+        v-model="isValid"
+        @submit.prevent="signup"
+        >
+          <user-form-name
+            :name.sync="params.auth.name"
+          />
+          <user-form-email
+            :email.sync="params.auth.email"
+            placeholder
+          />
+          <user-form-password
+            :password.sync="params.auth.password"
+            set-validation
+          />
+          <v-btn
+          type="submit"
+          :disabled="!isValid || loading"
+          :loading="loading"
+          block
+          color="appblue"
+          class="white--text"
+        >
+          登録する
+          </v-btn>
+        </v-form>
+        <v-card-text>
+        </v-card-text>
+      </template>
+    </user-form-card>
+  </div>
 </template>
 
 <script>
@@ -44,6 +47,7 @@ export default {
     return {
       isValid: false,
       loading: false,
+      errorMessage: null,
       params: { auth: { name: '', email: '', password: '' } }
     }
   },
@@ -57,6 +61,7 @@ export default {
             this.authFailure(error)
           })
       }
+      this.formReset()
       this.loading = false
     },
     authSuccessful (response) {
@@ -74,16 +79,14 @@ export default {
       if (error.response && error.response.status === 422) {
         // エラーメッセージを受け取る
         const messages = error.response.data.errors
-        messages.forEach((message) => {
-          // TODO: ここでエラーメッセージをハンドリングします。
-          console.log(message)
-        })
+        this.errorMessage = messages.join(', ')
+        console.log(this.errorMessage)
       }
     },
     formReset () {
       this.$refs.form.reset()
       for (const key in this.params.auth) {
-        this.params.user[key] = ''
+        this.params.auth[key] = ''
       }
     }
   }
