@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Api::V1::AuthTokenController, type: :controller do
+RSpec.describe Api::V1::AuthTokenController do
   include ActiveSupport::Testing::TimeHelpers
   before do
     @user = active_user
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
     context "valid login" do
       before do
         post :create, params: @params, xhr: true
-        @parsed_response = JSON.parse(response.body)
+        @parsed_response = response.parsed_body
         @access_token = User.decode_access_token(@parsed_response[@access_token_key])
         @user.reload
         @refresh_lifetime_to_i = @refresh_lifetime.from_now.to_i
@@ -65,7 +65,7 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
         end
 
         it "sets the correct cookie expiration" do
-          expect(@cookie[:expires]).to be_within(1.second).of(Time.at(@refresh_lifetime_to_i))
+          expect(@cookie[:expires]).to be_within(1.second).of(Time.zone.at(@refresh_lifetime_to_i))
         end
 
         it "sets the correct cookie secure option" do
@@ -100,7 +100,7 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
       context "invalid login" do
         it "returns a 404 response for an incorrect user" do
           pass = "password"
-          invalid_params = { auth: { email: @user.email, password: pass + "a" } }
+          invalid_params = { auth: { email: @user.email, password: "#{pass}a" } }
           post :create, params: invalid_params, xhr: true
           response_check_of_invalid_request 404
         end
@@ -127,14 +127,14 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
       # 有効なログイン
       post :create, params: @params, xhr: true
       @user.reload
-      @old_access_token = JSON.parse(response.body)[@access_token_key]
+      @old_access_token = response.parsed_body[@access_token_key]
       @old_refresh_token = cookies[@session_key]
       @old_user_jti = @user.refresh_jti
 
       # refreshアクションにアクセス
       refresh_api
       @user.reload
-      @new_access_token = JSON.parse(response.body)[@access_token_key]
+      @new_access_token = response.parsed_body[@access_token_key]
       @new_refresh_token = cookies[@session_key]
       @new_user_jti = @user.refresh_jti
     end
@@ -309,7 +309,7 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
       it 'returns a validation failure message' do
         post :registration, params: @user_params, xhr: true
         post :registration, params: @user_params, xhr: true
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['errors']).to include('メールアドレスはすでに存在します')
       end
     end
