@@ -27,14 +27,14 @@
 
 <script>
 export default {
-  created () {
-    console.log(this.pageTitle)
-  },
   data ({ $route, $config: { appName }, $my }) {
     return {
       appName,
       pageTitle: this.$my.pageTitle($route.name)
     }
+  },
+  created () {
+    console.log(this.pageTitle)
   }
 }
 </script>

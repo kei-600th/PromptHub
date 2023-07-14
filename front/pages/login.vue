@@ -4,8 +4,8 @@
       #user-form-card-content
     >
       <v-form
-      ref="form"
-      v-model="isValid"
+        ref="form"
+        v-model="isValid"
       >
         <user-form-email
           :email.sync="params.auth.email"
@@ -22,7 +22,7 @@
           </nuxt-link>
         </v-card-actions>
         <v-card-text
-        class="px-0"
+          class="px-0"
         >
           <v-btn
             :disabled="!isValid || loading"
@@ -33,11 +33,10 @@
             @click="login"
           >
             ログインする
-            </v-btn>
+          </v-btn>
         </v-card-text>
       </v-form>
-      <v-card-text>
-      </v-card-text>
+      <v-card-text />
     </template>
   </user-form-card>
 </template>

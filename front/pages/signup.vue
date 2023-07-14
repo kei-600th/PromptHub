@@ -4,9 +4,9 @@
       #user-form-card-content
     >
       <v-form
-      ref="form"
-      v-model="isValid"
-      @submit.prevent="signup"
+        ref="form"
+        v-model="isValid"
+        @submit.prevent="signup"
       >
         <user-form-name
           :name.sync="params.auth.name"
@@ -20,18 +20,17 @@
           set-validation
         />
         <v-btn
-        type="submit"
-        :disabled="!isValid || loading"
-        :loading="loading"
-        block
-        color="appblue"
-        class="white--text"
-      >
-        登録する
+          type="submit"
+          :disabled="!isValid || loading"
+          :loading="loading"
+          block
+          color="appblue"
+          class="white--text"
+        >
+          登録する
         </v-btn>
       </v-form>
-      <v-card-text>
-      </v-card-text>
+      <v-card-text />
     </template>
   </user-form-card>
 </template>
