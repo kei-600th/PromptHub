@@ -9,6 +9,7 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
     @refresh_lifetime = UserAuth.refresh_token_lifetime
     @session_key = UserAuth.session_key.to_s
     @access_token_key = "token"
+    @user_params = { auth: { name: "Test User", email: "test@example.com", password: "password1" } }
   end
 
   # tokenのリフレッシュを行うapi
@@ -250,13 +251,70 @@ RSpec.describe Api::V1::AuthTokenController, type: :controller do
       end
 
       # セッションが切れたあとにログアウトは正常に動作しないことを確認するテスト
-      # it 'returns error after session expiration' do
-      #   travel_to(@refresh_lifetime.from_now) do
-      #     delete :destroy, xhr: true
-      #     expect(response).to have_http_status(401)
-      #     expect(cookies[@session_key]).to be_blank
-      #   end
-      # end
+      it 'returns error after session expiration' do
+        travel_to(@refresh_lifetime.from_now) do
+          delete :destroy, xhr: true
+          expect(response).to have_http_status(401)
+        end
+      end
+    end
+  end
+
+  # 新規登録機能のテスト
+  describe 'POST #registration' do
+    context 'when valid request' do
+      it 'creates a new user' do
+        expect {
+          post :registration, params: @user_params, xhr: true
+        }.to change(User, :count).by(1)
+      end
+
+      it 'returns status code 200' do
+        post :registration, params: @user_params, xhr: true
+        expect(response).to have_http_status(200)
+      end
+
+      it 'returns the user is activated' do
+        post :registration, params: @user_params, xhr: true
+        expect(User.last.activated).to be_truthy
+      end
+    end
+
+    context 'when invalid request' do
+      before { @user_params[:auth][:email] = nil }
+
+      it 'does not create a new user' do
+        expect {
+          post :registration, params: @user_params, xhr: true
+        }.to_not change(User, :count)
+      end
+
+      it 'returns status code 422' do
+        post :registration, params: @user_params, xhr: true
+        expect(response).to have_http_status(422)
+      end
+    end
+
+    context 'when email is already taken' do
+      it 'does not create a new user' do
+        post :registration, params: @user_params, xhr: true
+        expect {
+          post :registration, params: @user_params, xhr: true
+        }.to_not change(User, :count)
+      end
+
+      it 'returns status code 422' do
+        post :registration, params: @user_params, xhr: true
+        post :registration, params: @user_params, xhr: true
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        post :registration, params: @user_params, xhr: true
+        post :registration, params: @user_params, xhr: true
+        json = JSON.parse(response.body)
+        expect(json['errors']).to include('メールアドレスはすでに存在します')
+      end
     end
   end
   
