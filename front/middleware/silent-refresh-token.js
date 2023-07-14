@@ -11,7 +11,7 @@ export default async ({ $auth, $axios, store, route, redirect, isDev }) => {
         // TODO test
         console.log(msg)
         // TODO トースター出力
-        // store.dispatch('getToast', { msg })
+        store.dispatch('getToast', { msg })
         // TODO アクセスルート記憶
         // store.dispatch('getRememberPath', route)
         // Vuexの初期化(セッションはサーバで削除済み)
