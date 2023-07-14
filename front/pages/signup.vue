@@ -9,14 +9,14 @@
       @submit.prevent="signup"
       >
         <user-form-name
-          :name.sync="params.user.name"
+          :name.sync="params.auth.name"
         />
         <user-form-email
-          :email.sync="params.user.email"
+          :email.sync="params.auth.email"
           placeholder
         />
         <user-form-password
-          :password.sync="params.user.password"
+          :password.sync="params.auth.password"
           set-validation
         />
         <v-btn
@@ -44,20 +44,39 @@ export default {
     return {
       isValid: false,
       loading: false,
-      params: { user: { name: '', email: '', password: '' } }
+      params: { auth: { name: '', email: '', password: '' } }
     }
   },
   methods: {
-    signup () {
+    async signup () {
       this.loading = true
-      setTimeout(() => {
-        this.formReset()
-        this.loading = false
-      }, 1500)
+      if (this.isValid) {
+        await this.$axios.$post('/api/v1/auth_token/registration', this.params)
+          .then(response => this.authSuccessful(response))
+          .catch(error => this.authFailure(error))
+      }
+      this.loading = false
+    },
+    authSuccessful (response) {
+      console.log('authSuccessful', response)
+      this.$auth.login(response)
+      // test
+      console.log('token', this.$auth.token)
+      console.log('expires', this.$auth.expires)
+      console.log('payload', this.$auth.payload)
+      console.log('user', this.$auth.user)
+      // TODO リダイレクト処理
+      this.$router.push('/')
+    },
+    authFailure ({ response }) {
+      if (response && response.status === 404) {
+        // TODO トースター出力
+      }
+      // TODO エラー処理
     },
     formReset () {
       this.$refs.form.reset()
-      for (const key in this.params.user) {
+      for (const key in this.params.auth) {
         this.params.user[key] = ''
       }
     }

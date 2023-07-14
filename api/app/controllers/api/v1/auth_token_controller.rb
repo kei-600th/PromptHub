@@ -26,7 +26,8 @@ class Api::V1::AuthTokenController < ApplicationController
     # メール認証をスキップする
     @user.activated = true
     if @user.save
-      puts "user created!"
+      # 登録直後にログインする
+      save_cookie_and_response
     else
       puts "errormessage: "
       @user.errors.full_messages.each do |message|
