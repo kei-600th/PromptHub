@@ -42,6 +42,26 @@ class Authentication {
     this.setAuth({ token: null, expires: 0, user: null })
   }
 
+  // 有効期限内にtrueを返す
+  isAuthenticated () {
+    return new Date().getTime() < this.expires
+  }
+
+  // ユーザーが存在している場合はtrueを返す
+  isExistUser () {
+    return this.user.sub && this.payload.sub && this.user.sub === this.payload.sub
+  }
+
+  // ユーザーが存在し、かつ有効期限切れの場合にtrueを返す
+  isExistUserAndExpired () {
+    return this.isExistUser() && !this.isAuthenticated()
+  }
+
+  // ユーザーが存在し、かつ有効期限内の場合にtrueを返す
+  loggedIn () {
+    return this.isExistUser() && this.isAuthenticated()
+  }
+
   resolveUnauthorized (status) {
     return (status >= 200 && status < 300) || (status === 401)
   }
