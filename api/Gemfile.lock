@@ -85,6 +85,7 @@ GEM
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     json (2.6.3)
+    jwt (2.7.1)
     language_server-protocol (3.17.0.3)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -200,9 +201,6 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
-    rubocop-discourse (3.3.0)
-      rubocop (>= 1.1.0)
-      rubocop-rspec (>= 2.0.0)
     rubocop-factory_bot (2.23.1)
       rubocop (~> 1.33)
     rubocop-performance (1.18.0)
@@ -226,6 +224,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     thor (1.2.2)
+    timecop (0.9.6)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -244,6 +243,7 @@ DEPENDENCIES
   byebug
   factory_bot_rails
   faker
+  jwt (~> 2.2)
   listen (~> 3.3)
   mysql2 (~> 0.5)
   pry-byebug (~> 3.9)
@@ -252,11 +252,11 @@ DEPENDENCIES
   rails (~> 6.1.7, >= 6.1.7.3)
   rspec-rails
   rubocop
-  rubocop-discourse
   rubocop-performance
   rubocop-rails
   rubocop-rspec
   spring
+  timecop
   tzinfo-data
 
 RUBY VERSION

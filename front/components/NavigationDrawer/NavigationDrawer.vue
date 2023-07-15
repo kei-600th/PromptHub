@@ -49,10 +49,14 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <div v-if="isLoggedIn">
+      <navigation-drawer-user-card />
+    </div>
   </v-navigation-drawer>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     drawer: {
@@ -73,6 +77,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'isLoggedIn'
+    ]),
     setDrawer: {
       get () { return this.drawer },
       set (newVal) { return this.$emit('update:drawer', newVal) }

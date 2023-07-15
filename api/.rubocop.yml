@@ -27,6 +27,43 @@ AllCops:
 
 # ルールの設定
 
+
+# Naming
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/services/user_authenticate_service.rb
+    - app/services/user_sessionize_service.rb
+
+Naming/VariableNumber:
+  Exclude:
+    - app/controllers/application_controller.rb
+
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/controllers/api/v1/auth_token_controller.rb
+    - app/services/user_authenticate_service.rb
+    - app/services/user_sessionize_service.rb
+
+# Metrics
+Metrics/AbcSize:
+  Exclude:
+    - "app/services/user_auth/access_token.rb"
+
+Metrics/MethodLength:
+  Exclude:
+    - "app/services/user_auth/access_token.rb"
+
+
+# Rails
+Rails/DynamicFindBy:
+  Exclude:
+    - app/controllers/api/v1/auth_token_controller.rb
+
+Rails/TimeZone:
+  Exclude:
+    - app/controllers/api/v1/auth_token_controller.rb
+
+
 # Layout
 
 
@@ -34,6 +71,16 @@ AllCops:
 
 
 # Style
+
+Style/ReturnNilInPredicateMethodDefinition:
+  Exclude:
+    - app/controllers/application_controller.rb
+
+
+# Lint
+Lint/UnderscorePrefixedVariableName:
+  Exclude:
+    - "app/services/user_auth/access_token.rb"
 
 
 
@@ -71,6 +118,9 @@ Style/SymbolArray:
 RSpec/MultipleExpectations:
   Exclude:
     - "spec/models/user_spec.rb"
+    - "spec/requests/api/v1/refresh_token_spec.rb"
+    - "spec/requests/api/v1/access_token_spec.rb"
+    - "spec/controllers/api/v1/auth_token_controller_spec.rb"
 
 # テストグループのネスト深度を4までとする
 RSpec/NestedGroups:
@@ -79,6 +129,20 @@ RSpec/NestedGroups:
 # described_classは使用しない
 RSpec/DescribedClass:
   Enabled: false
+
+# 特定のテストではインスタンス変数を許可する
+RSpec/InstanceVariable: 
+  Exclude:
+    - "spec/requests/api/v1/refresh_token_spec.rb"
+    - "spec/requests/api/v1/access_token_spec.rb"
+    - "spec/controllers/api/v1/auth_token_controller_spec.rb"
+
+# Exampleの長さを固定しない
+RSpec/ExampleLength:
+  Exclude:
+    - "spec/requests/api/v1/access_token_spec.rb"
+    - "spec/controllers/api/v1/auth_token_controller_spec.rb"
+
 
 # FactoryBot::Syntax::Methodsモジュールのbuildメソッドを使用しない
 FactoryBot/SyntaxMethods:

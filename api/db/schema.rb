@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_01_012253) do
+ActiveRecord::Schema.define(version: 2023_07_03_144542) do
 
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "title", null: false
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2023_07_01_012253) do
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "refresh_jti"
   end
 
 end

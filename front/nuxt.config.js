@@ -25,6 +25,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    'plugins/auth',
+    'plugins/axios',
+    'plugins/my-inject',
+    'plugins/nuxt-client-init'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,10 +51,15 @@ export default {
     '@nuxtjs/i18n'
   ],
 
+  router: {
+    middleware: ['silent-refresh-token']
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.API_URL || 'http://localhost:3000'
+    baseURL: process.env.API_URL || 'http://localhost:3000',
+    credentials: true
   },
 
   vuetify: {
@@ -64,7 +73,8 @@ export default {
           success: '44D69E',
           warning: 'FEB65E',
           error: 'FB8678',
-          background: 'f6f6f4'
+          background: 'f6f6f4',
+          appblue: '1867C0'
         }
       }
     }
