@@ -2,7 +2,7 @@ FROM ruby:2.7.2-alpine
 
 ARG WORKDIR
 ARG API_PORT
-ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git"
+ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git nginx"
 ARG DEV_PACKAGES="build-base curl-dev"
 
 ENV HOME=/${WORKDIR} \
@@ -21,6 +21,17 @@ RUN apk update && \
 
     # rubocop導入に伴い以下の処理を削除
     # apk del build-dependencies
+
+# nginx
+RUN rm -rf /var/cache/apk/* && \
+    mkdir -p /var/log/nginx && \
+    mkdir -p /var/www/html && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /var/www/html && \
+    chmod 755 /var/www/html
+
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
 
 COPY . ./
 
