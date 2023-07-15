@@ -26,6 +26,7 @@ RUN apk update && \
 RUN rm -rf /var/cache/apk/* && \
     mkdir -p /var/log/nginx && \
     mkdir -p /var/www/html && \
+    mkdir -p /app/tmp/sockets && \
     chown -R nginx:nginx /var/log/nginx && \
     chown -R nginx:nginx /var/www/html && \
     chmod 755 /var/www/html
