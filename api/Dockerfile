@@ -2,7 +2,7 @@ FROM ruby:2.7.2-alpine
 
 ARG WORKDIR
 ARG API_PORT
-ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git nginx"
+ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git nginx sudo"
 ARG DEV_PACKAGES="build-base curl-dev"
 
 ENV HOME=/${WORKDIR} \
@@ -29,7 +29,6 @@ RUN rm -rf /var/cache/apk/* && \
     mkdir -p /app/tmp/sockets && \
     chown -R nginx:nginx /var/log/nginx && \
     chown -R nginx:nginx /var/www/html && \
-    chown -R nginx:nginx /app/tmp/sockets && \
     chmod 755 /var/www/html
 
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
