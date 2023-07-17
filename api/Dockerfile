@@ -2,7 +2,7 @@ FROM ruby:2.7.2-alpine
 
 ARG WORKDIR
 ARG API_PORT
-ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git nginx sudo"
+ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git nginx"
 ARG DEV_PACKAGES="build-base curl-dev"
 
 ENV HOME=/${WORKDIR} \
@@ -17,10 +17,16 @@ RUN apk update && \
     apk upgrade && \
     apk add --no-cache ${RUNTIME_PACKAGES} && \
     apk add --virtual build-dependencies --no-cache ${DEV_PACKAGES} && \
+    apk add --no-cache sudo && \
     bundle install -j4
 
     # rubocop導入に伴い以下の処理を削除
     # apk del build-dependencies
+
+# sudoをパスワード無しで使用できるように設定を追加
+RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    addgroup ${GROUP} && \
+    adduser -D -G ${GROUP} ${USER}
 
 # nginx
 RUN rm -rf /var/cache/apk/* && \
