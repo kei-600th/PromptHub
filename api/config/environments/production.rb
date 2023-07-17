@@ -112,6 +112,6 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   config.host_authorization = { 
-    exclude: -> (request) { request.path == '/apiv1/health_check' }
+    exclude: -> (request) { request.path == '/api/v1/health_check' }
   }
 end
