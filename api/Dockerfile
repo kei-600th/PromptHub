@@ -5,6 +5,10 @@ ARG API_PORT
 ARG RUNTIME_PACKAGES="nodejs tzdata mysql-client mysql-dev git nginx"
 ARG DEV_PACKAGES="build-base curl-dev"
 
+# sudoを使用するためのユーザー名とグループ名を指定
+ARG USER=docker
+ARG GROUP=docker
+
 ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo
