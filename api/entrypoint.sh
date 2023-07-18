@@ -7,7 +7,8 @@ rm -f /app/tmp/pids/server.pid
 # マイグレーションを実行
 bundle exec rails db:migrate
 
-sudo service nginx start
-cd /app
-bin/setup
-bundle exec pumactl start
+# Railsサーバーをバックグラウンドで起動
+bundle exec puma -C config/puma.rb &
+
+# nginxをフォアグラウンドで起動
+exec nginx -g 'daemon off;'
