@@ -1,3 +1,5 @@
+# nginxが動作しないためpumaのみで起動する
+
 #!/bin/sh
 set -e
 

@@ -1,3 +1,5 @@
+# nginxの設定は残したまま使用せずに起動する
+
 FROM ruby:2.7.2-alpine
 
 ARG WORKDIR
