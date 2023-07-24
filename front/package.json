@@ -10,7 +10,8 @@
     "test": "jest",
     "lint:js": "eslint --ext \".js,.vue,.ts\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
-    "lintfix": "yarn lint:js --fix"
+    "lintfix": "yarn lint:js --fix",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@nuxtjs/axios": "5.12.2",
