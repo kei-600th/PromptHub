@@ -6,12 +6,19 @@ module.exports = {
   },
   moduleFileExtensions: [
     'js',
+    'ts',
     'vue',
     'json'
   ],
   transform: {
     '^.+\\.js$': 'babel-jest',
+    '^.+\\.ts$': 'ts-jest',
     '.*\\.(vue)$': 'vue-jest'
+  },
+  globals: {
+    'ts-jest': {
+      babelConfig: true
+    }
   },
   collectCoverage: true,
   collectCoverageFrom: [
