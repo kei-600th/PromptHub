@@ -14,24 +14,28 @@ export default {
   props: {
     name: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  data () {
-    const max = 30
+  data() {
+    const max = 30;
     return {
       max,
       rules: [
-        v => !!v || '',
-        v => (!!v && max >= v.length) || `${max}文字以内で入力してください`
-      ]
-    }
+        (v) => !!v || '',
+        (v) => (!!v && max >= v.length) || `${max}文字以内で入力してください`,
+      ],
+    };
   },
   computed: {
     setName: {
-      get () { return this.name },
-      set (newVal) { return this.$emit('update:name', newVal) }
-    }
-  }
-}
+      get() {
+        return this.name;
+      },
+      set(newVal) {
+        return this.$emit('update:name', newVal);
+      },
+    },
+  },
+};
 </script>

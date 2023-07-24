@@ -1,17 +1,11 @@
 <template>
   <v-app>
-    <app-bar
-      clipped-left
-    >
-      <template
-        #navigation-toggle-button
-      >
+    <app-bar clipped-left>
+      <template #navigation-toggle-button>
         <v-app-bar-nav-icon @click="drawer = !drawer" />
       </template>
     </app-bar>
-    <navigation-drawer
-      :drawer.sync="drawer"
-    />
+    <navigation-drawer :drawer.sync="drawer" />
     <v-main>
       <app-toaster />
       <nuxt />
@@ -21,10 +15,10 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      drawer: null
-    }
-  }
-}
+      drawer: null,
+    };
+  },
+};
 </script>

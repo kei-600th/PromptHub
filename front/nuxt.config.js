@@ -6,42 +6,36 @@ export default {
   head: {
     title: 'prompthub',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     'plugins/auth',
     'plugins/axios',
     'plugins/my-inject',
-    'plugins/nuxt-client-init'
+    'plugins/nuxt-client-init',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs/eslint-module',
-    '@nuxt/typescript-build'
-  ],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxt/typescript-build'],
 
   eslint: {
-    cache: false
+    cache: false,
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -49,18 +43,18 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/vuetify',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
   ],
 
   router: {
-    middleware: ['silent-refresh-token']
+    middleware: ['silent-refresh-token'],
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: process.env.API_URL || 'http://localhost:3000',
-    credentials: true
+    credentials: true,
   },
 
   vuetify: {
@@ -75,10 +69,10 @@ export default {
           warning: 'FEB65E',
           error: 'FB8678',
           background: 'f6f6f4',
-          appblue: '1867C0'
-        }
-      }
-    }
+          appblue: '1867C0',
+        },
+      },
+    },
   },
 
   i18n: {
@@ -91,12 +85,11 @@ export default {
       silentFallbackWarn: true,
       messages: {
         ja: require('./locales/ja.json'),
-        en: require('./locales/en.json')
-      }
-    }
+        en: require('./locales/en.json'),
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
-}
+  build: {},
+};

@@ -1,15 +1,7 @@
 <template>
-  <v-btn
-    outlined
-    text
-    class="ml-2"
-    :to="'login'"
-  >
-    login
-  </v-btn>
+  <v-btn outlined text class="ml-2" :to="'login'"> login </v-btn>
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
