@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "TodoList"
+  name: 'TodoList'
 }
 </script>
