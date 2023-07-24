@@ -9,7 +9,8 @@ module.exports = {
     '@nuxtjs',
     'plugin:nuxt/recommended',
     'plugin:vue/essential',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
   ],
   plugins: [
     'vue',
