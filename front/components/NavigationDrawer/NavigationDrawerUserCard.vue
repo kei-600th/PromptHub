@@ -8,17 +8,9 @@
         </v-list-item-title>
       </v-list-item-content>
       <v-list-item-icon>
-        <v-menu
-          top
-          offset-y
-        >
+        <v-menu top offset-y>
           <template #activator="{ on, attrs }">
-            <v-btn
-              dark
-              icon
-              v-bind="attrs"
-              v-on="on"
-            >
+            <v-btn dark icon v-bind="attrs" v-on="on">
               <v-icon>mdi-cog-outline</v-icon>
             </v-btn>
           </template>
@@ -46,19 +38,16 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      items: [
-        { title: 'Logout', icon: 'mdi-logout' }
-      ],
-      right: null
-    }
-  }
-}
+      items: [{ title: 'Logout', icon: 'mdi-logout' }],
+      right: null,
+    };
+  },
+};
 </script>
 
 <style scoped>
-
 .fixed-bottom {
   position: absolute;
   bottom: 0;

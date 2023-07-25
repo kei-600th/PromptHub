@@ -13,26 +13,27 @@ export default {
   props: {
     email: {
       type: String,
-      default: ''
+      default: '',
     },
     placeholder: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {
-      rules: [
-        v => !!v || '',
-        v => /.+@.+\..+/.test(v) || ''
-      ]
-    }
+      rules: [(v) => !!v || '', (v) => /.+@.+\..+/.test(v) || ''],
+    };
   },
   computed: {
     setEmail: {
-      get () { return this.email },
-      set (newVal) { return this.$emit('update:email', newVal) }
-    }
-  }
-}
+      get() {
+        return this.email;
+      },
+      set(newVal) {
+        return this.$emit('update:email', newVal);
+      },
+    },
+  },
+};
 </script>

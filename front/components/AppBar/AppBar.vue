@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-app-bar
-      app
-      :clipped-left="clippedLeft"
-      dark
-    >
+    <v-app-bar app :clipped-left="clippedLeft" dark>
       <slot name="navigation-toggle-button" />
 
       <v-toolbar-title>Prompthub</v-toolbar-title>
@@ -19,18 +15,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 export default {
   props: {
     clippedLeft: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
-    ...mapGetters([
-      'isLoggedIn'
-    ])
-  }
-}
+    ...mapGetters(['isLoggedIn']),
+  },
+};
 </script>
