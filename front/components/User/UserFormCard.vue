@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  data({ $route, $config: { appName }, $my }) {
+  data({ $route, $config: { appName } }) {
     return {
       appName,
       pageTitle: this.$my.pageTitle($route.name),
