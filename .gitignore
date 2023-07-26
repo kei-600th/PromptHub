@@ -3,9 +3,10 @@
 /.vscode/
 
 /api/.cache/
-
 /api/.local/share/pry/pry_history
 /api/.ash_history
 /api/.irb_history
+/api/.env
+
 
 /front/.ash_history
