@@ -4,29 +4,12 @@
     <div
       v-if="promptCreated === false"
     >
-      <v-card>
-        <v-card-title>ChatGPTへの質問と回答を作成する</v-card-title>
-        <v-container>
-          <v-textarea
-            v-model="params.prompt.request_text"
-            name="input-7-1"
-            filled
-            label="ChatGPTに送信するメッセージ"
-            auto-grow
-          ></v-textarea>
-        </v-container>
-        <v-row class="justify-end">
-          <v-btn
-            color="appblue"
-            :disabled="anyIsEmptyOrWhitespace(params.prompt.request_text) || loading"
-            :loading="loading"
-            class="white--text ma-5"
-            @click="createPrompt()"
-          >
-            送信する
-          </v-btn>
-        </v-row>
-      </v-card>
+      <PromptForm 
+        :requestText="params.prompt.request_text"
+        :loading="loading"
+        @updateRequestText="params.prompt.request_text = $event"
+        @createPrompt="createPrompt"
+      />
     </div>
     <!-- 作成中サンプル表示用テンプレート -->
     <div
@@ -69,10 +52,12 @@
 
 <script>
 import qs from 'qs';
+import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 export default {
   components: {
+    PromptForm,
     SampleForm,
     ChatLog
   },
