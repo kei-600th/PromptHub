@@ -5,6 +5,24 @@ class Api::V1::SamplesController < ApplicationController
     sample_response(prompt)
   end
   
+  def create
+    sample = Sample.new(sample_params)
+    if sample.save
+      create_prompt(sample.id)
+    else
+      puts "サンプルの作成に失敗しました。"
+    end
+  end
+
+  def create_prompt(parent_id)
+    prompt = Prompt.new(prompt_params)
+    prompt.sample_id = parent_id
+    if prompt.save
+      puts "プロンプトとサンプルの作成に成功しました。"
+    else
+      puts "プロンプトの作成に失敗しました。"
+    end
+  end
 
   def sample_response(prompt)
     render json: {
@@ -31,6 +49,10 @@ class Api::V1::SamplesController < ApplicationController
   end
 
   def prompt_params
-    params.require(:prompt).permit(:request_text)
+    params.require(:prompt).permit(:request_text, :response_text)
+  end
+
+  def sample_params
+    params.require(:sample).permit(:title, :description)
   end
 end
