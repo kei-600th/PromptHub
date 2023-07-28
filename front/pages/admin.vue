@@ -34,19 +34,12 @@
     >
       <v-card>
         <v-card-title>作成するサンプルの確認</v-card-title>
-        <v-card-title class="text-h4">
-          <v-text-field
-            v-model="params.sample.title"
-            label="タイトルを入力"
-          ></v-text-field>
-        </v-card-title>
-        <v-card-subtitle class="ma-1 text-h6">
-          <v-textarea
-            v-model="params.sample.description"
-            rows="2"
-            label="説明文を入力"
-          ></v-textarea>
-        </v-card-subtitle>
+        <SampleForm 
+          :title="params.sample.title"
+          :description="params.sample.description"
+          @updateTitle="params.sample.title = $event"
+          @updateDescription="params.sample.description = $event"
+        />
         <ChatLog 
           :requestText="params.prompt.request_text" 
           :responseText="params.prompt.response_text"
@@ -76,9 +69,11 @@
 
 <script>
 import qs from 'qs';
+import SampleForm from '@/components/Sample/SampleForm.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 export default {
   components: {
+    SampleForm,
     ChatLog
   },
   data() {
