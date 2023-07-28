@@ -2,13 +2,13 @@
   <div>
     <v-card-title class="text-h4">
       <v-text-field
-        v-model="title"
+        v-model="localTitle"
         label="タイトルを入力"
       ></v-text-field>
     </v-card-title>
     <v-card-subtitle class="ma-1 text-h6">
       <v-textarea
-        v-model="description"
+        v-model="localDescription"
         rows="2"
         label="説明文を入力"
       ></v-textarea>
@@ -21,20 +21,16 @@ export default {
   props: ['title', 'description'],
   data() {
     return {
+      localTitle: this.title,
+      localDescription: this.description
     };
   },
   watch: {
-    title: {
-      handler(val) {
-        this.$emit('updateTitle', val);
-      },
-      immediate: true,
+    localTitle: function (newTitle) {
+      this.$emit('updateTitle', newTitle);
     },
-    description: {
-      handler(val) {
-        this.$emit('updateDescription', val);
-      },
-      immediate: true,
+    localDescription: function (newDescription) {
+      this.$emit('updateDescription', newDescription);
     },
   },
 };
