@@ -47,35 +47,10 @@
             label="説明文を入力"
           ></v-textarea>
         </v-card-subtitle>
-        <v-divider class="mx-4"></v-divider>
-        <v-card-title>
-          <v-icon
-            large
-            left
-          >
-            mdi-account
-          </v-icon>
-          <span class="text-h6 font-weight-light">You</span>
-        </v-card-title>
-
-        <v-card-text class="text-h5">
-          {{ params.prompt.request_text }}
-        </v-card-text>
-        <v-divider class="mx-4"></v-divider>
-        <v-card-title>
-          <v-icon
-            large
-            left
-          >
-            mdi-robot
-          </v-icon>
-          <span class="text-h6 font-weight-light">ChatGPT</span>
-        </v-card-title>
-
-        <v-card-text class="text-h5">
-          {{ params.prompt.response_text }}
-        </v-card-text>
-        <v-divider class="mx-4"></v-divider>
+        <ChatLog 
+          :requestText="params.prompt.request_text" 
+          :responseText="params.prompt.response_text"
+        />
         <v-row class="justify-end">
           <v-btn
             color="appblue"
@@ -101,7 +76,11 @@
 
 <script>
 import qs from 'qs';
+import ChatLog from '@/components/Sumple/ChatLog.vue';
 export default {
+  components: {
+    ChatLog
+  },
   data() {
     return {
       loading: false,
@@ -115,7 +94,7 @@ export default {
           description: ''
         }
       },
-      promptCreated: false,
+      promptCreated: true,
     };
   },
   methods: {
