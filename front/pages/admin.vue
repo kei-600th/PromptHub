@@ -76,7 +76,7 @@
 
 <script>
 import qs from 'qs';
-import ChatLog from '@/components/Sumple/ChatLog.vue';
+import ChatLog from '@/components/Sample/ChatLog.vue';
 export default {
   components: {
     ChatLog
