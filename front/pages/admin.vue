@@ -18,6 +18,8 @@
         <v-row class="justify-end">
           <v-btn
             color="appblue"
+            :disabled="anyIsEmptyOrWhitespace(params.prompt.request_text) || loading"
+            :loading="loading"
             class="white--text ma-5"
             @click="createPrompt()"
           >
@@ -77,7 +79,10 @@
         <v-row class="justify-end">
           <v-btn
             color="appblue"
+            :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
+            :loading="loading"
             class="white--text ma-5"
+            @click="createSample()"
           >
             作成する
           </v-btn>
@@ -99,9 +104,10 @@ import qs from 'qs';
 export default {
   data() {
     return {
+      loading: false,
       params: {
         prompt: {
-          request_text: '私はChatGPTと会話するのがとても楽しいです',
+          request_text: '',
           response_text: null
         },
         sample: {
@@ -113,7 +119,11 @@ export default {
     };
   },
   methods: {
+    anyIsEmptyOrWhitespace(...texts) {
+      return texts.some(text => text.trim() === '');
+    },
     async createPrompt() {
+      this.loading = true;
       const response = await this.$axios.$get('/api/v1/samples/new', {
         params: this.params,
         paramsSerializer: params => {
@@ -122,9 +132,15 @@ export default {
       })
       this.params.prompt.response_text = response.response_text
       this.promptCreated = true
+      this.loading = false;
       // Todo レスポンスの確認の削除
       console.log(response.request_text);
       console.log(response.response_text);
+    },
+    async createSample() {
+      this.loading = true;
+      await this.$axios.$post('/api/v1/samples/', this.params)
+      this.loading = false;
     },
     deletePrompt() {
       this.params.prompt.request_text = ''
