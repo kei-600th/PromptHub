@@ -99,6 +99,7 @@ export default {
       this.loading = true;
       await this.$axios
       .$post('/api/v1/samples/', this.params)
+      .then(this.$router.push('/'))
       .catch((error) => {
         this.postFailure(error);
       });

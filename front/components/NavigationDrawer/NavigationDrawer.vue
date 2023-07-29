@@ -51,7 +51,7 @@ export default {
     return {
       mobileBreakpoint: 960,
       items: [
-        { title: 'Dashboard', path: '/', icon: 'mdi-view-dashboard' },
+        { title: 'Home', path: '/', icon: 'mdi-home' },
         { title: 'Workplace', path: 'workplace', icon: 'mdi-notebook-edit ' },
         { title: 'Share', path: 'share', icon: 'mdi-crowd ' },
         { title: 'About', path: 'about', icon: 'mdi-help-box' },
