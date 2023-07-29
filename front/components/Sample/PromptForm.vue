@@ -42,7 +42,7 @@ export default {
       return text.trim() === '';
     },
     submitPrompt() {
-      this.createPrompt(this.localRequestText);
+      this.$emit('createPrompt', this.localRequestText);
     }
   }
 };
