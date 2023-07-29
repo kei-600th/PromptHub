@@ -12,8 +12,12 @@ class Api::V1::SamplesController < ApplicationController
   def create
     sample = Sample.new(sample_params)
     if sample.save
-      create_prompt(sample.id)
-      render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
+      begin
+        create_prompt(sample.id)
+        render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
+      rescue RuntimeError => e
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
     else
       render json: { error: "サンプルの作成に失敗しました。" }, status: :unprocessable_entity
     end
