@@ -2,7 +2,7 @@ class Api::V1::SamplesController < ApplicationController
   def new
     prompt = Prompt.new(prompt_params)
     prompt.response_text = get_response_text(prompt.request_text)
-    sample_response(prompt)
+    render json: prompt
   end
   
   def create
@@ -23,14 +23,6 @@ class Api::V1::SamplesController < ApplicationController
       puts "プロンプトの作成に失敗しました。"
     end
   end
-
-  def sample_response(prompt)
-    render json: {
-      request_text: prompt.request_text,
-      response_text: prompt.response_text,
-    }
-  end
-
 
 
   private
