@@ -12,7 +12,8 @@
         :height="card.height"
         :elevation="card.elevation"
         max-width="344"
-        class="mx-auto"
+        :to="`/sample/${sample.id}`"
+        class="v-btn text-capitalize mx-auto"
         >
           <v-card-title>
             {{ sample.title }}
