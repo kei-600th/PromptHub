@@ -1,4 +1,10 @@
 class Api::V1::SamplesController < ApplicationController
+
+  def index
+    samples = Sample.all
+    render json: samples
+  end
+
   def new
     begin
       prompt = Prompt.new(prompt_params)
