@@ -30,7 +30,6 @@
         <v-row class="justify-end">
           <v-btn
             color="appblue"
-            :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
             :loading="loading"
             class="white--text ma-5"
             @click="createSample()"
@@ -98,8 +97,18 @@ export default {
     },
     async createSample() {
       this.loading = true;
-      await this.$axios.$post('/api/v1/samples/', this.params)
+      await this.$axios
+      .$post('/api/v1/samples/', this.params)
+      .catch((error) => {
+        this.postFailure(error);
+      });
       this.loading = false;
+    },
+    postFailure(error) {
+      if (error.response && error.response.status === 422) {
+        const msg = error.response.data.error
+        return this.$store.dispatch('getToast', { msg });
+      }
     },
     deletePrompt() {
       this.params.prompt.request_text = ''
