@@ -1,8 +1,12 @@
 class Api::V1::SamplesController < ApplicationController
   def new
-    prompt = Prompt.new(prompt_params)
-    prompt.response_text = get_response_text(prompt.request_text)
-    render json: prompt
+    begin
+      prompt = Prompt.new(prompt_params)
+      prompt.response_text = get_response_text(prompt.request_text)
+      render json: prompt
+    rescue => e
+      render json: { error: "エラーが発生しました: #{e.message}" }, status: :unprocessable_entity
+    end
   end
   
   def create
@@ -28,16 +32,20 @@ class Api::V1::SamplesController < ApplicationController
   private
 
   def get_response_text(request)
-    require "openai"
-    client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+    begin
+      require "openai"
+      client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
 
-    response = client.chat(
-      parameters: {
+      response = client.chat(
+        parameters: {
           model: "gpt-3.5-turbo", 
-          messages: [{ role: "user", content: request}],
+          messages: [{ role: "user", content: request }],
           temperature: 0.7,
-      })
-    return response.dig("choices", 0, "message", "content")
+        })
+      return response.dig("choices", 0, "message", "content")
+    rescue => e
+      raise "OpenAIからの応答でエラーが発生しました: #{e.message}"
+    end
   end
 
   def prompt_params
