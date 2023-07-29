@@ -30,6 +30,7 @@
         <v-row class="justify-end">
           <v-btn
             color="appblue"
+            :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
             :loading="loading"
             class="white--text ma-5"
             @click="createSample()"
@@ -73,7 +74,7 @@ export default {
           description: ''
         }
       },
-      promptCreated: true,
+      promptCreated: false,
     };
   },
   methods: {
