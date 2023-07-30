@@ -82,6 +82,7 @@ export default {
   },
   data () {
     return {
+      sampleId: null,
       loading: false,
       params: {
         sample: {},
@@ -97,9 +98,9 @@ export default {
       return texts.some(text => text.trim() === '');
     },
     async getSample() {
-      const id = this.$route.params.id;
+      this.sampleId = this.$route.params.id;
       await this.$axios
-      .$get(`/api/v1/samples/${id}`)
+      .$get(`/api/v1/samples/${this.sampleId}`)
       .then((response) => {
         this.params.sample = response;
       })
@@ -112,9 +113,8 @@ export default {
     },
     async updateSample() {
       this.loading = true;
-      const id = this.$route.params.id;
       await this.$axios
-      .$patch(`/api/v1/samples/${id}`, this.params)
+      .$patch(`/api/v1/samples/${this.sampleId}`, this.params)
       .catch((error) => {
         this.updateFailure(error);
       });
