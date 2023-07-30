@@ -66,15 +66,15 @@ export default {
       loading: false,
       params: {
         prompt: {
-          request_text: '',
-          response_text: null
+          request_text: 'test',
+          response_text: 'test'
         },
         sample: {
           title: '',
           description: ''
         }
       },
-      promptCreated: false,
+      promptCreated: true,
     };
   },
   methods: {
@@ -100,7 +100,12 @@ export default {
       this.loading = true;
       await this.$axios
       .$post('/api/v1/samples/', this.params)
-      .then(this.$router.push('/'))
+      .then(() => {
+        // 変更を反映させるため1秒後にthis.$router.push('/')を実行
+        setTimeout(() => {
+          this.$router.push('/');
+        }, 1000);
+      })
       .catch((error) => {
         this.postFailure(error);
       });
