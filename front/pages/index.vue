@@ -38,10 +38,10 @@ export default {
     }
   },
   mounted() {
-    this.getSample();
+    this.getSamples();
   },
   methods: {
-    async getSample() {
+    async getSamples() {
       await this.$axios
       .$get('/api/v1/samples/')
       .then(
