@@ -55,6 +55,7 @@
             :loading="loading"
             color="appblue"
             class="white--text ma-5"
+            @click="updateSample()"
           >
             編集を保存
           </v-btn>
@@ -108,6 +109,23 @@ export default {
     },
     editSample() {
       this.sampleEditting = true
+    },
+    async updateSample() {
+      this.loading = true;
+      const id = this.$route.params.id;
+      await this.$axios
+      .$patch(`/api/v1/samples/${id}`, this.params)
+      .catch((error) => {
+        this.updateFailure(error);
+      });
+      this.loading = false;
+      this.sampleEditting = false
+    },
+    updateFailure(error) {
+      if (error.response && error.response.status === 422) {
+        const msg = error.response.data.error
+        return this.$store.dispatch('getToast', { msg });
+      }
     },
     async cancelEditSample() {
       await this.getSample()
