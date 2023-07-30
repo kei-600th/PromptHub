@@ -34,6 +34,15 @@ class Api::V1::SamplesController < ApplicationController
     end
   end
 
+  def update
+    sample = Sample.find(params[:id])
+    if sample.update(sample_params)
+      render json: { message: "サンプルの更新に成功しました。" }, status: :ok
+    else
+      render json: { error: "サンプルの更新に失敗しました。" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def get_response_text(request)
