@@ -29,48 +29,15 @@
           :responseText="prompt.response_text"
         />
       </div>
-      <v-row class="justify-end">
-        <div
-          v-if="sampleEditting === false"
-        >
-          <v-btn
-            color="appblue"
-            class="white--text ma-5"
-            @click="editSample()"
-          >
-            サンプルを編集
-          </v-btn>
-          <v-btn
-            :disabled="loading"
-            :loading="loading"
-            color="appblue"
-            class="white--text ma-5"
-            @click="deleteSample()"
-          >
-            サンプルを削除
-          </v-btn>
-        </div>
-        <div
-          v-if="sampleEditting === true"
-        >
-          <v-btn
-            :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
-            :loading="loading"
-            color="appblue"
-            class="white--text ma-5"
-            @click="updateSample()"
-          >
-            編集を保存
-          </v-btn>
-          <v-btn
-            color="appblue"
-            class="white--text ma-5"
-            @click="cancelEditSample()"
-          >
-            編集を取消
-          </v-btn>
-        </div>
-      </v-row>
+      <SampleDetailButtons
+        :loading="loading"
+        :sampleEditting="sampleEditting"
+        :params="params"
+        @editSample="editSample"
+        @deleteSample="deleteSample"
+        @updateSample="updateSample"
+        @cancelEditSample="cancelEditSample"
+      />
     </v-card>
   </div>
 </template>
@@ -78,10 +45,12 @@
 <script>
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
+import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
 export default {
   components: {
     ChatLog,
-    SampleInformation
+    SampleInformation,
+    SampleDetailButtons
   },
   data () {
     return {
