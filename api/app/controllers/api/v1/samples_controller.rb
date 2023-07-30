@@ -43,6 +43,15 @@ class Api::V1::SamplesController < ApplicationController
     end
   end
 
+  def destroy
+    sample = Sample.find(params[:id])
+    if sample.delete
+      render json: { message: "サンプルの削除に成功しました。" }, status: :ok
+    else
+      render json: { error: "サンプルの削除に失敗しました。" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def get_response_text(request)
