@@ -14,6 +14,11 @@ class Api::V1::SamplesController < ApplicationController
       render json: { error: "エラーが発生しました: #{e.message}" }, status: :unprocessable_entity
     end
   end
+
+  def show
+    sample = Sample.find(params[:id])
+    render json: sample
+  end
   
   def create
     sample = Sample.new(sample_params)
