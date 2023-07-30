@@ -4,7 +4,7 @@
       <div
         v-if="sampleEditting === false"
       >
-        <SampleInfomation 
+        <SampleInformation 
           v-if="params.sample.title && params.sample.description"
           :title="params.sample.title"
           :description="params.sample.description"
@@ -73,11 +73,11 @@
 
 <script>
 import ChatLog from '@/components/Sample/ChatLog.vue';
-import SampleInfomation from '@/components/Sample/SampleInfomation.vue';
+import SampleInformation from '@/components/Sample/SampleInformation.vue';
 export default {
   components: {
     ChatLog,
-    SampleInfomation
+    SampleInformation
   },
   data () {
     return {
