@@ -37,8 +37,8 @@ export default {
       },
     }
   },
-  mounted() {
-    this.getSamples();
+  async mounted() {
+    await this.getSamples();
   },
   methods: {
     async getSamples() {
