@@ -52,10 +52,10 @@ export default {
       mobileBreakpoint: 960,
       items: [
         { title: 'Home', path: '/', icon: 'mdi-home' },
-        { title: 'Workplace', path: 'workplace', icon: 'mdi-notebook-edit ' },
-        { title: 'Share', path: 'share', icon: 'mdi-crowd ' },
-        { title: 'About', path: 'about', icon: 'mdi-help-box' },
-        { title: 'Admin', path: 'admin', icon: 'mdi-monitor-dashboard' },
+        { title: 'Workplace', path: '/workplace', icon: 'mdi-notebook-edit ' },
+        { title: 'Share', path: '/share', icon: 'mdi-crowd ' },
+        { title: 'About', path: '/about', icon: 'mdi-help-box' },
+        { title: 'Admin', path: '/admin', icon: 'mdi-monitor-dashboard' },
       ],
       right: null,
     };
