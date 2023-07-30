@@ -115,17 +115,19 @@ export default {
       this.sampleEditting = true
     },
     async deleteSample() {
-      await this.$axios
-      .$delete(`/api/v1/samples/${this.sampleId}`)
-      .then(() => {
-        // 変更を反映させるため1秒後にthis.$router.push('/')を実行
-        setTimeout(() => {
-          this.$router.push('/');
-        }, 1000);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      if(confirm("このサンプルを削除しますか?")) {
+        await this.$axios
+        .$delete(`/api/v1/samples/${this.sampleId}`)
+        .then(() => {
+          // 変更を反映させるため1秒後にthis.$router.push('/')を実行
+          setTimeout(() => {
+            this.$router.push('/');
+          }, 1000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
     },
     async updateSample() {
       this.loading = true;
