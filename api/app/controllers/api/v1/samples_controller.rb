@@ -45,7 +45,7 @@ class Api::V1::SamplesController < ApplicationController
 
   def destroy
     sample = Sample.find(params[:id])
-    if sample.delete
+    if sample.destroy
       render json: { message: "サンプルの削除に成功しました。" }, status: :ok
     else
       render json: { error: "サンプルの削除に失敗しました。" }, status: :unprocessable_entity
