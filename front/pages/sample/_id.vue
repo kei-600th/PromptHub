@@ -41,8 +41,11 @@
             サンプルを編集
           </v-btn>
           <v-btn
+            :disabled="loading"
+            :loading="loading"
             color="appblue"
             class="white--text ma-5"
+            @click="deleteSample()"
           >
             サンプルを削除
           </v-btn>
@@ -110,6 +113,14 @@ export default {
     },
     editSample() {
       this.sampleEditting = true
+    },
+    async deleteSample() {
+      await this.$axios
+      .$delete(`/api/v1/samples/${this.sampleId}`)
+      .then(this.$router.push('/'))
+      .catch((error) => {
+        console.log(error);
+      });
     },
     async updateSample() {
       this.loading = true;
