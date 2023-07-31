@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
   let(:sample) { FactoryBot.build(:sample) }
+  let!(:prompt) { FactoryBot.create(:prompt, sample: sample) }
 
   describe 'Sample model' do
     context 'when all required fields are filled' do
@@ -27,6 +28,16 @@ RSpec.describe Sample, type: :model do
 
       it 'is invalid' do
         expect(sample).not_to be_valid
+      end
+    end
+  end
+
+  describe 'prompts destruction' do
+    context 'when the sample is destroyed' do
+      before { sample.destroy }
+
+      it 'destroys associated prompts' do
+        expect(Prompt.where(id: prompt.id)).to be_empty
       end
     end
   end
