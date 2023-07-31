@@ -49,22 +49,29 @@ class Api::V1::SamplesController < ApplicationController
     end
   end
 
+  def get_response_text(request)
+    response = openai_chat(request)
+    response.dig("choices", 0, "message", "content")
+  rescue StandardError => e
+    raise "OpenAIからの応答でエラーが発生しました: #{e.message}"
+  end
+
   private
 
-  def get_response_text(request)
-    require "openai"
-    client = OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil))
-
-    response = client.chat(
+  def openai_chat(request)
+    client = initialize_openai_client
+    client.chat(
       parameters: {
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: request }],
         temperature: 0.7
       }
     )
-    response.dig("choices", 0, "message", "content")
-  rescue StandardError => e
-    raise "OpenAIからの応答でエラーが発生しました: #{e.message}"
+  end
+
+  def initialize_openai_client
+    require "openai"
+    OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil))
   end
 
   def prompt_params
