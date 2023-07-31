@@ -20,14 +20,9 @@ class Api::V1::SamplesController < ApplicationController
   def create
     sample = Sample.new(sample_params)
     if sample.save
-      begin
-        create_prompt(sample.id)
-        render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
-      rescue RuntimeError => e
-        render json: { error: e.message }, status: :unprocessable_entity
-      end
+      handle_sample_creation_success(sample)
     else
-      render json: { error: "サンプルの作成に失敗しました。" }, status: :unprocessable_entity
+      handle_sample_creation_failure
     end
   end
 
@@ -57,6 +52,19 @@ class Api::V1::SamplesController < ApplicationController
   end
 
   private
+
+  def handle_sample_creation_success(sample)
+    begin
+      create_prompt(sample.id)
+      render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
+    rescue RuntimeError => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+  end
+
+  def handle_sample_creation_failure
+    render json: { error: "サンプルの作成に失敗しました。" }, status: :unprocessable_entity
+  end
 
   def openai_chat(request)
     client = initialize_openai_client
