@@ -54,12 +54,10 @@ class Api::V1::SamplesController < ApplicationController
   private
 
   def handle_sample_creation_success(sample)
-    begin
-      create_prompt(sample.id)
-      render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
-    rescue RuntimeError => e
-      render json: { error: e.message }, status: :unprocessable_entity
-    end
+    create_prompt(sample.id)
+    render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
+  rescue RuntimeError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def handle_sample_creation_failure
