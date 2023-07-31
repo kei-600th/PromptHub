@@ -42,8 +42,11 @@ RSpec.describe Api::V1::SamplesController do
       patch :update, params: { id: sample.id, sample: new_sample_params }, xhr: true
     end
 
-    it 'updates the sample' do
+    it 'updates the sample title' do
       expect(sample.reload.title).to eq new_sample_params[:title]
+    end
+
+    it 'updates the sample description' do
       expect(sample.reload.description).to eq new_sample_params[:description]
     end
   end
