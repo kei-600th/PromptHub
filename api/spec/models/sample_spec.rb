@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Sample, type: :model do
+RSpec.describe Sample do
   let(:sample) { FactoryBot.build(:sample) }
   let!(:prompt) { FactoryBot.create(:prompt, sample: sample) }
 
