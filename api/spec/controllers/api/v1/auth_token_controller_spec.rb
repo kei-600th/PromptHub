@@ -102,7 +102,7 @@ RSpec.describe Api::V1::AuthTokenController do
           pass = "password"
           invalid_params = { auth: { email: @user.email, password: "#{pass}a" } }
           post :create, params: invalid_params, xhr: true
-          expect(response).to have_http_status(404)
+          expect(response).to have_http_status(:not_found)
         end
 
         it "returns a 404 response for an inactive user" do

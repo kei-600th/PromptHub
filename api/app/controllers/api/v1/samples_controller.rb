@@ -1,25 +1,22 @@
 class Api::V1::SamplesController < ApplicationController
-
   def index
     samples = Sample.all
     render json: samples
-  end
-
-  def new
-    begin
-      prompt = Prompt.new(prompt_params)
-      prompt.response_text = get_response_text(prompt.request_text)
-      render json: prompt
-    rescue => e
-      render json: { error: "エラーが発生しました: #{e.message}" }, status: :unprocessable_entity
-    end
   end
 
   def show
     sample = Sample.find(params[:id])
     render json: sample
   end
-  
+
+  def new
+    prompt = Prompt.new(prompt_params)
+    prompt.response_text = get_response_text(prompt.request_text)
+    render json: prompt
+  rescue StandardError => e
+    render json: { error: "エラーが発生しました: #{e.message}" }, status: :unprocessable_entity
+  end
+
   def create
     sample = Sample.new(sample_params)
     if sample.save
@@ -55,20 +52,19 @@ class Api::V1::SamplesController < ApplicationController
   private
 
   def get_response_text(request)
-    begin
-      require "openai"
-      client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+    require "openai"
+    client = OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil))
 
-      response = client.chat(
-        parameters: {
-          model: "gpt-3.5-turbo", 
-          messages: [{ role: "user", content: request }],
-          temperature: 0.7,
-        })
-      return response.dig("choices", 0, "message", "content")
-    rescue => e
-      raise "OpenAIからの応答でエラーが発生しました: #{e.message}"
-    end
+    response = client.chat(
+      parameters: {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: request }],
+        temperature: 0.7
+      }
+    )
+    response.dig("choices", 0, "message", "content")
+  rescue StandardError => e
+    raise "OpenAIからの応答でエラーが発生しました: #{e.message}"
   end
 
   def prompt_params
@@ -82,8 +78,8 @@ class Api::V1::SamplesController < ApplicationController
   def create_prompt(parent_id)
     prompt = Prompt.new(prompt_params)
     prompt.sample_id = parent_id
-    unless prompt.save
-      raise "プロンプトの作成に失敗しました。"
-    end
+    return if prompt.save
+
+    raise "プロンプトの作成に失敗しました。"
   end
 end

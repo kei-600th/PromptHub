@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::SamplesController, type: :controller do
-
   describe 'GET #index' do
     before do
       get :index, xhr: true
@@ -29,12 +28,11 @@ RSpec.describe Api::V1::SamplesController, type: :controller do
     let(:prompt_params) { FactoryBot.attributes_for(:prompt) }
 
     it 'creates a new sample' do
-      expect {
+      expect do
         post :create, params: { sample: sample_params, prompt: prompt_params }, xhr: true
-      }.to change(Sample, :count).by(1)
+      end.to change(Sample, :count).by(1)
     end
   end
-
 
   describe 'PATCH #update' do
     let!(:sample) { FactoryBot.create(:sample) }
@@ -49,15 +47,14 @@ RSpec.describe Api::V1::SamplesController, type: :controller do
       expect(sample.reload.description).to eq new_sample_params[:description]
     end
   end
-  
+
   describe 'DELETE #destroy' do
     let!(:sample) { FactoryBot.create(:sample) }
 
     it 'deletes the sample' do
-      expect {
+      expect do
         delete :destroy, params: { id: sample.id }, xhr: true
-      }.to change(Sample, :count).by(-1)
+      end.to change(Sample, :count).by(-1)
     end
   end
-
 end
