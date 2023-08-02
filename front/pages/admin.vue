@@ -85,21 +85,21 @@ export default {
     async createPrompt() {
       this.loading = true;
       await this.$axios
-      .$get('/api/v1/samples/new', {
-        params: this.params,
-        paramsSerializer: (params) => {
-          return qs.stringify(params);
-        },
-      })
-      .then((response) => {
-        this.params.prompt.response_text = response.response_text;
-        this.promptCreated = true;
-        this.loading = false;
-      })
-      .catch((error) => {
-        this.postFailure(error);
-        this.loading = false;
-      });
+        .$get('/api/v1/samples/new', {
+          params: this.params,
+          paramsSerializer: (params) => {
+            return qs.stringify(params);
+          },
+        })
+        .then((response) => {
+          this.params.prompt.response_text = response.response_text;
+          this.promptCreated = true;
+          this.loading = false;
+        })
+        .catch((error) => {
+          this.postFailure(error);
+          this.loading = false;
+        });
     },
     async createSample() {
       this.loading = true;
