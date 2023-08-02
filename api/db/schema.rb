@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_03_144542) do
+ActiveRecord::Schema.define(version: 2023_07_26_012631) do
+
+  create_table "prompts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "sample_id", null: false
+    t.text "request_text", null: false
+    t.text "response_text", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sample_id"], name: "index_prompts_on_sample_id"
+  end
+
+  create_table "samples", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "tasks", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "title", null: false
@@ -29,4 +45,5 @@ ActiveRecord::Schema.define(version: 2023_07_03_144542) do
     t.string "refresh_jti"
   end
 
+  add_foreign_key "prompts", "samples"
 end

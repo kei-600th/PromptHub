@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         delete :destroy, on: :collection
         post :registration, on: :collection
       end
+      resources :samples, only: [:index, :show, :new, :create, :update, :destroy]
       get :health_check, to: 'health_check#index'
     end
   end
