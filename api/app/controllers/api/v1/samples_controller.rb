@@ -12,8 +12,6 @@ class Api::V1::SamplesController < ApplicationController
   def new
     prompt = Prompt.new(prompt_params)
     prompt.response_text = get_response_text(prompt.request_text)
-    puts "ChatGPTからの回答"
-    puts prompt.response_text
     render json: prompt
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -48,8 +46,6 @@ class Api::V1::SamplesController < ApplicationController
 
   def get_response_text(request)
     response = openai_chat(request)
-    puts "get_response_textメソッド"
-    puts response
     response.dig("choices", 0, "message", "content")
   rescue StandardError => e
     raise e.message
@@ -77,9 +73,8 @@ class Api::V1::SamplesController < ApplicationController
         temperature: 0.7
       }
     )
-    if response["error"]
-      raise StandardError, "OpenAIからの応答でエラーが発生しました: #{response['error']['message']}"
-    end
+    raise StandardError, "OpenAIからの応答でエラーが発生しました: #{response['error']['message']}" if response["error"]
+
     response
   end
 
