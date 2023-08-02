@@ -15,7 +15,16 @@
 
 <script>
 export default {
-  props: ['title', 'description'],
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       localTitle: this.title,

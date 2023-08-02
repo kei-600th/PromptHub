@@ -26,7 +26,16 @@
 
 <script>
 export default {
-  props: ['requestText', 'loading', 'createPrompt'],
+  props: {
+    requestText: {
+      type: String,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
       localRequestText: this.requestText,

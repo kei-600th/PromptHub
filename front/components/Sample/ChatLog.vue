@@ -24,6 +24,15 @@
 
 <script>
 export default {
-  props: ['requestText', 'responseText'],
+  props: {
+    requestText: {
+      type: String,
+      required: true,
+    },
+    responseText: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>

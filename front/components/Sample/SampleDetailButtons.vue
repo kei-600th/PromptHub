@@ -42,7 +42,20 @@
 
 <script>
 export default {
-  props: ['loading', 'sampleEditting', 'params'],
+  props: {
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+    sampleEditting: {
+      type: Boolean,
+      required: true,
+    },
+    params: {
+      type: Object,
+      required: true,
+    },
+  },
   methods: {
     // necessary methods here
     anyIsEmptyOrWhitespace(...texts) {
