@@ -29,7 +29,7 @@ export default {
   props: ['requestText', 'loading', 'createPrompt'],
   data() {
     return {
-      localRequestText: this.requestText
+      localRequestText: this.requestText,
     };
   },
   watch: {
@@ -43,7 +43,7 @@ export default {
     },
     submitPrompt() {
       this.$emit('createPrompt', this.localRequestText);
-    }
-  }
+    },
+  },
 };
 </script>

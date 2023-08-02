@@ -2,12 +2,7 @@
   <div>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
-      <v-icon
-        large
-        left
-      >
-        mdi-account
-      </v-icon>
+      <v-icon large left> mdi-account </v-icon>
       <span class="text-h6 font-weight-light">You</span>
     </v-card-title>
 
@@ -16,12 +11,7 @@
     </v-card-text>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
-      <v-icon
-        large
-        left
-      >
-        mdi-robot
-      </v-icon>
+      <v-icon large left> mdi-robot </v-icon>
       <span class="text-h6 font-weight-light">ChatGPT</span>
     </v-card-title>
 
@@ -34,6 +24,6 @@
 
 <script>
 export default {
-  props: ['requestText', 'responseText']
-}
+  props: ['requestText', 'responseText'],
+};
 </script>

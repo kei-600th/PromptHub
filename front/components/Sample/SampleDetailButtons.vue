@@ -1,11 +1,7 @@
 <template>
   <v-row class="justify-end">
     <div v-if="sampleEditting === false">
-      <v-btn
-        color="appblue"
-        class="white--text ma-5"
-        @click="editSample()"
-      >
+      <v-btn color="appblue" class="white--text ma-5" @click="editSample()">
         サンプルを編集
       </v-btn>
       <v-btn
@@ -20,7 +16,12 @@
     </div>
     <div v-if="sampleEditting === true">
       <v-btn
-        :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
+        :disabled="
+          anyIsEmptyOrWhitespace(
+            params.sample.title,
+            params.sample.description,
+          ) || loading
+        "
         :loading="loading"
         color="appblue"
         class="white--text ma-5"
@@ -45,7 +46,7 @@ export default {
   methods: {
     // necessary methods here
     anyIsEmptyOrWhitespace(...texts) {
-      return texts.some(text => text.trim() === '');
+      return texts.some((text) => text.trim() === '');
     },
     // pass these methods as event emit to parent component
     editSample() {
@@ -59,7 +60,7 @@ export default {
     },
     cancelEditSample() {
       this.$emit('cancelEditSample');
-    }
+    },
   },
 };
 </script>
