@@ -1,36 +1,37 @@
 <template>
   <div class="container">
     <!-- サンプル投稿用テンプレート -->
-    <div
-      v-if="promptCreated === false"
-    >
-      <PromptForm 
-        :requestText="params.prompt.request_text"
+    <div v-if="promptCreated === false">
+      <PromptForm
+        :request-text="params.prompt.request_text"
         :loading="loading"
         @updateRequestText="params.prompt.request_text = $event"
         @createPrompt="createPrompt"
       />
     </div>
     <!-- 作成中サンプル表示用テンプレート -->
-    <div
-      v-if="promptCreated === true"
-    >
+    <div v-if="promptCreated === true">
       <v-card>
         <v-card-title>作成するサンプルの確認</v-card-title>
-        <SampleForm 
+        <SampleForm
           :title="params.sample.title"
           :description="params.sample.description"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
         />
-        <ChatLog 
-          :requestText="params.prompt.request_text" 
-          :responseText="params.prompt.response_text"
+        <ChatLog
+          :request-text="params.prompt.request_text"
+          :response-text="params.prompt.response_text"
         />
         <v-row class="justify-end">
           <v-btn
             color="appblue"
-            :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
+            :disabled="
+              anyIsEmptyOrWhitespace(
+                params.sample.title,
+                params.sample.description,
+              ) || loading
+            "
             :loading="loading"
             class="white--text ma-5"
             @click="createSample()"
@@ -59,7 +60,7 @@ export default {
   components: {
     PromptForm,
     SampleForm,
-    ChatLog
+    ChatLog,
   },
   data() {
     return {
@@ -67,63 +68,67 @@ export default {
       params: {
         prompt: {
           request_text: 'test',
-          response_text: 'test'
+          response_text: 'test',
         },
         sample: {
           title: '',
-          description: ''
-        }
+          description: '',
+        },
       },
       promptCreated: true,
     };
   },
   methods: {
     anyIsEmptyOrWhitespace(...texts) {
-      return texts.some(text => text.trim() === '');
+      return texts.some((text) => text.trim() === '');
     },
     async createPrompt() {
       this.loading = true;
-      const response = await this.$axios.$get('/api/v1/samples/new', {
+      await this.$axios
+      .$get('/api/v1/samples/new', {
         params: this.params,
-        paramsSerializer: params => {
+        paramsSerializer: (params) => {
           return qs.stringify(params);
         },
       })
-      this.params.prompt.response_text = response.response_text
-      this.promptCreated = true
-      this.loading = false;
-      // Todo レスポンスの確認の削除
-      console.log(response.request_text);
-      console.log(response.response_text);
+      .then((response) => {
+        this.params.prompt.response_text = response.response_text;
+        this.promptCreated = true;
+        this.loading = false;
+      })
+      .catch((error) => {
+        this.postFailure(error);
+        this.loading = false;
+      });
     },
     async createSample() {
       this.loading = true;
       await this.$axios
-      .$post('/api/v1/samples/', this.params)
-      .then(() => {
-        // 変更を反映させるため1秒後にthis.$router.push('/')を実行
-        setTimeout(() => {
-          this.$router.push('/');
-        }, 1000);
-      })
-      .catch((error) => {
-        this.postFailure(error);
-      });
+        .$post('/api/v1/samples/', this.params)
+        .then(() => {
+          // 変更を反映させるため1秒後にthis.$router.push('/')を実行
+          setTimeout(() => {
+            this.$router.push('/');
+          }, 1000);
+        })
+        .catch((error) => {
+          this.postFailure(error);
+        });
       this.loading = false;
     },
     postFailure(error) {
       if (error.response && error.response.status === 422) {
-        const msg = error.response.data.error
+        const msg = error.response.data.error;
         return this.$store.dispatch('getToast', { msg });
       }
     },
     deletePrompt() {
-      this.params.prompt.request_text = ''
-      this.params.prompt.response_text = null
-      this.params.sample.title = ''
-      this.params.sample.description = ''
-      this.promptCreated = false
-    }
+      this.params.prompt.request_text = '';
+      this.params.prompt.response_text = null;
+      this.params.sample.title = '';
+      this.params.sample.description = '';
+      this.promptCreated = false;
+    },
   },
 };
 </script>
