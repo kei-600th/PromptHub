@@ -65,7 +65,7 @@ export default {
     async getSample() {
       this.sampleId = this.$route.params.id;
       await this.$axios
-        .$get(`/api/v1/samples/${this.sampleId}`)
+        .$get(`/api/v1/admin/samples/${this.sampleId}`)
         .then((response) => {
           this.params.sample = response;
         })
@@ -79,7 +79,7 @@ export default {
     async deleteSample() {
       if (confirm('このサンプルを削除しますか?')) {
         await this.$axios
-          .$delete(`/api/v1/samples/${this.sampleId}`)
+          .$delete(`/api/v1/admin/samples/${this.sampleId}`)
           .then(() => {
             // 変更を反映させるため1秒後にthis.$router.push('/')を実行
             setTimeout(() => {
@@ -94,7 +94,7 @@ export default {
     async updateSample() {
       this.loading = true;
       await this.$axios
-        .$patch(`/api/v1/samples/${this.sampleId}`, this.params)
+        .$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params)
         .catch((error) => {
           this.updateFailure(error);
         });

@@ -67,8 +67,8 @@ export default {
       loading: false,
       params: {
         prompt: {
-          request_text: 'test',
-          response_text: 'test',
+          request_text: 'test2',
+          response_text: 'test2',
         },
         sample: {
           title: '',
@@ -85,7 +85,7 @@ export default {
     async createPrompt() {
       this.loading = true;
       await this.$axios
-        .$get('/api/v1/samples/new', {
+        .$get('/api/v1/admin/samples/new', {
           params: this.params,
           paramsSerializer: (params) => {
             return qs.stringify(params);
@@ -104,7 +104,7 @@ export default {
     async createSample() {
       this.loading = true;
       await this.$axios
-        .$post('/api/v1/samples/', this.params)
+        .$post('/api/v1/admin/samples/', this.params)
         .then(() => {
           // 変更を反映させるため1秒後にthis.$router.push('/')を実行
           setTimeout(() => {

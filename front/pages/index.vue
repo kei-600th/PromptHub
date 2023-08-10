@@ -43,7 +43,7 @@ export default {
   methods: {
     async getSamples() {
       await this.$axios
-        .$get('/api/v1/samples/')
+        .$get('/api/v1/admin/samples/')
         .then((response) => {
           this.samples = response;
           console.log(this.samples);
