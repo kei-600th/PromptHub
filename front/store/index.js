@@ -18,6 +18,7 @@ export const state = () => ({
 // 算出プロパティ
 export const getters = {
   isLoggedIn: (state) => !!state.user.current,
+  isAdmin: (state) => state.user.current ? !!state.user.current.admin : false,
 };
 // stateの値を変更する場所
 export const mutations = {
