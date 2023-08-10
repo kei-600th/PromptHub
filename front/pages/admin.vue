@@ -74,9 +74,22 @@ export default {
           title: '',
           description: '',
         },
+        user:{
+          id: null,
+        },
       },
       promptCreated: true,
     };
+  },
+  computed: {
+    userId() {
+      return this.$store.state.user.current ? this.$store.state.user.current.id : null;
+    },
+  },
+  mounted() {
+    if (this.userId) {
+      this.params.user.id = this.userId;
+    }
   },
   methods: {
     anyIsEmptyOrWhitespace(...texts) {
@@ -117,7 +130,7 @@ export default {
       this.loading = false;
     },
     postFailure(error) {
-      if (error.response && error.response.status === 422) {
+      if (error.response) {
         const msg = error.response.data.error;
         return this.$store.dispatch('getToast', { msg });
       }
