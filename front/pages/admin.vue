@@ -67,8 +67,8 @@ export default {
       loading: false,
       params: {
         prompt: {
-          request_text: 'test2',
-          response_text: 'test2',
+          request_text: 'test3',
+          response_text: 'test3',
         },
         sample: {
           title: '',
