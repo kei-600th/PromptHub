@@ -85,7 +85,7 @@ export default {
     async createPrompt() {
       this.loading = true;
       await this.$axios
-        .$get('/api/v1/admin/samples/new', {
+        .$get('/api/v1/admin/prompts/new', {
           params: this.params,
           paramsSerializer: (params) => {
             return qs.stringify(params);
