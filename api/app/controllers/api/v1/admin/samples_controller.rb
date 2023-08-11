@@ -1,6 +1,6 @@
 class Api::V1::Admin::SamplesController < ApplicationController
 
-  before_action :check_admin, only: :create
+  before_action :check_admin, only: [:create, :update, :destroy]
 
   def index
     samples = Sample.all
