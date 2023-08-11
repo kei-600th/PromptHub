@@ -81,7 +81,7 @@ export default {
     async getSample() {
       this.sampleId = this.$route.params.id;
       await this.$axios
-        .$get(`/api/v1/admin/samples/${this.sampleId}`)
+        .$get(`/api/v1/samples/${this.sampleId}`)
         .then((response) => {
           this.params.sample = response;
         })

@@ -2,16 +2,6 @@ class Api::V1::Admin::SamplesController < ApplicationController
 
   before_action :check_admin, only: [:create, :update, :destroy]
 
-  def index
-    samples = Sample.all
-    render json: samples
-  end
-
-  def show
-    sample = Sample.find(params[:id])
-    render json: sample
-  end
-
   def create
     sample = Sample.new(sample_params)
     if sample.save
