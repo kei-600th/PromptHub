@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
@@ -51,12 +52,26 @@ export default {
       loading: false,
       params: {
         sample: {},
+        user:{
+          id: null,
+        },
       },
       sampleEditting: false,
     };
   },
+  computed: {
+    isAdmin() {
+      return this.$store.getters.isAdmin;
+    },
+    userId() {
+      return this.$store.state.user.current ? this.$store.state.user.current.id : null;
+    },
+  },
   async mounted() {
     await this.getSample();
+    if (this.userId) {
+      this.params.user.id = this.userId;
+    }
   },
   methods: {
     anyIsEmptyOrWhitespace(...texts) {
@@ -79,7 +94,12 @@ export default {
     async deleteSample() {
       if (confirm('このサンプルを削除しますか?')) {
         await this.$axios
-          .$delete(`/api/v1/admin/samples/${this.sampleId}`)
+          .$delete(`/api/v1/admin/samples/${this.sampleId}`, {
+            params: this.params,
+            paramsSerializer: (params) => {
+              return qs.stringify(params);
+            },
+          })
           .then(() => {
             // 変更を反映させるため1秒後にthis.$router.push('/')を実行
             setTimeout(() => {
@@ -87,7 +107,7 @@ export default {
             }, 1000);
           })
           .catch((error) => {
-            console.log(error);
+            this.deleteFailure(error);
           });
       }
     },
@@ -97,12 +117,13 @@ export default {
         .$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params)
         .catch((error) => {
           this.updateFailure(error);
+          this.cancelEditSample()
         });
       this.loading = false;
       this.sampleEditting = false;
     },
     updateFailure(error) {
-      if (error.response && error.response.status === 422) {
+      if (error.response) {
         const msg = error.response.data.error;
         return this.$store.dispatch('getToast', { msg });
       }
@@ -110,6 +131,12 @@ export default {
     async cancelEditSample() {
       await this.getSample();
       this.sampleEditting = false;
+    },
+    deleteFailure(error) {
+      if (error.response) {
+        const msg = error.response.data.error;
+        return this.$store.dispatch('getToast', { msg });
+      }
     },
   },
 };
