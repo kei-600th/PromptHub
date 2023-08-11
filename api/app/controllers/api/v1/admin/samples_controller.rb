@@ -4,7 +4,8 @@ class Api::V1::Admin::SamplesController < ApplicationController
   def create
     service = SamplePromptCreationService.new(sample_params, prompt_params)
 
-    if sample = service.call
+    sample = service.call
+    if sample
       render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
     else
       render json: { error: service.error_message }, status: :unprocessable_entity
