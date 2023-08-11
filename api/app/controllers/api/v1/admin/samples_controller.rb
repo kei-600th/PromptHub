@@ -1,4 +1,7 @@
 class Api::V1::Admin::SamplesController < ApplicationController
+
+  before_action :check_admin, only: :create
+
   def index
     samples = Sample.all
     render json: samples
