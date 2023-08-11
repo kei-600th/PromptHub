@@ -23,6 +23,7 @@
         />
       </div>
       <SampleDetailButtons
+        v-if="isAdmin"
         :loading="loading"
         :sample-editting="sampleEditting"
         :params="params"
