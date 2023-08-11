@@ -21,4 +21,15 @@ class ApplicationController < ActionController::API
   def response_500(msg = "Internal Server Error")
     render status: :internal_server_error, json: { status: 500, error: msg }
   end
+
+  def check_admin
+    user_id = params.dig(:user, :id)
+    user = User.find_by(id: user_id) if user_id
+
+    unless user&.admin?
+      render json: { error: 'adminユーザーのみ使用できる機能です' }, status: :forbidden
+      return
+    end
+  end
+
 end
