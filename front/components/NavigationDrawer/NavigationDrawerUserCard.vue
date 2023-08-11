@@ -18,7 +18,7 @@
             <v-list-item
               v-for="item in items"
               :key="item.title"
-              :to="item.title"
+              :to="item.link"
             >
               <v-list-item-icon class="mr-2">
                 <v-icon size="22">
@@ -40,7 +40,7 @@
 export default {
   data() {
     return {
-      items: [{ title: 'Logout', icon: 'mdi-logout' }],
+      items: [{ title: 'Logout', link: '/Logout', icon: 'mdi-logout' }],
       right: null,
     };
   },
