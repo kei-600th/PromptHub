@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::Admin::PromptsController, type: :controller do
+RSpec.describe Api::V1::Admin::PromptsController do
   describe 'GET #new' do
     let(:prompt_params) { FactoryBot.attributes_for(:prompt) }
     let(:user_params) { FactoryBot.attributes_for(:user) }

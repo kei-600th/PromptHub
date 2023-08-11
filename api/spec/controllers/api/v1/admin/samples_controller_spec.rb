@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::Admin::SamplesController do
-
   describe 'POST #create' do
     let(:sample_params) { FactoryBot.attributes_for(:sample) }
     let(:prompt_params) { FactoryBot.attributes_for(:prompt) }
@@ -33,7 +32,7 @@ RSpec.describe Api::V1::Admin::SamplesController do
     let(:user_params) { FactoryBot.attributes_for(:user) }
     let(:admin_user) { FactoryBot.create(:user, admin: true) }
     let(:admin_user_params) { admin_user.attributes }
-  
+
     it 'updates the sample with admin user' do
       new_title = "New Title"
       patch :update, params: { id: sample.id, sample: { title: new_title }, user: admin_user_params }, xhr: true
@@ -52,7 +51,6 @@ RSpec.describe Api::V1::Admin::SamplesController do
       expect(sample.reload.title).not_to eq(new_title)
     end
   end
-
 
   describe 'DELETE #destroy' do
     let!(:sample) { FactoryBot.create(:sample) }

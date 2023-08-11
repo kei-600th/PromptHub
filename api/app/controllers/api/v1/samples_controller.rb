@@ -8,5 +8,4 @@ class Api::V1::SamplesController < ApplicationController
     sample = Sample.find(params[:id])
     render json: sample
   end
-
 end

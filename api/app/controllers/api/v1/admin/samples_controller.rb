@@ -1,10 +1,9 @@
 class Api::V1::Admin::SamplesController < ApplicationController
-
   before_action :check_admin, only: [:create, :update, :destroy]
 
   def create
     service = SamplePromptCreationService.new(sample_params, prompt_params)
-  
+
     if sample = service.call
       render json: { message: "サンプルとプロンプトの作成に成功しました。" }, status: :created
     else
@@ -39,5 +38,4 @@ class Api::V1::Admin::SamplesController < ApplicationController
   def sample_params
     params.require(:sample).permit(:title, :description)
   end
-
 end

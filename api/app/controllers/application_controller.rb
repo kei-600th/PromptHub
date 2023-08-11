@@ -26,10 +26,9 @@ class ApplicationController < ActionController::API
     user_id = params.dig(:user, :id)
     user = User.find_by(id: user_id) if user_id
 
-    unless user&.admin?
-      render json: { error: 'adminユーザーのみ使用できる機能です' }, status: :forbidden
-      return
-    end
-  end
+    return if user&.admin?
 
+    render json: { error: 'adminユーザーのみ使用できる機能です' }, status: :forbidden
+    nil
+  end
 end

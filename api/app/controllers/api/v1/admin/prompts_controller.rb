@@ -1,9 +1,7 @@
 class Api::V1::Admin::PromptsController < ApplicationController
-
   before_action :check_admin, only: :new
 
   def new
-    puts params
     prompt = Prompt.new(prompt_params)
     prompt.response_text = OpenaiChatService.new(prompt.request_text).chat
     render json: prompt
