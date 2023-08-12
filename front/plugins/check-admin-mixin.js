@@ -4,7 +4,9 @@ export default {
       return this.$store.getters.isAdmin;
     },
     userId() {
-      return this.$store.state.user.current ? this.$store.state.user.current.id : null;
+      return this.$store.state.user.current
+        ? this.$store.state.user.current.id
+        : null;
     },
   },
   mounted() {
