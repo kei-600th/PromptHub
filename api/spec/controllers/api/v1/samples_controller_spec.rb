@@ -22,42 +22,4 @@ RSpec.describe Api::V1::SamplesController do
       expect(response).to have_http_status(:success)
     end
   end
-
-  describe 'POST #create' do
-    let(:sample_params) { FactoryBot.attributes_for(:sample) }
-    let(:prompt_params) { FactoryBot.attributes_for(:prompt) }
-
-    it 'creates a new sample' do
-      expect do
-        post :create, params: { sample: sample_params, prompt: prompt_params }, xhr: true
-      end.to change(Sample, :count).by(1)
-    end
-  end
-
-  describe 'PATCH #update' do
-    let!(:sample) { FactoryBot.create(:sample) }
-    let(:new_sample_params) { FactoryBot.attributes_for(:sample) }
-
-    before do
-      patch :update, params: { id: sample.id, sample: new_sample_params }, xhr: true
-    end
-
-    it 'updates the sample title' do
-      expect(sample.reload.title).to eq new_sample_params[:title]
-    end
-
-    it 'updates the sample description' do
-      expect(sample.reload.description).to eq new_sample_params[:description]
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    let!(:sample) { FactoryBot.create(:sample) }
-
-    it 'deletes the sample' do
-      expect do
-        delete :destroy, params: { id: sample.id }, xhr: true
-      end.to change(Sample, :count).by(-1)
-    end
-  end
 end

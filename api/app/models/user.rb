@@ -51,7 +51,7 @@ class User < ApplicationRecord
 
   # 共通のJSONレスポンス
   def response_json(payload = {})
-    as_json(only: [:id, :name]).merge(payload).with_indifferent_access
+    as_json(only: [:id, :name, :admin]).merge(payload).with_indifferent_access
   end
 
   private

@@ -56,77 +56,81 @@ import qs from 'qs';
 import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
+import { handleFailure } from '@/plugins/error-handler';
+import checkAdminMixin from '@/plugins/check-admin-mixin';
+
 export default {
   components: {
     PromptForm,
     SampleForm,
     ChatLog,
   },
+  mixins: [checkAdminMixin],
   data() {
     return {
       loading: false,
       params: {
+        ...this.defaultPromptAndSampleParams(),
+        user: {
+          id: null,
+        },
+      },
+      promptCreated: false,
+    };
+  },
+  mounted() {
+    if (!this.isAdmin) {
+      this.$router.push('/');
+    }
+  },
+  methods: {
+    defaultPromptAndSampleParams() {
+      return {
         prompt: {
-          request_text: 'test',
-          response_text: 'test',
+          request_text: '',
+          response_text: '',
         },
         sample: {
           title: '',
           description: '',
         },
-      },
-      promptCreated: true,
-    };
-  },
-  methods: {
+      };
+    },
     anyIsEmptyOrWhitespace(...texts) {
       return texts.some((text) => text.trim() === '');
     },
     async createPrompt() {
       this.loading = true;
-      await this.$axios
-        .$get('/api/v1/samples/new', {
+      try {
+        const response = await this.$axios.$get('/api/v1/admin/prompts/new', {
           params: this.params,
           paramsSerializer: (params) => {
             return qs.stringify(params);
           },
-        })
-        .then((response) => {
-          this.params.prompt.response_text = response.response_text;
-          this.promptCreated = true;
-          this.loading = false;
-        })
-        .catch((error) => {
-          this.postFailure(error);
-          this.loading = false;
         });
+        this.params.prompt.response_text = response.response_text;
+        this.promptCreated = true;
+      } catch (error) {
+        handleFailure(error, this.$store);
+      }
+      this.loading = false;
     },
     async createSample() {
       this.loading = true;
-      await this.$axios
-        .$post('/api/v1/samples/', this.params)
-        .then(() => {
-          // 変更を反映させるため1秒後にthis.$router.push('/')を実行
-          setTimeout(() => {
-            this.$router.push('/');
-          }, 1000);
-        })
-        .catch((error) => {
-          this.postFailure(error);
-        });
-      this.loading = false;
-    },
-    postFailure(error) {
-      if (error.response && error.response.status === 422) {
-        const msg = error.response.data.error;
-        return this.$store.dispatch('getToast', { msg });
+      try {
+        await this.$axios.$post('/api/v1/admin/samples/', this.params);
+        // 変更を反映させるため1秒後にthis.$router.push('/')を実行
+        setTimeout(() => {
+          this.$router.push('/');
+        }, 1000);
+      } catch (error) {
+        handleFailure(error, this.$store);
+        this.loading = false;
       }
     },
     deletePrompt() {
-      this.params.prompt.request_text = '';
-      this.params.prompt.response_text = null;
-      this.params.sample.title = '';
-      this.params.sample.description = '';
+      Object.assign(this.params, this.defaultPromptAndSampleParams());
+      Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.promptCreated = false;
     },
   },

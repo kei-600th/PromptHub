@@ -10,6 +10,11 @@ Rails.application.routes.draw do
       end
       resources :samples, only: [:index, :show, :new, :create, :update, :destroy]
       get :health_check, to: 'health_check#index'
+
+      namespace :admin do
+        resources :prompts, only: [:new]
+        resources :samples, only: [:index, :show, :new, :create, :update, :destroy]
+      end
     end
   end
 end

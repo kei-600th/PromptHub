@@ -23,6 +23,7 @@
         />
       </div>
       <SampleDetailButtons
+        v-if="isAdmin"
         :loading="loading"
         :sample-editting="sampleEditting"
         :params="params"
@@ -36,21 +37,28 @@
 </template>
 
 <script>
+import qs from 'qs';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
+import { handleFailure } from '@/plugins/error-handler';
+import checkAdminMixin from '@/plugins/check-admin-mixin';
 export default {
   components: {
     ChatLog,
     SampleInformation,
     SampleDetailButtons,
   },
+  mixins: [checkAdminMixin],
   data() {
     return {
       sampleId: null,
       loading: false,
       params: {
         sample: {},
+        user: {
+          id: null,
+        },
       },
       sampleEditting: false,
     };
@@ -59,57 +67,55 @@ export default {
     await this.getSample();
   },
   methods: {
-    anyIsEmptyOrWhitespace(...texts) {
-      return texts.some((text) => text.trim() === '');
-    },
     async getSample() {
-      this.sampleId = this.$route.params.id;
-      await this.$axios
-        .$get(`/api/v1/samples/${this.sampleId}`)
-        .then((response) => {
-          this.params.sample = response;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        this.sampleId = this.$route.params.id;
+        const response = await this.$axios.$get(
+          `/api/v1/samples/${this.sampleId}`,
+        );
+        this.params.sample = response;
+      } catch (error) {
+        handleFailure(error, this.$store);
+      }
     },
     editSample() {
       this.sampleEditting = true;
     },
-    async deleteSample() {
-      if (confirm('このサンプルを削除しますか?')) {
-        await this.$axios
-          .$delete(`/api/v1/samples/${this.sampleId}`)
-          .then(() => {
-            // 変更を反映させるため1秒後にthis.$router.push('/')を実行
-            setTimeout(() => {
-              this.$router.push('/');
-            }, 1000);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    },
-    async updateSample() {
-      this.loading = true;
-      await this.$axios
-        .$patch(`/api/v1/samples/${this.sampleId}`, this.params)
-        .catch((error) => {
-          this.updateFailure(error);
-        });
-      this.loading = false;
-      this.sampleEditting = false;
-    },
-    updateFailure(error) {
-      if (error.response && error.response.status === 422) {
-        const msg = error.response.data.error;
-        return this.$store.dispatch('getToast', { msg });
-      }
-    },
     async cancelEditSample() {
       await this.getSample();
       this.sampleEditting = false;
+    },
+    async updateSample() {
+      this.loading = true;
+      try {
+        await this.$axios.$patch(
+          `/api/v1/admin/samples/${this.sampleId}`,
+          this.params,
+        );
+      } catch (error) {
+        handleFailure(error, this.$store);
+        await this.cancelEditSample();
+      }
+      this.loading = false;
+      this.sampleEditting = false;
+    },
+    async deleteSample() {
+      if (confirm('このサンプルを削除しますか?')) {
+        await this.$axios;
+        try {
+          await this.$axios.$delete(`/api/v1/admin/samples/${this.sampleId}`, {
+            params: this.params,
+            paramsSerializer: (params) => {
+              return qs.stringify(params);
+            },
+          });
+          setTimeout(() => {
+            this.$router.push('/');
+          }, 1000);
+        } catch (error) {
+          handleFailure(error, this.$store);
+        }
+      }
     },
   },
 };
