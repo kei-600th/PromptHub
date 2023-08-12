@@ -42,12 +42,14 @@ import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
 import { handleFailure } from '@/plugins/error-handler';
+import checkAdminMixin from '@/plugins/check-admin-mixin';
 export default {
   components: {
     ChatLog,
     SampleInformation,
     SampleDetailButtons,
   },
+  mixins: [checkAdminMixin],
   data() {
     return {
       sampleId: null,
@@ -61,19 +63,8 @@ export default {
       sampleEditting: false,
     };
   },
-  computed: {
-    isAdmin() {
-      return this.$store.getters.isAdmin;
-    },
-    userId() {
-      return this.$store.state.user.current ? this.$store.state.user.current.id : null;
-    },
-  },
   async mounted() {
     await this.getSample();
-    if (this.userId) {
-      this.params.user.id = this.userId;
-    }
   },
   methods: {
     async getSample() {

@@ -57,6 +57,7 @@ import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import { handleFailure } from '@/plugins/error-handler';
+import checkAdminMixin from '@/plugins/check-admin-mixin';
 
 export default {
   components: {
@@ -64,6 +65,7 @@ export default {
     SampleForm,
     ChatLog,
   },
+  mixins: [checkAdminMixin],
   data() {
     return {
       loading: false,
@@ -76,21 +78,9 @@ export default {
       promptCreated: false,
     };
   },
-  computed: {
-    isAdmin() {
-      return this.$store.getters.isAdmin;
-    },
-    userId() {
-      return this.$store.state.user.current ? this.$store.state.user.current.id : null;
-    },
-  },
   mounted() {
     if (!this.isAdmin) {
       this.$router.push('/');
-      return;
-    }
-    if (this.userId) {
-      this.params.user.id = this.userId;
     }
   },
   methods: {
