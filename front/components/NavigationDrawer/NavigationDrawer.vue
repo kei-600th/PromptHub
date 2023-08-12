@@ -63,7 +63,11 @@ export default {
         { title: 'About', path: '/about', icon: 'mdi-help-box' },
       ];
       if (this.isAdmin) {
-        baseItems.push({ title: 'Admin', path: '/admin', icon: 'mdi-monitor-dashboard' });
+        baseItems.push({
+          title: 'Admin',
+          path: '/admin',
+          icon: 'mdi-monitor-dashboard',
+        });
       }
       return baseItems;
     },

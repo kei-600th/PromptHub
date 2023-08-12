@@ -39,7 +39,10 @@ export default {
       if (!this.isValid) return;
       this.loading = true;
       try {
-        const response = await this.$axios.$post('/api/v1/auth_token/registration', this.params);
+        const response = await this.$axios.$post(
+          '/api/v1/auth_token/registration',
+          this.params,
+        );
         this.authSuccessful(response);
       } catch (error) {
         this.authFailure(error);

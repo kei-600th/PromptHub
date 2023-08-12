@@ -56,7 +56,7 @@ export default {
       loading: false,
       params: {
         sample: {},
-        user:{
+        user: {
           id: null,
         },
       },
@@ -70,7 +70,9 @@ export default {
     async getSample() {
       try {
         this.sampleId = this.$route.params.id;
-        const response = await this.$axios.$get(`/api/v1/samples/${this.sampleId}`);
+        const response = await this.$axios.$get(
+          `/api/v1/samples/${this.sampleId}`,
+        );
         this.params.sample = response;
       } catch (error) {
         handleFailure(error, this.$store);
@@ -86,7 +88,10 @@ export default {
     async updateSample() {
       this.loading = true;
       try {
-        await this.$axios.$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params);
+        await this.$axios.$patch(
+          `/api/v1/admin/samples/${this.sampleId}`,
+          this.params,
+        );
       } catch (error) {
         handleFailure(error, this.$store);
         await this.cancelEditSample();
@@ -96,7 +101,7 @@ export default {
     },
     async deleteSample() {
       if (confirm('このサンプルを削除しますか?')) {
-        await this.$axios
+        await this.$axios;
         try {
           await this.$axios.$delete(`/api/v1/admin/samples/${this.sampleId}`, {
             params: this.params,

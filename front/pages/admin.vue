@@ -129,7 +129,8 @@ export default {
       }
     },
     deletePrompt() {
-      Object.assign(this.params, this.defaultPromptAndSampleParams());Object.assign(this.params, this.defaultPromptAndSampleParams());
+      Object.assign(this.params, this.defaultPromptAndSampleParams());
+      Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.promptCreated = false;
     },
   },
