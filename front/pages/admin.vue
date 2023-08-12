@@ -66,19 +66,12 @@ export default {
     return {
       loading: false,
       params: {
-        prompt: {
-          request_text: 'test3',
-          response_text: 'test3',
-        },
-        sample: {
-          title: '',
-          description: '',
-        },
-        user:{
+        ...this.defaultPromptAndSampleParams(),
+        user: {
           id: null,
         },
       },
-      promptCreated: true,
+      promptCreated: false,
     };
   },
   computed: {
@@ -99,6 +92,18 @@ export default {
     }
   },
   methods: {
+    defaultPromptAndSampleParams() {
+      return {
+        prompt: {
+          request_text: '',
+          response_text: '',
+        },
+        sample: {
+          title: '',
+          description: '',
+        },
+      };
+    },
     anyIsEmptyOrWhitespace(...texts) {
       return texts.some((text) => text.trim() === '');
     },
@@ -138,10 +143,7 @@ export default {
       }
     },
     deletePrompt() {
-      this.params.prompt.request_text = '';
-      this.params.prompt.response_text = null;
-      this.params.sample.title = '';
-      this.params.sample.description = '';
+      Object.assign(this.params, this.defaultPromptAndSampleParams());Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.promptCreated = false;
     },
   },
