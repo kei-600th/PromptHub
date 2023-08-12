@@ -41,6 +41,7 @@ import qs from 'qs';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
+import { handleFailure } from '@/plugins/error-handler';
 export default {
   components: {
     ChatLog,
@@ -84,7 +85,7 @@ export default {
         const response = await this.$axios.$get(`/api/v1/samples/${this.sampleId}`);
         this.params.sample = response;
       } catch (error) {
-        this.handleFailure(error);
+        handleFailure(error, this.$store);
       }
     },
     editSample() {
@@ -99,7 +100,7 @@ export default {
       try {
         await this.$axios.$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params);
       } catch (error) {
-        this.handleFailure(error);
+        handleFailure(error, this.$store);
         await this.cancelEditSample();
       }
       this.loading = false;
@@ -119,14 +120,8 @@ export default {
             this.$router.push('/');
           }, 1000);
         } catch (error) {
-          this.handleFailure(error);
+          handleFailure(error, this.$store);
         }
-      }
-    },
-    handleFailure(error) {
-      if (error.response) {
-        const msg = error.response.data.error;
-        return this.$store.dispatch('getToast', { msg });
       }
     },
   },

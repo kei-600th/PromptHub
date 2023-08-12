@@ -56,6 +56,8 @@ import qs from 'qs';
 import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
+import { handleFailure } from '@/plugins/error-handler';
+
 export default {
   components: {
     PromptForm,
@@ -119,7 +121,7 @@ export default {
         this.params.prompt.response_text = response.response_text;
         this.promptCreated = true;
       } catch (error) {
-        this.postFailure(error);
+        handleFailure(error, this.$store);
       }
       this.loading = false;
     },
@@ -132,14 +134,8 @@ export default {
           this.$router.push('/');
         }, 1000);
       } catch (error) {
-        this.postFailure(error);
+        handleFailure(error, this.$store);
         this.loading = false;
-      }
-    },
-    postFailure(error) {
-      if (error.response) {
-        const msg = error.response.data.error;
-        return this.$store.dispatch('getToast', { msg });
       }
     },
     deletePrompt() {

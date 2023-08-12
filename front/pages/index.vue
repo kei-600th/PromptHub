@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { handleFailure } from '@/plugins/error-handler';
 export default {
   data() {
     return {
@@ -46,7 +47,7 @@ export default {
         const response = await this.$axios.$get('/api/v1/samples/');
         this.samples = response;
       } catch (error) {
-        console.log(error);
+        handleFailure(error, this.$store);
       }
     },
   },
