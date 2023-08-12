@@ -108,7 +108,7 @@ export default {
             }, 1000);
           })
           .catch((error) => {
-            this.deleteFailure(error);
+            this.handleFailure(error);
           });
       }
     },
@@ -117,23 +117,17 @@ export default {
       await this.$axios
         .$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params)
         .catch((error) => {
-          this.updateFailure(error);
+          this.handleFailure(error);
           this.cancelEditSample()
         });
       this.loading = false;
       this.sampleEditting = false;
     },
-    updateFailure(error) {
-      if (error.response) {
-        const msg = error.response.data.error;
-        return this.$store.dispatch('getToast', { msg });
-      }
-    },
     async cancelEditSample() {
       await this.getSample();
       this.sampleEditting = false;
     },
-    deleteFailure(error) {
+    handleFailure(error) {
       if (error.response) {
         const msg = error.response.data.error;
         return this.$store.dispatch('getToast', { msg });
