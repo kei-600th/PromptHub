@@ -86,11 +86,26 @@ export default {
           this.params.sample = response;
         })
         .catch((error) => {
-          console.log(error);
+          this.handleFailure(error);
         });
     },
     editSample() {
       this.sampleEditting = true;
+    },
+    async cancelEditSample() {
+      await this.getSample();
+      this.sampleEditting = false;
+    },
+    async updateSample() {
+      this.loading = true;
+      await this.$axios
+        .$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params)
+        .catch((error) => {
+          this.handleFailure(error);
+          this.cancelEditSample()
+        });
+      this.loading = false;
+      this.sampleEditting = false;
     },
     async deleteSample() {
       if (confirm('このサンプルを削除しますか?')) {
@@ -111,21 +126,6 @@ export default {
             this.handleFailure(error);
           });
       }
-    },
-    async updateSample() {
-      this.loading = true;
-      await this.$axios
-        .$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params)
-        .catch((error) => {
-          this.handleFailure(error);
-          this.cancelEditSample()
-        });
-      this.loading = false;
-      this.sampleEditting = false;
-    },
-    async cancelEditSample() {
-      await this.getSample();
-      this.sampleEditting = false;
     },
     handleFailure(error) {
       if (error.response) {
