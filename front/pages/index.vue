@@ -42,15 +42,12 @@ export default {
   },
   methods: {
     async getSamples() {
-      await this.$axios
-        .$get('/api/v1/samples/')
-        .then((response) => {
-          this.samples = response;
-          console.log(this.samples);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        const response = await this.$axios.$get('/api/v1/samples/');
+        this.samples = response;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

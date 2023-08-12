@@ -104,37 +104,32 @@ export default {
     },
     async createPrompt() {
       this.loading = true;
-      await this.$axios
-        .$get('/api/v1/admin/prompts/new', {
+      try {
+        const response = await this.$axios.$get('/api/v1/admin/prompts/new', {
           params: this.params,
           paramsSerializer: (params) => {
             return qs.stringify(params);
           },
-        })
-        .then((response) => {
-          this.params.prompt.response_text = response.response_text;
-          this.promptCreated = true;
-          this.loading = false;
-        })
-        .catch((error) => {
-          this.postFailure(error);
-          this.loading = false;
         });
+        this.params.prompt.response_text = response.response_text;
+        this.promptCreated = true;
+      } catch (error) {
+        this.postFailure(error);
+      }
+      this.loading = false;
     },
     async createSample() {
       this.loading = true;
-      await this.$axios
-        .$post('/api/v1/admin/samples/', this.params)
-        .then(() => {
-          // 変更を反映させるため1秒後にthis.$router.push('/')を実行
-          setTimeout(() => {
-            this.$router.push('/');
-          }, 1000);
-        })
-        .catch((error) => {
-          this.postFailure(error);
-        });
-      this.loading = false;
+      try {
+        await this.$axios.$post('/api/v1/admin/samples/', this.params);
+        // 変更を反映させるため1秒後にthis.$router.push('/')を実行
+        setTimeout(() => {
+          this.$router.push('/');
+        }, 1000);
+      } catch (error) {
+        this.postFailure(error);
+        this.loading = false;
+      }
     },
     postFailure(error) {
       if (error.response) {
