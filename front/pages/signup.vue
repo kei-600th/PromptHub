@@ -36,17 +36,17 @@ export default {
   },
   methods: {
     async signup() {
+      if (!this.isValid) return;
       this.loading = true;
-      if (this.isValid) {
-        await this.$axios
-          .$post('/api/v1/auth_token/registration', this.params)
-          .then((response) => this.authSuccessful(response))
-          .catch((error) => {
-            this.authFailure(error);
-          });
+      try {
+        const response = await this.$axios.$post('/api/v1/auth_token/registration', this.params);
+        this.authSuccessful(response);
+      } catch (error) {
+        this.authFailure(error);
+      } finally {
+        this.formReset();
+        this.loading = false;
       }
-      this.formReset();
-      this.loading = false;
     },
     authSuccessful(response) {
       this.$auth.login(response);

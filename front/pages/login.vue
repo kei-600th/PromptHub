@@ -40,14 +40,16 @@ export default {
   },
   methods: {
     async login() {
+      if (!this.isValid) return;
       this.loading = true;
-      if (this.isValid) {
-        await this.$axios
-          .$post('/api/v1/auth_token', this.params)
-          .then((response) => this.authSuccessful(response))
-          .catch((error) => this.authFailure(error));
+      try {
+        const response = await this.$axios.$post('/api/v1/auth_token', this.params);
+        this.authSuccessful(response);
+      } catch (error) {
+        this.authFailure(error);
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
     authSuccessful(response) {
       this.$auth.login(response);
