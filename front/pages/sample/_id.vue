@@ -79,15 +79,13 @@ export default {
       return texts.some((text) => text.trim() === '');
     },
     async getSample() {
-      this.sampleId = this.$route.params.id;
-      await this.$axios
-        .$get(`/api/v1/samples/${this.sampleId}`)
-        .then((response) => {
-          this.params.sample = response;
-        })
-        .catch((error) => {
-          this.handleFailure(error);
-        });
+      try {
+        this.sampleId = this.$route.params.id;
+        const response = await this.$axios.$get(`/api/v1/samples/${this.sampleId}`);
+        this.params.sample = response;
+      } catch (error) {
+        this.handleFailure(error);
+      }
     },
     editSample() {
       this.sampleEditting = true;
@@ -98,33 +96,31 @@ export default {
     },
     async updateSample() {
       this.loading = true;
-      await this.$axios
-        .$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params)
-        .catch((error) => {
-          this.handleFailure(error);
-          this.cancelEditSample()
-        });
+      try {
+        await this.$axios.$patch(`/api/v1/admin/samples/${this.sampleId}`, this.params);
+      } catch (error) {
+        this.handleFailure(error);
+        await this.cancelEditSample();
+      }
       this.loading = false;
       this.sampleEditting = false;
     },
     async deleteSample() {
       if (confirm('このサンプルを削除しますか?')) {
         await this.$axios
-          .$delete(`/api/v1/admin/samples/${this.sampleId}`, {
+        try {
+          await this.$axios.$delete(`/api/v1/admin/samples/${this.sampleId}`, {
             params: this.params,
             paramsSerializer: (params) => {
               return qs.stringify(params);
             },
-          })
-          .then(() => {
-            // 変更を反映させるため1秒後にthis.$router.push('/')を実行
-            setTimeout(() => {
-              this.$router.push('/');
-            }, 1000);
-          })
-          .catch((error) => {
-            this.handleFailure(error);
           });
+          setTimeout(() => {
+            this.$router.push('/');
+          }, 1000);
+        } catch (error) {
+          this.handleFailure(error);
+        }
       }
     },
     handleFailure(error) {
