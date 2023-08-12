@@ -76,9 +76,6 @@ export default {
     }
   },
   methods: {
-    anyIsEmptyOrWhitespace(...texts) {
-      return texts.some((text) => text.trim() === '');
-    },
     async getSample() {
       try {
         this.sampleId = this.$route.params.id;
