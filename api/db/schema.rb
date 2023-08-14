@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_26_012631) do
+ActiveRecord::Schema.define(version: 2023_08_14_071851) do
 
   create_table "prompts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "sample_id", null: false
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2023_07_26_012631) do
     t.text "response_text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "gpt_model", null: false
     t.index ["sample_id"], name: "index_prompts_on_sample_id"
   end
 
