@@ -16,13 +16,14 @@
     </v-card-title>
 
     <v-card-text class="text-h5">
-      {{ responseText }}
+      <div v-html="formattedResponseText"></div>
     </v-card-text>
     <v-divider class="mx-4"></v-divider>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/no-v-html */
 export default {
   props: {
     requestText: {
@@ -34,5 +35,31 @@ export default {
       required: true,
     },
   },
+  computed: {
+    formattedResponseText() {
+      // バッククォートが3つ連続する部分を検知し、クラスを適用
+      let result = this.responseText.replace(
+        /```(\w*?)\n([\s\S]*?)```/g,
+        (match, language, code) => {
+          // ソースコード内の改行を<br>タグに置き換える
+          code = code.replace(/\n/g, '<br>');
+          return '<div class="code-block">' + code + '</div>';
+        },
+      );
+      // ソースコードブロック外の改行も<br>タグに置き換える（必要であれば）
+      result = result.replace(/\n/g, '<br>');
+      return result;
+    },
+  },
 };
 </script>
+
+<style>
+.code-block {
+  background-color: black;
+  color: white; /* 文字色を白に設定する */
+  padding: 10px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
+</style>

@@ -17,6 +17,8 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'vue/multi-word-component-names': 'off',
+    // XSS攻撃のリスクがあるv-htmlを許可する
+    "vue/no-v-html": "off"
   },
   overrides: [
     {
