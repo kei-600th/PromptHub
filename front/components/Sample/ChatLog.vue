@@ -23,6 +23,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-v-html */
 export default {
   props: {
     requestText: {
@@ -37,15 +38,18 @@ export default {
   computed: {
     formattedResponseText() {
       // バッククォートが3つ連続する部分を検知し、クラスを適用
-      let result = this.responseText.replace(/```(\w*?)\n([\s\S]*?)```/g, (match, language, code) => {
-        // ソースコード内の改行を<br>タグに置き換える
-        code = code.replace(/\n/g, '<br>');
-        return '<div class="code-block">' + code + '</div>';
-      });
+      let result = this.responseText.replace(
+        /```(\w*?)\n([\s\S]*?)```/g,
+        (match, language, code) => {
+          // ソースコード内の改行を<br>タグに置き換える
+          code = code.replace(/\n/g, '<br>');
+          return '<div class="code-block">' + code + '</div>';
+        },
+      );
       // ソースコードブロック外の改行も<br>タグに置き換える（必要であれば）
       result = result.replace(/\n/g, '<br>');
       return result;
-    }
+    },
   },
 };
 </script>
