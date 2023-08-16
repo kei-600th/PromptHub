@@ -33,7 +33,7 @@ class Api::V1::Admin::SamplesController < ApplicationController
   private
 
   def prompt_params
-    params.require(:prompt).permit(:request_text, :response_text)
+    params.require(:prompt).permit(:request_text, :response_text, :gpt_model)
   end
 
   def sample_params
