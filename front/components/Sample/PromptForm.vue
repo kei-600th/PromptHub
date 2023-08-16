@@ -12,11 +12,12 @@
     </v-container>
     <div style="display: flex; align-items: center;">
       <v-select
+        v-model="localGptModel"
         :items="items"
         label="GPT-Model"
         outlined
         class="ma-5"
-        style="max-width: 150px;"
+        style="max-width: 180px;"
       ></v-select>
       <v-spacer></v-spacer>
       <v-btn
@@ -43,16 +44,24 @@ export default {
       type: Boolean,
       required: true,
     },
+    gptModel: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      items: ['GPT-3.5', 'GPT-4'],
+      items: ['gpt-3.5-turbo', 'gpt-4'],
       localRequestText: this.requestText,
+      localGptModel: this.gptModel,
     };
   },
   watch: {
     localRequestText: function (newRequestText) {
       this.$emit('updateRequestText', newRequestText);
+    },
+    localGptModel: function (newGptModel) {
+      this.$emit('updateGptModel', newGptModel);
     },
   },
   methods: {
@@ -60,7 +69,7 @@ export default {
       return text.trim() === '';
     },
     submitPrompt() {
-      this.$emit('createPrompt', this.localRequestText);
+      this.$emit('createPrompt', this.localRequestText, this.localGptModel);
     },
   },
 };

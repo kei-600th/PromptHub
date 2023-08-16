@@ -4,8 +4,10 @@
     <div v-if="promptCreated === false">
       <PromptForm
         :request-text="params.prompt.request_text"
+        :gpt-model="params.prompt.gpt_model"
         :loading="loading"
         @updateRequestText="params.prompt.request_text = $event"
+        @updateGptModel="params.prompt.gpt_model = $event"
         @createPrompt="createPrompt"
       />
     </div>
@@ -89,6 +91,7 @@ export default {
         prompt: {
           request_text: '',
           response_text: '',
+          gpt_model: 'gpt-3.5-turbo',
         },
         sample: {
           title: '',
