@@ -10,6 +10,16 @@
         label="説明文を入力"
       ></v-textarea>
     </v-card-subtitle>
+    <v-card-subtitle class="ma-1">
+      <v-select
+        v-model="localCategoryId"
+        :items="options"
+        item-text="name"
+        item-value="id"
+        label="カテゴリを選択"
+        style="max-width: 200px;"
+      ></v-select>
+    </v-card-subtitle>
   </div>
 </template>
 
@@ -24,11 +34,26 @@ export default {
       type: String,
       required: true,
     },
+    categoryId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
       localTitle: this.title,
       localDescription: this.description,
+      localCategoryId: this.categoryId,
+      options: [
+        {id:1, name:"PC・プログラミング"},
+        {id:2, name:"語学"},
+        {id:3, name:"ビジネス"},
+        {id:4, name:"メンタルケア"},
+        {id:5, name:"学術"},
+        {id:6, name:"暮らし・生活"},
+        {id:7, name:"作品・エンタメ"},
+        {id:8, name:"デザイン・Web制作"}
+      ]
     };
   },
   watch: {
@@ -37,6 +62,9 @@ export default {
     },
     localDescription: function (newDescription) {
       this.$emit('updateDescription', newDescription);
+    },
+    localCategoryId: function (newCategoryId) {
+      this.$emit('updateCategory', newCategoryId);
     },
   },
 };

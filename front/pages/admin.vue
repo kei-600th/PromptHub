@@ -18,8 +18,10 @@
         <SampleForm
           :title="params.sample.title"
           :description="params.sample.description"
+          :category-id="params.sample.category_id"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
+          @updateCategory="params.sample.category_id = $event"
         />
         <ChatLog
           :request-text="params.prompt.request_text"
@@ -77,7 +79,7 @@ export default {
           id: null,
         },
       },
-      promptCreated: false,
+      promptCreated: true,
     };
   },
   mounted() {
@@ -89,13 +91,14 @@ export default {
     defaultPromptAndSampleParams() {
       return {
         prompt: {
-          request_text: '',
-          response_text: '',
+          request_text: 'test',
+          response_text: 'test',
           gpt_model: 'gpt-3.5-turbo',
         },
         sample: {
           title: '',
           description: '',
+          category_id: 2,
         },
       };
     },

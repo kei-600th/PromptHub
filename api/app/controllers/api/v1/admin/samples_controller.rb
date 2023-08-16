@@ -37,6 +37,6 @@ class Api::V1::Admin::SamplesController < ApplicationController
   end
 
   def sample_params
-    params.require(:sample).permit(:title, :description)
+    params.require(:sample).permit(:title, :description, :category_id)
   end
 end
