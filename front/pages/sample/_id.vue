@@ -6,6 +6,7 @@
           v-if="params.sample.title && params.sample.description"
           :title="params.sample.title"
           :description="params.sample.description"
+          :category-name="params.sample.category.name"
         />
       </div>
       <div v-if="sampleEditting === true">
@@ -104,8 +105,8 @@ export default {
         );
       } catch (error) {
         handleFailure(error, this.$store);
-        await this.cancelEditSample();
       }
+      await this.getSample();
       this.loading = false;
       this.sampleEditting = false;
     },
