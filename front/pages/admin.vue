@@ -19,6 +19,7 @@
           :title="params.sample.title"
           :description="params.sample.description"
           :category-id="params.sample.category_id"
+          :categories="categories"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
           @updateCategory="params.sample.category_id = $event"
@@ -73,6 +74,7 @@ export default {
   data() {
     return {
       loading: false,
+      categories: [],
       params: {
         ...this.defaultPromptAndSampleParams(),
         user: {
@@ -82,9 +84,15 @@ export default {
       promptCreated: true,
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.isAdmin) {
       this.$router.push('/');
+    }
+    try {
+      const response = await this.$axios.$get('/api/v1/categories');
+      this.categories = response;
+    } catch (error) {
+      handleFailure(error, this.$store);
     }
   },
   methods: {

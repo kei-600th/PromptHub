@@ -13,7 +13,7 @@
     <v-card-subtitle class="ma-1">
       <v-select
         v-model="localCategoryId"
-        :items="options"
+        :items="categories"
         item-text="name"
         item-value="id"
         label="カテゴリを選択"
@@ -38,22 +38,16 @@ export default {
       type: Number,
       required: true,
     },
+    categories: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
       localTitle: this.title,
       localDescription: this.description,
       localCategoryId: this.categoryId,
-      options: [
-        {id:1, name:"PC・プログラミング"},
-        {id:2, name:"語学"},
-        {id:3, name:"ビジネス"},
-        {id:4, name:"メンタルケア"},
-        {id:5, name:"学術"},
-        {id:6, name:"暮らし・生活"},
-        {id:7, name:"作品・エンタメ"},
-        {id:8, name:"デザイン・Web制作"}
-      ]
     };
   },
   watch: {
