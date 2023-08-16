@@ -1,5 +1,6 @@
 table_names = %w(
   users
+  categories
 )
 
 table_names.each do |table_name|

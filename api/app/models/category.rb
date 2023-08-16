@@ -1,4 +1,4 @@
 class Category < ApplicationRecord
 
-  has_many :samples,
+  has_many :samples
 end
