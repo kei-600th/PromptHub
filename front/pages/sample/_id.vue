@@ -12,8 +12,10 @@
         <SampleForm
           :title="params.sample.title"
           :description="params.sample.description"
+          :category-id="params.sample.category_id"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
+          @updateCategory="params.sample.category_id = $event"
         />
       </div>
       <div v-for="(prompt, index) in params.sample.prompts" :key="index">
