@@ -15,8 +15,8 @@
 export default {
   props: {
     categoryId: {
-      type: Number,
-      required: true,
+      type: [Number, null],
+      default: null,
     },
     categories: {
       type: Array,

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <SelectCategory
+      :category-id="params.category_id"
+      :categories="categories"
+      @updateCategory="params.category_id = $event"
+    />
     <v-row>
       <v-col
         v-for="(sample, index) in samples"
@@ -28,10 +33,20 @@
 </template>
 
 <script>
+import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 export default {
+  components: {
+    SelectCategory,
+  },
   data() {
     return {
+      params: {
+        category_id: null,
+      },
+      categories: [
+        { id: null, name: 'すべてのカテゴリ' }
+      ],
       samples: [],
       card: {
         sm: 6,
@@ -41,13 +56,28 @@ export default {
       },
     };
   },
+  watch: {
+    'params.category_id': function(newCategoryId, oldCategoryId) {
+      if (newCategoryId !== oldCategoryId) {
+        this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
+      }
+    },
+  },
   async mounted() {
     await this.getSamples();
+    try {
+      const response = await this.$axios.$get('/api/v1/categories');
+      this.categories = [{ id: null, name: 'すべてのカテゴリ' }, ...response];
+    } catch (error) {
+      handleFailure(error, this.$store);
+    }
   },
   methods: {
     async getSamples() {
       try {
-        const response = await this.$axios.$get('/api/v1/samples/');
+        const response = await this.$axios.$get('/api/v1/samples/', {
+          params: { category_id: this.params.category_id } // カテゴリIDをパラメータとして追加
+        });
         this.samples = response;
       } catch (error) {
         handleFailure(error, this.$store);
