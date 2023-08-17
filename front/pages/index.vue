@@ -18,6 +18,9 @@
           <v-card-title>
             {{ sample.title }}
           </v-card-title>
+          <v-chip class="ma-2" size="small" color="primary">
+            {{ sample.category.name }}
+          </v-chip>
         </v-card>
       </v-col>
     </v-row>
@@ -33,7 +36,7 @@ export default {
       card: {
         sm: 6,
         md: 4,
-        height: 110,
+        height: 150,
         elevation: 4,
       },
     };
