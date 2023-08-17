@@ -13,10 +13,12 @@
         <SampleForm
           :title="params.sample.title"
           :description="params.sample.description"
-          :category-id="params.sample.category_id"
-          :categories="categories"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
+        />
+        <SelectCategory
+          :category-id="params.sample.category_id"
+          :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
       </div>
@@ -45,6 +47,7 @@ import qs from 'qs';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
+import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 import checkAdminMixin from '@/plugins/check-admin-mixin';
 export default {
@@ -52,6 +55,7 @@ export default {
     ChatLog,
     SampleInformation,
     SampleDetailButtons,
+    SelectCategory,
   },
   mixins: [checkAdminMixin],
   data() {

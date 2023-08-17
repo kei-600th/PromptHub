@@ -10,16 +10,6 @@
         label="説明文を入力"
       ></v-textarea>
     </v-card-subtitle>
-    <v-card-subtitle class="ma-1">
-      <v-select
-        v-model="localCategoryId"
-        :items="categories"
-        item-text="name"
-        item-value="id"
-        label="カテゴリを選択"
-        style="max-width: 200px;"
-      ></v-select>
-    </v-card-subtitle>
   </div>
 </template>
 
@@ -34,20 +24,11 @@ export default {
       type: String,
       required: true,
     },
-    categoryId: {
-      type: Number,
-      required: true,
-    },
-    categories: {
-      type: Array,
-      required: true,
-    },
   },
   data() {
     return {
       localTitle: this.title,
       localDescription: this.description,
-      localCategoryId: this.categoryId,
     };
   },
   watch: {
@@ -56,9 +37,6 @@ export default {
     },
     localDescription: function (newDescription) {
       this.$emit('updateDescription', newDescription);
-    },
-    localCategoryId: function (newCategoryId) {
-      this.$emit('updateCategory', newCategoryId);
     },
   },
 };
