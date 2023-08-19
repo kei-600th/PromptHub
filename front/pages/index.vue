@@ -20,12 +20,16 @@
           :to="`/sample/${sample.id}`"
           class="v-btn text-capitalize mx-auto"
         >
-          <v-card-title>
-            {{ sample.title }}
-          </v-card-title>
-          <v-chip class="ma-2" size="small" color="primary">
-            {{ sample.category.name }}
-          </v-chip>
+          <v-img :src="require('@/assets/macbook3.jpeg')" height="150" class="white--text align-end">
+            <v-overlay absolute>
+              <v-card-title>
+                {{ sample.title }}
+              </v-card-title>
+              <v-chip class="ma-2" size="small" color="primary">
+                {{ sample.category.name }}
+              </v-chip>
+            </v-overlay>
+          </v-img>
         </v-card>
       </v-col>
     </v-row>
