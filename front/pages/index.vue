@@ -25,9 +25,6 @@
               <v-card-title>
                 {{ sample.title }}
               </v-card-title>
-              <v-chip class="ma-2" size="small" color="primary">
-                {{ sample.category.name }}
-              </v-chip>
             </v-overlay>
           </v-img>
         </v-card>
