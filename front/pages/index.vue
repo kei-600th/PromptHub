@@ -20,7 +20,7 @@
           :to="`/sample/${sample.id}`"
           class="v-btn text-capitalize mx-auto"
         >
-          <v-img :src="require('@/assets/macbook3.jpeg')" height="150" class="white--text align-end">
+          <v-img :src="'https://lh3.googleusercontent.com/pw/AIL4fc87YlTPgoOnhm0OS7zoWXONVk-b64VIO-ratQeVc5RUKqM6a_iWo7VcVo5tkXBPtfZ9-A5lCYSX5cgFTqdT50uETlf-TdBAS7R5gAXWAEN04N1BxUgJU8lv0NKtQikFybM1vyQbGiFb09u_5R8duzd5Yfc6HAxqXL8Mnkj5Fss8dA56ummNP0plPqYxfrkWgvdmqqMi0jHFT5xcJrjal5E7GwaE6DAmd1FSQDwiomAsC-fyVW_MX2lDBX1OgSLyVEm8rfTqFeGLBgQgMFsI042cp_wN8zY6DRcT9aNO6oQ_3d5YOUDp3Oz1Cqd5CFHggbJw4uougVs1SJL_elfdHKCxLMfeVzUG1ymDFLRcs1qgIvIURRdk6-tKtNxjuiViZIGYMVSI7ih1BdQTtXEPGjy15e8_vtF5X104wlcQ-OjPrJo-jUsZ74iKgR3szYlze6nqlKeELJD2tkvRRjPnV-Se9yLJ2H2Ucz3XpJhV4n6XepDEUq8S60WonCq2J5an5bHQCKejdewuSxXY2TDwwoHTBd2sKpVihiMP-3Y1HurrgewJh5mEW5vjZlH5heGWpD1dViqE4FJkWgYl4kHvIbcw5UUXjxYuxrh3ykBztPUyytxuUTBCFUlcHDNwOOrjzjnhU_s-yXrnGmy_r1T_KpSpAmFO4kHbs7jFW8BWzoSxm21CkhGOrMsCal4xpdC5GxL_gmeQCrDqBwZIDjU443Td5FB0Z61Z3kniOOST7nwq-xKF9JfnrdOD1Ry8PyuTmMH0v1kgNXdShL5sNE9TpeKKQd2qD5v6P2n6Z3t9XJ916gwgvzB36-xoyzITkv63W69F-wM2s8kroUTZDHzp-x1o3U41bM7yAGSKADu-HSYj9ZPaoWeInLEhkWKcEBtbPl72LxNjdzCd1ORvsiBDYjEYzKDW6b_uM7oEzsZSFLIN1rqqq32wPlJd0o1wl9A=w855-h855-s-no?authuser=0'" height="150" class="white--text align-end">
             <v-overlay absolute>
               <v-card-title>
                 {{ sample.title }}
