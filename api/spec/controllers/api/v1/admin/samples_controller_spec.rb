@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::Admin::SamplesController do
   describe 'POST #create' do
-    let(:sample_params) { FactoryBot.attributes_for(:sample) }
+    let(:category) { FactoryBot.create(:category) }
+    let(:sample_params) { FactoryBot.attributes_for(:sample, category_id: category.id) }
     let(:prompt_params) { FactoryBot.attributes_for(:prompt) }
     let(:user_params) { FactoryBot.attributes_for(:user) }
     let(:admin_user) { FactoryBot.create(:user, admin: true) }
