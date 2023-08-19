@@ -85,7 +85,7 @@ export default {
           id: null,
         },
       },
-      promptCreated: true,
+      promptCreated: false,
     };
   },
   async mounted() {
@@ -103,8 +103,8 @@ export default {
     defaultPromptAndSampleParams() {
       return {
         prompt: {
-          request_text: 'test',
-          response_text: 'test',
+          request_text: '',
+          response_text: '',
           gpt_model: 'gpt-3.5-turbo',
         },
         sample: {
