@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::Admin::SamplesController do
-  let(:user_params) { FactoryBot.attributes_for(:user) }
   let(:admin_user) { FactoryBot.create(:user, admin: true) }
+  let(:user) { FactoryBot.create(:user) }
 
   describe 'POST #create' do
     let(:category) { FactoryBot.create(:category) }
@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Admin::SamplesController do
 
     it 'does not create a new sample with non-admin user' do
       expect do
-        post :create, params: { sample: sample_params, prompt: prompt_params, user: user_params }, xhr: true
+        post :create, params: { sample: sample_params, prompt: prompt_params, user: user.attributes }, xhr: true
       end.not_to change(Sample, :count)
     end
 
@@ -39,7 +39,7 @@ RSpec.describe Api::V1::Admin::SamplesController do
 
     it 'does not update the sample with non-admin user' do
       new_title = "New Title"
-      patch :update, params: { id: sample.id, sample: { title: new_title }, user: user_params }, xhr: true
+      patch :update, params: { id: sample.id, sample: { title: new_title }, user: user.attributes }, xhr: true
       expect(sample.reload.title).not_to eq(new_title)
     end
 
@@ -61,7 +61,7 @@ RSpec.describe Api::V1::Admin::SamplesController do
 
     it 'does not deletes the sample with non-admin user' do
       expect do
-        delete :destroy, params: { id: sample.id, user: user_params }, xhr: true
+        delete :destroy, params: { id: sample.id, user: user.attributes }, xhr: true
       end.not_to change(Sample, :count)
     end
 
