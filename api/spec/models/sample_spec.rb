@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Sample do
-  let(:sample) { FactoryBot.build(:sample) }
+  let(:sample) { FactoryBot.create(:sample) }
   let!(:prompt) { FactoryBot.create(:prompt, sample: sample) }
 
   describe 'Sample model' do
@@ -25,6 +25,16 @@ RSpec.describe Sample do
   describe 'description validation' do
     context 'when the description is not present (blank)' do
       before { sample.description = '' }
+
+      it 'is invalid' do
+        expect(sample).not_to be_valid
+      end
+    end
+  end
+
+  describe 'category_id presence' do
+    context 'when the category_id is not present (nil)' do
+      before { sample.category_id = nil }
 
       it 'is invalid' do
         expect(sample).not_to be_valid

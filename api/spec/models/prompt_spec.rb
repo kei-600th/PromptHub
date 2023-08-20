@@ -40,4 +40,14 @@ RSpec.describe Prompt do
       end
     end
   end
+
+  describe 'gpt_model presence' do
+    context 'when the gpt_model is not present (blank)' do
+      before { prompt.gpt_model = '' }
+
+      it 'is invalid' do
+        expect(prompt).not_to be_valid
+      end
+    end
+  end
 end

@@ -10,7 +10,16 @@
         auto-grow
       ></v-textarea>
     </v-container>
-    <v-row class="justify-end">
+    <div style="display: flex; align-items: center">
+      <v-select
+        v-model="localGptModel"
+        :items="items"
+        label="GPT-Model"
+        outlined
+        class="ma-5"
+        style="max-width: 180px"
+      ></v-select>
+      <v-spacer></v-spacer>
       <v-btn
         color="appblue"
         :disabled="isEmptyOrWhitespace(localRequestText) || loading"
@@ -20,7 +29,7 @@
       >
         送信する
       </v-btn>
-    </v-row>
+    </div>
   </v-card>
 </template>
 
@@ -35,15 +44,24 @@ export default {
       type: Boolean,
       required: true,
     },
+    gptModel: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
+      items: ['gpt-3.5-turbo', 'gpt-4'],
       localRequestText: this.requestText,
+      localGptModel: this.gptModel,
     };
   },
   watch: {
     localRequestText: function (newRequestText) {
       this.$emit('updateRequestText', newRequestText);
+    },
+    localGptModel: function (newGptModel) {
+      this.$emit('updateGptModel', newGptModel);
     },
   },
   methods: {
@@ -51,7 +69,7 @@ export default {
       return text.trim() === '';
     },
     submitPrompt() {
-      this.$emit('createPrompt', this.localRequestText);
+      this.$emit('createPrompt', this.localRequestText, this.localGptModel);
     },
   },
 };

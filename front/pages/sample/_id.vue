@@ -6,6 +6,7 @@
           v-if="params.sample.title && params.sample.description"
           :title="params.sample.title"
           :description="params.sample.description"
+          :category-name="params.sample.category.name"
         />
       </div>
       <div v-if="sampleEditting === true">
@@ -14,6 +15,11 @@
           :description="params.sample.description"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
+        />
+        <SelectCategory
+          :category-id="params.sample.category_id"
+          :categories="categories"
+          @updateCategory="params.sample.category_id = $event"
         />
       </div>
       <div v-for="(prompt, index) in params.sample.prompts" :key="index">
@@ -41,6 +47,7 @@ import qs from 'qs';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
+import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 import checkAdminMixin from '@/plugins/check-admin-mixin';
 export default {
@@ -48,6 +55,7 @@ export default {
     ChatLog,
     SampleInformation,
     SampleDetailButtons,
+    SelectCategory,
   },
   mixins: [checkAdminMixin],
   data() {
@@ -61,10 +69,17 @@ export default {
         },
       },
       sampleEditting: false,
+      categories: [],
     };
   },
   async mounted() {
     await this.getSample();
+    try {
+      const response = await this.$axios.$get('/api/v1/categories');
+      this.categories = response;
+    } catch (error) {
+      handleFailure(error, this.$store);
+    }
   },
   methods: {
     async getSample() {
@@ -94,8 +109,8 @@ export default {
         );
       } catch (error) {
         handleFailure(error, this.$store);
-        await this.cancelEditSample();
       }
+      await this.getSample();
       this.loading = false;
       this.sampleEditting = false;
     },

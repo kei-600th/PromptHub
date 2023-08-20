@@ -4,8 +4,10 @@
     <div v-if="promptCreated === false">
       <PromptForm
         :request-text="params.prompt.request_text"
+        :gpt-model="params.prompt.gpt_model"
         :loading="loading"
         @updateRequestText="params.prompt.request_text = $event"
+        @updateGptModel="params.prompt.gpt_model = $event"
         @createPrompt="createPrompt"
       />
     </div>
@@ -18,6 +20,11 @@
           :description="params.sample.description"
           @updateTitle="params.sample.title = $event"
           @updateDescription="params.sample.description = $event"
+        />
+        <SelectCategory
+          :category-id="params.sample.category_id"
+          :categories="categories"
+          @updateCategory="params.sample.category_id = $event"
         />
         <ChatLog
           :request-text="params.prompt.request_text"
@@ -55,6 +62,7 @@
 import qs from 'qs';
 import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
+import SelectCategory from '@/components/Category/SelectCategory.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import { handleFailure } from '@/plugins/error-handler';
 import checkAdminMixin from '@/plugins/check-admin-mixin';
@@ -63,12 +71,14 @@ export default {
   components: {
     PromptForm,
     SampleForm,
+    SelectCategory,
     ChatLog,
   },
   mixins: [checkAdminMixin],
   data() {
     return {
       loading: false,
+      categories: [],
       params: {
         ...this.defaultPromptAndSampleParams(),
         user: {
@@ -78,9 +88,15 @@ export default {
       promptCreated: false,
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.isAdmin) {
       this.$router.push('/');
+    }
+    try {
+      const response = await this.$axios.$get('/api/v1/categories');
+      this.categories = response;
+    } catch (error) {
+      handleFailure(error, this.$store);
     }
   },
   methods: {
@@ -89,10 +105,12 @@ export default {
         prompt: {
           request_text: '',
           response_text: '',
+          gpt_model: 'gpt-3.5-turbo',
         },
         sample: {
           title: '',
           description: '',
+          category_id: 2,
         },
       };
     },

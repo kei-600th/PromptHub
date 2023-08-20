@@ -8,12 +8,13 @@ Rails.application.routes.draw do
         delete :destroy, on: :collection
         post :registration, on: :collection
       end
-      resources :samples, only: [:index, :show, :new, :create, :update, :destroy]
+      resources :samples, only: [:index, :show]
+      resources :categories, only: [:index]
       get :health_check, to: 'health_check#index'
 
       namespace :admin do
         resources :prompts, only: [:new]
-        resources :samples, only: [:index, :show, :new, :create, :update, :destroy]
+        resources :samples, only: [:create, :update, :destroy]
       end
     end
   end
