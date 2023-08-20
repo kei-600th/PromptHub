@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::SamplesController do
   describe 'GET #index' do
-    context 'category_idが存在しない場合' do
+    context 'when category_id does not exist' do
       before do
         get :index, xhr: true
       end
@@ -12,7 +12,7 @@ RSpec.describe Api::V1::SamplesController do
       end
     end
 
-    context 'category_idが存在する場合' do
+    context 'when category_id exists' do
       let(:category) { FactoryBot.create(:category) }
 
       before do
