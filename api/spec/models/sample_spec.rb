@@ -32,6 +32,16 @@ RSpec.describe Sample do
     end
   end
 
+  describe 'category_id presence' do
+    context 'when the category_id is not present (nil)' do
+      before { sample.category_id = nil }
+
+      it 'is invalid' do
+        expect(sample).not_to be_valid
+      end
+    end
+  end
+
   describe 'prompts destruction' do
     context 'when the sample is destroyed' do
       before { sample.destroy }
