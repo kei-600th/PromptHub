@@ -1,5 +1,4 @@
 table_names = %w(
-  users
   categories
 )
 
