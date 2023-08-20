@@ -1,27 +1,31 @@
 require 'rails_helper'
 
-RSpec.describe Category, type: :model do
+RSpec.describe Category do
   let(:category) { FactoryBot.build(:category) }
 
-  describe 'バリデーション' do
-    context 'nameとimageがあれば' do
-      it '有効であること' do
+  describe 'Category model' do
+    context 'when name and image are present' do
+      it 'is valid' do
         expect(category).to be_valid
       end
     end
+  end
 
-    context 'nameが空の場合' do
+  describe 'name validation' do
+    context 'when the name is blank' do
       before { category.name = '' }
 
-      it '無効であること' do
+      it 'is invalid' do
         expect(category).not_to be_valid
       end
     end
+  end
 
-    context 'imageが空の場合' do
+  describe 'image validation' do
+    context 'when the image is blank' do
       before { category.image = '' }
 
-      it '有効であること' do
+      it 'is valid' do
         expect(category).to be_valid
       end
     end
