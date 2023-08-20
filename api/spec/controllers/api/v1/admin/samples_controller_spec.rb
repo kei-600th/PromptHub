@@ -5,19 +5,18 @@ RSpec.describe Api::V1::Admin::SamplesController do
     let(:category) { FactoryBot.create(:category) }
     let(:sample_params) { FactoryBot.attributes_for(:sample, category_id: category.id) }
     let(:prompt_params) { FactoryBot.attributes_for(:prompt) }
-    let(:user_params) { FactoryBot.attributes_for(:user) }
     let(:admin_user) { FactoryBot.create(:user, admin: true) }
-    let(:admin_user_params) { admin_user.attributes }
 
     it 'creates a new sample' do
       expect do
-        post :create, params: { sample: sample_params, prompt: prompt_params, user: admin_user_params }, xhr: true
+        post :create, params: { sample: sample_params, prompt: prompt_params, user: admin_user.attributes }, xhr: true
       end.to change(Sample, :count).by(1)
     end
 
     it 'does not create a new sample with non-admin user' do
+      user = FactoryBot.attributes_for(:user)
       expect do
-        post :create, params: { sample: sample_params, prompt: prompt_params, user: user_params }, xhr: true
+        post :create, params: { sample: sample_params, prompt: prompt_params, user: user }, xhr: true
       end.not_to change(Sample, :count)
     end
 
