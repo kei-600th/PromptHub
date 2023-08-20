@@ -6,7 +6,7 @@
       item-text="name"
       item-value="id"
       label="カテゴリを選択"
-      style="max-width: 200px;"
+      style="max-width: 200px"
     ></v-select>
   </v-card-subtitle>
 </template>

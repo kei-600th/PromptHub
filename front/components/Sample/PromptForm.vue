@@ -10,14 +10,14 @@
         auto-grow
       ></v-textarea>
     </v-container>
-    <div style="display: flex; align-items: center;">
+    <div style="display: flex; align-items: center">
       <v-select
         v-model="localGptModel"
         :items="items"
         label="GPT-Model"
         outlined
         class="ma-5"
-        style="max-width: 180px;"
+        style="max-width: 180px"
       ></v-select>
       <v-spacer></v-spacer>
       <v-btn

@@ -20,7 +20,11 @@
           :to="`/sample/${sample.id}`"
           class="v-btn text-capitalize mx-auto"
         >
-          <v-img :src="sample.category.image" height="150" class="white--text align-end">
+          <v-img
+            :src="sample.category.image"
+            height="150"
+            class="white--text align-end"
+          >
             <v-overlay absolute>
               <v-card-title>
                 {{ sample.title }}
@@ -45,9 +49,7 @@ export default {
       params: {
         category_id: null,
       },
-      categories: [
-        { id: null, name: 'すべてのカテゴリ' }
-      ],
+      categories: [{ id: null, name: 'すべてのカテゴリ' }],
       samples: [],
       card: {
         sm: 6,
@@ -58,7 +60,7 @@ export default {
     };
   },
   watch: {
-    'params.category_id': function(newCategoryId, oldCategoryId) {
+    'params.category_id': function (newCategoryId, oldCategoryId) {
       if (newCategoryId !== oldCategoryId) {
         this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
       }
@@ -77,7 +79,7 @@ export default {
     async getSamples() {
       try {
         const response = await this.$axios.$get('/api/v1/samples/', {
-          params: { category_id: this.params.category_id } // カテゴリIDをパラメータとして追加
+          params: { category_id: this.params.category_id }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
       } catch (error) {
