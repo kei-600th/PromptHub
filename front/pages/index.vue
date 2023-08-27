@@ -29,21 +29,30 @@
             <v-card-title>
               {{ sample.title }}
             </v-card-title>
-            <!-- ログインしている時 -->
-            <div v-if="isLoggedIn">
-              <!-- ユーザーがいいねをつけていない時 -->
-              <div v-if="!sample.likes.some(like => like.user_id === $auth.user.id)">
-                <v-icon color="white" class="ma-2" @click.stop="addLike(sample.id)">mdi-heart-outline</v-icon>
+            <v-row class="ma-2">
+              <!-- いいねアイコン -->
+              <div>
+                <!-- ログインしている時 -->
+                <div v-if="isLoggedIn">
+                  <!-- ユーザーがいいねをつけていない時 -->
+                  <div v-if="!sample.likes.some(like => like.user_id === $auth.user.id)">
+                    <v-icon color="white" @click.stop="addLike(sample.id)">mdi-heart-outline</v-icon>
+                  </div>
+                  <!-- ユーザーがいいねをつけている時 -->
+                  <div v-else>
+                    <v-icon color="white" @click.stop="deleteLike(findLikeId(sample))">mdi-heart</v-icon>
+                  </div>
+                </div>
+                <!-- ログインしていない時 -->
+                <div v-else>
+                  <v-icon color="white" :disabled="isLoading" @click.stop="notLoginUserClick">mdi-heart-outline</v-icon>
+                </div>
               </div>
-              <!-- ユーザーがいいねをつけている時 -->
-              <div v-else>
-                <v-icon color="white" class="ma-2" @click.stop="deleteLike(findLikeId(sample))">mdi-heart</v-icon>
+              <!-- いいね数 -->
+              <div v-if="sample.likes.length > 0">
+                <span class="white--text ma-1">{{ sample.likes.length }}</span>
               </div>
-            </div>
-            <!-- ログインしていない時 -->
-            <div v-else>
-              <v-icon color="white" class="ma-2" :disabled="isLoading" @click.stop="notLoginUserClick">mdi-heart-outline</v-icon>
-            </div>
+            </v-row>
           </v-img>
         </v-card>
       </v-col>
