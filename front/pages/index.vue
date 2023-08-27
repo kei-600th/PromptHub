@@ -37,7 +37,7 @@
               </div>
               <!-- ユーザーがいいねをつけている時 -->
               <div v-else>
-                <v-icon color="white" class="ma-2" @click.stop="handleIconClick2">mdi-heart</v-icon>
+                <v-icon color="white" class="ma-2" @click.stop="deleteLike(findLikeId(sample))">mdi-heart</v-icon>
               </div>
             </div>
             <!-- ログインしていない時 -->
@@ -82,7 +82,6 @@ export default {
         require('@/assets/images/sample_images/books.jpeg'),
         require('@/assets/images/sample_images/designing.jpeg')
       ],
-
     };
   },
   computed: {
@@ -124,14 +123,25 @@ export default {
             user_id: this.$auth.user.id
           }
         });
+        await this.getSamples()
         console.log("Success")
       } catch (error) {
         handleFailure(error, this.$store);
         console.log("Error")
       }
     },
-    handleIconClick2() {
-      console.log("HelloWorld2");
+    findLikeId(sample) {
+      const likeObject = sample.likes.find(like => like.user_id === this.$auth.user.id);
+      return likeObject ? likeObject.id : null;
+    },
+    async deleteLike(likeId) {
+      try {
+        await this.$axios.$delete(`/api/v1/likes/${likeId}`);
+        await this.getSamples()
+      } catch (error) {
+        handleFailure(error, this.$store);
+        console.log("Error")
+      }
     },
     handleIconClick3() {
       console.log("HelloWorld3");
