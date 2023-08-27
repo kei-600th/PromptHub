@@ -42,7 +42,7 @@
             </div>
             <!-- ログインしていない時 -->
             <div v-else>
-              <v-icon color="white" class="ma-2" @click.stop="handleIconClick3">mdi-heart-outline</v-icon>
+              <v-icon color="white" class="ma-2" :disabled="isLoading" @click.stop="handleIconClick3">mdi-heart-outline</v-icon>
             </div>
           </v-img>
         </v-card>
@@ -61,6 +61,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       params: {
         category_id: null,
       },
@@ -116,6 +117,8 @@ export default {
       }
     },
     async addLike(sampleId) {
+      if (this.isLoading) return;
+      this.isLoading = true;
       try {
         await this.$axios.$post('/api/v1/likes/', {
           like: {
@@ -128,6 +131,8 @@ export default {
       } catch (error) {
         handleFailure(error, this.$store);
         console.log("Error")
+      } finally {
+        this.isLoading = false;
       }
     },
     findLikeId(sample) {
@@ -135,12 +140,16 @@ export default {
       return likeObject ? likeObject.id : null;
     },
     async deleteLike(likeId) {
+      if (this.isLoading) return;
+      this.isLoading = true;
       try {
         await this.$axios.$delete(`/api/v1/likes/${likeId}`);
         await this.getSamples()
       } catch (error) {
         handleFailure(error, this.$store);
         console.log("Error")
+      } finally {
+        this.isLoading = false;
       }
     },
     handleIconClick3() {
