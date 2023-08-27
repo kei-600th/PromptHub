@@ -123,7 +123,6 @@ export default {
           params: { category_id: this.params.category_id }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
-        console.log(this.samples)
       } catch (error) {
         handleFailure(error, this.$store);
       }
