@@ -26,6 +26,9 @@
             class="white--text align-end clickable"
             @click="$router.push(`/sample/${sample.id}`)"
           >
+            <v-card-subtitle>
+              {{ sample.category.name }}
+            </v-card-subtitle>
             <v-card-title>
               {{ sample.title }}
             </v-card-title>
