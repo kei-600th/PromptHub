@@ -127,10 +127,8 @@ export default {
           }
         });
         await this.getSamples()
-        console.log("Success")
       } catch (error) {
         handleFailure(error, this.$store);
-        console.log("Error")
       } finally {
         this.isLoading = false;
       }
@@ -147,7 +145,6 @@ export default {
         await this.getSamples()
       } catch (error) {
         handleFailure(error, this.$store);
-        console.log("Error")
       } finally {
         this.isLoading = false;
       }
