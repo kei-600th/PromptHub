@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_19_033625) do
+ActiveRecord::Schema.define(version: 2023_08_27_002840) do
 
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "image"
+  end
+
+  create_table "likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "sample_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sample_id"], name: "index_likes_on_sample_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "prompts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -55,6 +64,8 @@ ActiveRecord::Schema.define(version: 2023_08_19_033625) do
     t.string "refresh_jti"
   end
 
+  add_foreign_key "likes", "samples"
+  add_foreign_key "likes", "users"
   add_foreign_key "prompts", "samples"
   add_foreign_key "samples", "categories"
 end
