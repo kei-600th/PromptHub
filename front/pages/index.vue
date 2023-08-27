@@ -42,7 +42,7 @@
             </div>
             <!-- ログインしていない時 -->
             <div v-else>
-              <v-icon color="white" class="ma-2" :disabled="isLoading" @click.stop="handleIconClick3">mdi-heart-outline</v-icon>
+              <v-icon color="white" class="ma-2" :disabled="isLoading" @click.stop="notLoginUserClick">mdi-heart-outline</v-icon>
             </div>
           </v-img>
         </v-card>
@@ -152,8 +152,12 @@ export default {
         this.isLoading = false;
       }
     },
-    handleIconClick3() {
-      console.log("HelloWorld3");
+    notLoginUserClick() {
+      this.$store.dispatch('getToast', {
+        msg: 'ログインユーザのみいいねをつけることができます',
+        color: 'primary',
+        timeout: 4000
+      });
     },
   },
 };
