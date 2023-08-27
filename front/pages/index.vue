@@ -23,13 +23,13 @@
           <v-img
             :src="images[(sample.category_id - 1)]"
             height="150"
+            gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
             class="white--text align-end"
           >
-            <v-overlay absolute>
               <v-card-title>
                 {{ sample.title }}
               </v-card-title>
-            </v-overlay>
+              <v-icon color="white">mdi-heart-outline</v-icon>
           </v-img>
         </v-card>
       </v-col>
