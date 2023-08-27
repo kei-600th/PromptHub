@@ -8,6 +8,15 @@ class Api::V1::LikesController < ApplicationController
     end
   end
 
+  def destroy
+    like = Like.find(params[:id])
+    if like.destroy
+      render json: { message: "いいねを削除しました" }, status: :ok
+    else
+      render json: { error: "いいねを削除できませんでした" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def like_params
