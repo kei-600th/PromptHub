@@ -29,7 +29,21 @@
             <v-card-title>
               {{ sample.title }}
             </v-card-title>
-            <v-icon color="white" class="ma-2" @click.stop="handleIconClick">mdi-heart-outline</v-icon>
+            <!-- ログインしている時 -->
+            <div v-if="isLoggedIn">
+              <!-- ユーザーがいいねをつけていない時 -->
+              <div v-if="!sample.likes.some(like => like.user_id === $auth.user.id)">
+                <v-icon color="white" class="ma-2" @click.stop="handleIconClick(sample.id)">mdi-heart-outline</v-icon>
+              </div>
+              <!-- ユーザーがいいねをつけている時 -->
+              <div v-else>
+                <v-icon color="white" class="ma-2" @click.stop="handleIconClick2">mdi-heart</v-icon>
+              </div>
+            </div>
+            <!-- ログインしていない時 -->
+            <div v-else>
+              <v-icon color="white" class="ma-2" @click.stop="handleIconClick3">mdi-heart-outline</v-icon>
+            </div>
           </v-img>
         </v-card>
       </v-col>
@@ -38,6 +52,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 export default {
@@ -67,7 +82,11 @@ export default {
         require('@/assets/images/sample_images/books.jpeg'),
         require('@/assets/images/sample_images/designing.jpeg')
       ],
+
     };
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn']),
   },
   watch: {
     'params.category_id': function (newCategoryId, oldCategoryId) {
@@ -92,12 +111,30 @@ export default {
           params: { category_id: this.params.category_id }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
+        console.log(this.samples)
       } catch (error) {
         handleFailure(error, this.$store);
       }
     },
-    handleIconClick() {
-      console.log("HelloWorld");
+    async handleIconClick(sampleId) {
+      try {
+        await this.$axios.$post('/api/v1/likes/', {
+          like: {
+            sample_id: sampleId,
+            user_id: this.$auth.user.id
+          }
+        });
+        console.log("Success")
+      } catch (error) {
+        handleFailure(error, this.$store);
+        console.log("Error")
+      }
+    },
+    handleIconClick2() {
+      console.log("HelloWorld2");
+    },
+    handleIconClick3() {
+      console.log("HelloWorld3");
     },
   },
 };
