@@ -17,19 +17,19 @@
           :height="card.height"
           :elevation="card.elevation"
           max-width="344"
-          :to="`/sample/${sample.id}`"
           class="v-btn text-capitalize mx-auto"
         >
           <v-img
             :src="images[(sample.category_id - 1)]"
             height="150"
             gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
-            class="white--text align-end"
+            class="white--text align-end clickable"
+            @click="$router.push(`/sample/${sample.id}`)"
           >
-              <v-card-title>
-                {{ sample.title }}
-              </v-card-title>
-              <v-icon color="white">mdi-heart-outline</v-icon>
+            <v-card-title>
+              {{ sample.title }}
+            </v-card-title>
+            <v-icon color="white" class="ma-2" @click.stop="handleIconClick">mdi-heart-outline</v-icon>
           </v-img>
         </v-card>
       </v-col>
@@ -96,6 +96,15 @@ export default {
         handleFailure(error, this.$store);
       }
     },
+    handleIconClick() {
+      console.log("HelloWorld");
+    },
   },
 };
 </script>
+
+<style>
+  .clickable {
+    cursor: pointer;
+  }
+</style>
