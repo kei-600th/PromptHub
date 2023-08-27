@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         post :registration, on: :collection
       end
       resources :samples, only: [:index, :show]
+      resources :likes, only: :create
       resources :categories, only: [:index]
       get :health_check, to: 'health_check#index'
 
