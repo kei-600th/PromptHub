@@ -33,7 +33,7 @@
             <div v-if="isLoggedIn">
               <!-- ユーザーがいいねをつけていない時 -->
               <div v-if="!sample.likes.some(like => like.user_id === $auth.user.id)">
-                <v-icon color="white" class="ma-2" @click.stop="handleIconClick(sample.id)">mdi-heart-outline</v-icon>
+                <v-icon color="white" class="ma-2" @click.stop="addLike(sample.id)">mdi-heart-outline</v-icon>
               </div>
               <!-- ユーザーがいいねをつけている時 -->
               <div v-else>
@@ -115,7 +115,7 @@ export default {
         handleFailure(error, this.$store);
       }
     },
-    async handleIconClick(sampleId) {
+    async addLike(sampleId) {
       try {
         await this.$axios.$post('/api/v1/likes/', {
           like: {
