@@ -58,8 +58,7 @@ export default {
     items() {
       const baseItems = [
         { title: 'Home', path: '/', icon: 'mdi-home' },
-        { title: 'Workplace', path: '/workplace', icon: 'mdi-notebook-edit ' },
-        { title: 'Share', path: '/share', icon: 'mdi-crowd ' },
+        { title: 'UserPage', path: '/userpage', icon: 'mdi-notebook-edit ' },
         { title: 'About', path: '/about', icon: 'mdi-help-box' },
       ];
       if (this.isAdmin) {
