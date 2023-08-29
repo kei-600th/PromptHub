@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>お気に入りのサンプル</h2>
     <SampleList
       :samples="samples"
       :card="card"
