@@ -7,7 +7,17 @@
         <span class="text-h6 font-weight-light">You</span>
       </div>
       <v-spacer></v-spacer>
-      <v-icon @click="copyText">mdi-clipboard-outline</v-icon>
+      <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon 
+            @click="copyText(requestText)"
+            v-bind="attrs"
+            v-on="on"
+          >mdi-clipboard-outline
+        </v-icon>
+        </template>
+        <span>Copy</span>
+      </v-tooltip>
     </v-card-title>
 
     <v-card-text class="text-h5">
@@ -15,8 +25,22 @@
     </v-card-text>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
-      <v-icon large left> mdi-robot </v-icon>
-      <span class="text-h6 font-weight-light">ChatGPT</span>
+      <div>
+        <v-icon large left> mdi-robot </v-icon>
+        <span class="text-h6 font-weight-light">ChatGPT</span>
+      </div>
+      <v-spacer></v-spacer>
+      <v-tooltip right>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon 
+            @click="copyText(responseText)"
+            v-bind="attrs"
+            v-on="on"
+          >mdi-clipboard-outline
+        </v-icon>
+        </template>
+        <span>Copy</span>
+      </v-tooltip>
     </v-card-title>
 
     <v-card-text class="text-h5">
@@ -57,11 +81,11 @@ export default {
     },
   },
   methods: {
-    async copyText() {
+    async copyText(text) {
       try {
-        await this.$copyText(this.requestText);
+        await this.$copyText(text);
         this.$store.dispatch('getToast', {
-        msg: 'プロンプトをコピーしました!',
+        msg: 'コピーしました!',
         color: 'success',
         timeout: 4000
       });
