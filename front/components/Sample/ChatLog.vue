@@ -8,8 +8,8 @@
       </div>
       <v-spacer></v-spacer>
       <v-tooltip right>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon @click="copyText(requestText)" v-bind="attrs" v-on="on"
+        <template #activator="{ on, attrs }">
+          <v-icon v-bind="attrs" @click="copyText(requestText)" v-on="on"
             >mdi-clipboard-outline
           </v-icon>
         </template>
@@ -28,8 +28,8 @@
       </div>
       <v-spacer></v-spacer>
       <v-tooltip right>
-        <template v-slot:activator="{ on, attrs }">
-          <v-icon @click="copyText(responseText)" v-bind="attrs" v-on="on"
+        <template #activator="{ on, attrs }">
+          <v-icon v-bind="attrs" @click="copyText(responseText)" v-on="on"
             >mdi-clipboard-outline
           </v-icon>
         </template>
