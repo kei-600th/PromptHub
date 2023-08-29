@@ -58,9 +58,15 @@ export default {
     items() {
       const baseItems = [
         { title: 'Home', path: '/', icon: 'mdi-home' },
-        { title: 'UserPage', path: '/userpage', icon: 'mdi-notebook-edit ' },
         { title: 'About', path: '/about', icon: 'mdi-help-box' },
       ];
+      if (this.isLoggedIn) {
+        baseItems.push({
+          title: 'UserPage',
+          path: `/user/${this.$auth.user.id}`,
+          icon: 'mdi-notebook-edit ',
+        });
+      }
       if (this.isAdmin) {
         baseItems.push({
           title: 'Admin',
