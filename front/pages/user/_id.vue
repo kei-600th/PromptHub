@@ -1,10 +1,6 @@
 <template>
   <div>
-    <SelectCategory
-      :category-id="params.category_id"
-      :categories="categories"
-      @updateCategory="params.category_id = $event"
-    />
+    <h2>お気に入りのサンプル</h2>
     <SampleList
       :samples="samples"
       :card="card"
@@ -20,12 +16,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 import SampleList from '@/components/Sample/SampleList.vue';
 export default {
   components: {
-    SelectCategory,
     SampleList,
   },
   data() {
@@ -65,6 +59,9 @@ export default {
     },
   },
   async mounted() {
+    if (Number(this.$route.params.id) !== Number(this.$auth.user.id)) {
+      this.$router.push('/');
+    }
     await this.getSamples();
     try {
       const response = await this.$axios.$get('/api/v1/categories');
@@ -76,8 +73,8 @@ export default {
   methods: {
     async getSamples() {
       try {
-        const response = await this.$axios.$get('/api/v1/samples/', {
-          params: { category_id: this.params.category_id }, // カテゴリIDをパラメータとして追加
+        const response = await this.$axios.$get('/api/v1/samples/favorite', {
+          params: { user_id: Number(this.$route.params.id) }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
       } catch (error) {

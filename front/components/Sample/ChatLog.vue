@@ -2,8 +2,19 @@
   <div>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
-      <v-icon large left> mdi-account </v-icon>
-      <span class="text-h6 font-weight-light">You</span>
+      <div>
+        <v-icon large left> mdi-account </v-icon>
+        <span class="text-h6 font-weight-light">You</span>
+      </div>
+      <v-spacer></v-spacer>
+      <v-tooltip right>
+        <template #activator="{ on, attrs }">
+          <v-icon v-bind="attrs" @click="copyText(requestText)" v-on="on"
+            >mdi-clipboard-outline
+          </v-icon>
+        </template>
+        <span>Copy</span>
+      </v-tooltip>
     </v-card-title>
 
     <v-card-text class="text-h5">
@@ -11,8 +22,19 @@
     </v-card-text>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
-      <v-icon large left> mdi-robot </v-icon>
-      <span class="text-h6 font-weight-light">ChatGPT</span>
+      <div>
+        <v-icon large left> mdi-robot </v-icon>
+        <span class="text-h6 font-weight-light">ChatGPT</span>
+      </div>
+      <v-spacer></v-spacer>
+      <v-tooltip right>
+        <template #activator="{ on, attrs }">
+          <v-icon v-bind="attrs" @click="copyText(responseText)" v-on="on"
+            >mdi-clipboard-outline
+          </v-icon>
+        </template>
+        <span>Copy</span>
+      </v-tooltip>
     </v-card-title>
 
     <v-card-text class="text-h5">
@@ -23,6 +45,7 @@
 </template>
 
 <script>
+import { handleFailure } from '@/plugins/error-handler';
 /* eslint-disable vue/no-v-html */
 export default {
   props: {
@@ -49,6 +72,20 @@ export default {
       // ソースコードブロック外の改行も<br>タグに置き換える（必要であれば）
       result = result.replace(/\n/g, '<br>');
       return result;
+    },
+  },
+  methods: {
+    async copyText(text) {
+      try {
+        await this.$copyText(text);
+        this.$store.dispatch('getToast', {
+          msg: 'コピーしました!',
+          color: 'success',
+          timeout: 4000,
+        });
+      } catch (error) {
+        handleFailure(error, this.$store);
+      }
     },
   },
 };

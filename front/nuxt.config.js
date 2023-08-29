@@ -44,6 +44,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/vuetify',
     '@nuxtjs/i18n',
+    'nuxt-clipboard2',
   ],
 
   router: {

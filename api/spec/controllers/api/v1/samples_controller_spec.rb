@@ -36,4 +36,16 @@ RSpec.describe Api::V1::SamplesController do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe 'GET #favorite' do
+    let(:user) { FactoryBot.create(:user) }
+
+    before do
+      get :favorite, params: { user_id: user.id }, xhr: true
+    end
+
+    it 'returns http success' do
+      expect(response).to have_http_status(:success)
+    end
+  end
 end
