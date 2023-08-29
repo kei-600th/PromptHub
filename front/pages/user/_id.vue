@@ -4,7 +4,7 @@
     <SampleList
       :samples="samples"
       :card="card"
-      :isLoggedIn="isLoggedIn"
+      :is-logged-in="isLoggedIn"
       :images="images"
       @add-like="addLike"
       @find-like-id="findLikeId"
