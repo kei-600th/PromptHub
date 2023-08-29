@@ -72,8 +72,8 @@ export default {
   methods: {
     async getSamples() {
       try {
-        const response = await this.$axios.$get('/api/v1/samples/', {
-          params: { category_id: this.params.category_id }, // カテゴリIDをパラメータとして追加
+        const response = await this.$axios.$get('/api/v1/samples/favorite', {
+          params: { user_id: Number(this.$route.params.id) }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
       } catch (error) {
