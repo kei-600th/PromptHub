@@ -82,7 +82,8 @@ export default {
       this.$emit('add-like', sampleId);
     },
     findLikeId(sample) {
-      this.$emit('find-like-id', sample);
+      const likeObject = sample.likes.find(like => like.user_id === this.$auth.user.id);
+      return likeObject ? likeObject.id : null;
     },
     deleteLike(likeId) {
       this.$emit('delete-like', likeId);
