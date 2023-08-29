@@ -14,7 +14,7 @@
         class="v-btn text-capitalize mx-auto"
       >
         <v-img
-          :src="images[(sample.category_id - 1)]"
+          :src="images[sample.category_id - 1]"
           height="150"
           gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
           class="white--text align-end clickable"
@@ -32,17 +32,32 @@
               <!-- ログインしている時 -->
               <div v-if="isLoggedIn">
                 <!-- ユーザーがいいねをつけていない時 -->
-                <div v-if="!sample.likes.some(like => like.user_id === $auth.user.id)">
-                  <v-icon color="white" @click.stop="addLike(sample.id)">mdi-heart-outline</v-icon>
+                <div
+                  v-if="
+                    !sample.likes.some((like) => like.user_id === $auth.user.id)
+                  "
+                >
+                  <v-icon color="white" @click.stop="addLike(sample.id)"
+                    >mdi-heart-outline</v-icon
+                  >
                 </div>
                 <!-- ユーザーがいいねをつけている時 -->
                 <div v-else>
-                  <v-icon color="white" @click.stop="deleteLike(findLikeId(sample))">mdi-heart</v-icon>
+                  <v-icon
+                    color="white"
+                    @click.stop="deleteLike(findLikeId(sample))"
+                    >mdi-heart</v-icon
+                  >
                 </div>
               </div>
               <!-- ログインしていない時 -->
               <div v-else>
-                <v-icon color="white" :disabled="isLoading" @click.stop="notLoginUserClick">mdi-heart-outline</v-icon>
+                <v-icon
+                  color="white"
+                  :disabled="isLoading"
+                  @click.stop="notLoginUserClick"
+                  >mdi-heart-outline</v-icon
+                >
               </div>
             </div>
             <!-- いいね数 -->
@@ -61,19 +76,19 @@ export default {
   props: {
     samples: {
       type: Array,
-      required: true
+      required: true,
     },
     isLoggedIn: {
       type: Boolean,
-      required: true
+      required: true,
     },
     card: {
       type: Object,
-      required: true
+      required: true,
     },
     images: {
       type: Array,
-      required: true
+      required: true,
     },
   },
   methods: {
@@ -82,7 +97,9 @@ export default {
       this.$emit('add-like', sampleId);
     },
     findLikeId(sample) {
-      const likeObject = sample.likes.find(like => like.user_id === this.$auth.user.id);
+      const likeObject = sample.likes.find(
+        (like) => like.user_id === this.$auth.user.id,
+      );
       return likeObject ? likeObject.id : null;
     },
     deleteLike(likeId) {
@@ -90,7 +107,7 @@ export default {
     },
     notLoginUserClick() {
       this.$emit('not-login-user-click');
-    }
-  }
+    },
+  },
 };
 </script>

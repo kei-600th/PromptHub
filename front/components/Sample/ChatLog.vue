@@ -9,12 +9,9 @@
       <v-spacer></v-spacer>
       <v-tooltip right>
         <template v-slot:activator="{ on, attrs }">
-          <v-icon 
-            @click="copyText(requestText)"
-            v-bind="attrs"
-            v-on="on"
-          >mdi-clipboard-outline
-        </v-icon>
+          <v-icon @click="copyText(requestText)" v-bind="attrs" v-on="on"
+            >mdi-clipboard-outline
+          </v-icon>
         </template>
         <span>Copy</span>
       </v-tooltip>
@@ -32,12 +29,9 @@
       <v-spacer></v-spacer>
       <v-tooltip right>
         <template v-slot:activator="{ on, attrs }">
-          <v-icon 
-            @click="copyText(responseText)"
-            v-bind="attrs"
-            v-on="on"
-          >mdi-clipboard-outline
-        </v-icon>
+          <v-icon @click="copyText(responseText)" v-bind="attrs" v-on="on"
+            >mdi-clipboard-outline
+          </v-icon>
         </template>
         <span>Copy</span>
       </v-tooltip>
@@ -85,14 +79,14 @@ export default {
       try {
         await this.$copyText(text);
         this.$store.dispatch('getToast', {
-        msg: 'コピーしました!',
-        color: 'success',
-        timeout: 4000
-      });
+          msg: 'コピーしました!',
+          color: 'success',
+          timeout: 4000,
+        });
       } catch (error) {
         handleFailure(error, this.$store);
       }
-    }
+    },
   },
 };
 </script>

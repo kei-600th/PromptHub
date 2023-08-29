@@ -44,7 +44,7 @@ export default {
         require('@/assets/images/sample_images/academy.jpeg'),
         require('@/assets/images/sample_images/house.jpeg'),
         require('@/assets/images/sample_images/books.jpeg'),
-        require('@/assets/images/sample_images/designing.jpeg')
+        require('@/assets/images/sample_images/designing.jpeg'),
       ],
     };
   },
@@ -88,10 +88,10 @@ export default {
         await this.$axios.$post('/api/v1/likes/', {
           like: {
             sample_id: sampleId,
-            user_id: this.$auth.user.id
-          }
+            user_id: this.$auth.user.id,
+          },
         });
-        await this.getSamples()
+        await this.getSamples();
       } catch (error) {
         handleFailure(error, this.$store);
       } finally {
@@ -99,7 +99,9 @@ export default {
       }
     },
     findLikeId(sample) {
-      const likeObject = sample.likes.find(like => like.user_id === this.$auth.user.id);
+      const likeObject = sample.likes.find(
+        (like) => like.user_id === this.$auth.user.id,
+      );
       return likeObject ? likeObject.id : null;
     },
     async deleteLike(likeId) {
@@ -107,7 +109,7 @@ export default {
       this.isLoading = true;
       try {
         await this.$axios.$delete(`/api/v1/likes/${likeId}`);
-        await this.getSamples()
+        await this.getSamples();
       } catch (error) {
         handleFailure(error, this.$store);
       } finally {
@@ -118,7 +120,7 @@ export default {
       this.$store.dispatch('getToast', {
         msg: 'ログインユーザのみいいねをつけることができます',
         color: 'primary',
-        timeout: 4000
+        timeout: 4000,
       });
     },
   },
@@ -126,7 +128,7 @@ export default {
 </script>
 
 <style>
-  .clickable {
-    cursor: pointer;
-  }
+.clickable {
+  cursor: pointer;
+}
 </style>
