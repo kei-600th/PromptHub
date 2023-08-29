@@ -2,8 +2,12 @@
   <div>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
-      <v-icon large left> mdi-account </v-icon>
-      <span class="text-h6 font-weight-light">You</span>
+      <div>
+        <v-icon large left> mdi-account </v-icon>
+        <span class="text-h6 font-weight-light">You</span>
+      </div>
+      <v-spacer></v-spacer>
+      <v-icon @click="copyText">mdi-clipboard-outline</v-icon>
     </v-card-title>
 
     <v-card-text class="text-h5">
@@ -23,6 +27,7 @@
 </template>
 
 <script>
+import { handleFailure } from '@/plugins/error-handler';
 /* eslint-disable vue/no-v-html */
 export default {
   props: {
@@ -50,6 +55,20 @@ export default {
       result = result.replace(/\n/g, '<br>');
       return result;
     },
+  },
+  methods: {
+    async copyText() {
+      try {
+        await this.$copyText(this.requestText);
+        this.$store.dispatch('getToast', {
+        msg: 'プロンプトをコピーしました!',
+        color: 'success',
+        timeout: 4000
+      });
+      } catch (error) {
+        handleFailure(error, this.$store);
+      }
+    }
   },
 };
 </script>
