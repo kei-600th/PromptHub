@@ -5,61 +5,16 @@
       :categories="categories"
       @updateCategory="params.category_id = $event"
     />
-    <v-row>
-      <v-col
-        v-for="(sample, index) in samples"
-        :key="index"
-        cols="12"
-        :sm="card.sm"
-        :md="card.md"
-      >
-        <v-card
-          :height="card.height"
-          :elevation="card.elevation"
-          max-width="344"
-          class="v-btn text-capitalize mx-auto"
-        >
-          <v-img
-            :src="images[(sample.category_id - 1)]"
-            height="150"
-            gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
-            class="white--text align-end clickable"
-            @click="$router.push(`/sample/${sample.id}`)"
-          >
-            <v-card-subtitle>
-              {{ sample.category.name }}
-            </v-card-subtitle>
-            <v-card-title>
-              {{ sample.title }}
-            </v-card-title>
-            <v-row class="ma-2">
-              <!-- いいねアイコン -->
-              <div>
-                <!-- ログインしている時 -->
-                <div v-if="isLoggedIn">
-                  <!-- ユーザーがいいねをつけていない時 -->
-                  <div v-if="!sample.likes.some(like => like.user_id === $auth.user.id)">
-                    <v-icon color="white" @click.stop="addLike(sample.id)">mdi-heart-outline</v-icon>
-                  </div>
-                  <!-- ユーザーがいいねをつけている時 -->
-                  <div v-else>
-                    <v-icon color="white" @click.stop="deleteLike(findLikeId(sample))">mdi-heart</v-icon>
-                  </div>
-                </div>
-                <!-- ログインしていない時 -->
-                <div v-else>
-                  <v-icon color="white" :disabled="isLoading" @click.stop="notLoginUserClick">mdi-heart-outline</v-icon>
-                </div>
-              </div>
-              <!-- いいね数 -->
-              <div v-if="sample.likes.length > 0">
-                <span class="white--text ma-1">{{ sample.likes.length }}</span>
-              </div>
-            </v-row>
-          </v-img>
-        </v-card>
-      </v-col>
-    </v-row>
+    <SampleList
+      :samples="samples"
+      :card="card"
+      :isLoggedIn="isLoggedIn"
+      :images="images"
+      @add-like="addLike"
+      @find-like-id="findLikeId"
+      @delete-like="deleteLike"
+      @not-login-user-click="notLoginUserClick"
+    />
   </div>
 </template>
 
@@ -67,9 +22,11 @@
 import { mapGetters } from 'vuex';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
+import SampleList from '@/components/Sample/SampleList.vue';
 export default {
   components: {
     SelectCategory,
+    SampleList,
   },
   data() {
     return {
