@@ -8,7 +8,9 @@ Rails.application.routes.draw do
         delete :destroy, on: :collection
         post :registration, on: :collection
       end
-      resources :samples, only: [:index, :show]
+      resources :samples, only: [:index, :show] do
+        get :favorite, on: :collection
+      end
       resources :likes, only: [:create, :destroy]
       resources :categories, only: [:index]
       get :health_check, to: 'health_check#index'
