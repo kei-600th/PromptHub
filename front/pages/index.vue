@@ -39,7 +39,7 @@ export default {
       card: {
         sm: 6,
         md: 4,
-        height: 150,
+        height: 180,
         elevation: 4,
       },
       images: [

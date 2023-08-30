@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h2>お気に入りのサンプル</h2>
+    <v-row class="ma-5">
+      <v-icon>mdi-star-shooting-outline</v-icon>
+      <v-card-title>お気に入りのサンプル</v-card-title>
+    </v-row>
     <SampleList
       :samples="samples"
       :card="card"
@@ -33,7 +36,7 @@ export default {
       card: {
         sm: 6,
         md: 4,
-        height: 150,
+        height: 180,
         elevation: 4,
       },
       images: [

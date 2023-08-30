@@ -15,15 +15,15 @@
       >
         <v-img
           :src="images[sample.category_id - 1]"
-          height="150"
+          height="180"
           gradient="to bottom, rgba(0,0,0,.5), rgba(0,0,0,.5)"
           class="white--text align-end clickable"
           @click="$router.push(`/sample/${sample.id}`)"
         >
-          <v-card-subtitle>
+          <v-card-subtitle style="position: absolute; top:0;">
             {{ sample.category.name }}
           </v-card-subtitle>
-          <v-card-title>
+          <v-card-title class="fixed-height-title">
             {{ sample.title }}
           </v-card-title>
           <v-row class="ma-2">
@@ -111,3 +111,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fixed-height-title {
+  height: 98px;
+
+}
+</style>
