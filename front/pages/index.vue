@@ -10,6 +10,7 @@
       :card="card"
       :is-logged-in="isLoggedIn"
       :images="images"
+      :heart-color="heartColor"
       @add-like="addLike"
       @find-like-id="findLikeId"
       @delete-like="deleteLike"
@@ -52,6 +53,7 @@ export default {
         require('@/assets/images/sample_images/books.jpeg'),
         require('@/assets/images/sample_images/designing.jpeg'),
       ],
+      heartColor: "white"
     };
   },
   computed: {

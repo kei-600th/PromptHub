@@ -37,14 +37,14 @@
                     !sample.likes.some((like) => like.user_id === $auth.user.id)
                   "
                 >
-                  <v-icon color="white" @click.stop="addLike(sample.id)"
+                  <v-icon :color="heartColor" @click.stop="addLike(sample.id)"
                     >mdi-heart-outline</v-icon
                   >
                 </div>
                 <!-- ユーザーがいいねをつけている時 -->
                 <div v-else>
                   <v-icon
-                    color="white"
+                    :color="heartColor"
                     @click.stop="deleteLike(findLikeId(sample))"
                     >mdi-heart</v-icon
                   >
@@ -53,7 +53,7 @@
               <!-- ログインしていない時 -->
               <div v-else>
                 <v-icon
-                  color="white"
+                  :color="heartColor"
                   :disabled="isLoading"
                   @click.stop="notLoginUserClick"
                   >mdi-heart-outline</v-icon
@@ -88,6 +88,10 @@ export default {
     },
     images: {
       type: Array,
+      required: true,
+    },
+    heartColor: {
+      type: String,
       required: true,
     },
   },
