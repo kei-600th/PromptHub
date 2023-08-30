@@ -10,6 +10,7 @@
       :card="card"
       :is-logged-in="isLoggedIn"
       :images="images"
+      :is-loading="isLoading"
       :heart-color="heartColor"
       @add-like="addLike"
       @find-like-id="findLikeId"

@@ -82,6 +82,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
     card: {
       type: Object,
       required: true,
