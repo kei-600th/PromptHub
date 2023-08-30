@@ -1,4 +1,9 @@
 export default {
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
   methods: {
     async addLike(sampleId) {
       if (this.isLoading) return;

@@ -34,7 +34,6 @@ export default {
   mixins: [likeMixin],
   data() {
     return {
-      isLoading: false,
       params: {
         category_id: null,
       },
