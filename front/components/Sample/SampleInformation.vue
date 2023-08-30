@@ -3,9 +3,14 @@
     <v-card-title class="text-h4">
       {{ title }}
     </v-card-title>
-    <v-chip class="ma-2" color="primary">
-      {{ categoryName }}
-    </v-chip>
+    <v-low>
+      <v-chip class="ma-2" color="primary">
+        {{ gptModel }}
+      </v-chip>
+      <v-chip class="ma-2" color="primary">
+        {{ categoryName }}
+      </v-chip>
+    </v-low>
     <v-card-subtitle class="text-h6 my-2">
       {{ description }}
     </v-card-subtitle>
@@ -24,6 +29,10 @@ export default {
       required: true,
     },
     categoryName: {
+      type: String,
+      required: true,
+    },
+    gptModel: {
       type: String,
       required: true,
     },

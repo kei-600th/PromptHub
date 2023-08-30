@@ -7,6 +7,7 @@
           :title="params.sample.title"
           :description="params.sample.description"
           :category-name="params.sample.category.name"
+          :gpt-model="params.sample.prompts[0].gpt_model"
         />
       </div>
       <div v-if="sampleEditting === true">
