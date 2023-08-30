@@ -1,18 +1,22 @@
 <template>
   <div>
     <v-card-title class="text-h4">
-      {{ title }}
+      {{ sample.title }}
     </v-card-title>
-    <v-low>
+    <v-row>
       <v-chip class="ma-2" color="primary">
-        {{ gptModel }}
+        {{ sample.prompts[0].gpt_model }}
       </v-chip>
       <v-chip class="ma-2" color="primary">
-        {{ categoryName }}
+        {{ sample.category.name }}
       </v-chip>
-    </v-low>
+      <v-spacer></v-spacer>
+      <div class="ma-2">
+        <v-icon>mdi-heart</v-icon>
+      </div>
+    </v-row>
     <v-card-subtitle class="text-h6 my-2">
-      {{ description }}
+      {{ sample.description }}
     </v-card-subtitle>
   </div>
 </template>
@@ -20,20 +24,8 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    categoryName: {
-      type: String,
-      required: true,
-    },
-    gptModel: {
-      type: String,
+    sample: {
+      type: Object,
       required: true,
     },
   },

@@ -4,10 +4,7 @@
       <div v-if="sampleEditting === false">
         <SampleInformation
           v-if="params.sample.title && params.sample.description"
-          :title="params.sample.title"
-          :description="params.sample.description"
-          :category-name="params.sample.category.name"
-          :gpt-model="params.sample.prompts[0].gpt_model"
+          :sample="params.sample"
         />
       </div>
       <div v-if="sampleEditting === true">
