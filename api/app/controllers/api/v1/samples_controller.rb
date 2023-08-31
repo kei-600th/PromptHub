@@ -18,12 +18,12 @@ class Api::V1::SamplesController < ApplicationController
       # user_idにマッチするSampleオブジェクトを取得
       sample_ids = Like.where(user_id: params[:user_id]).pluck(:sample_id)
       favorite_samples = Sample.includes(:category, :likes).where(id: sample_ids)
-  
+
       # 取得したSampleオブジェクトから、全ての関連するlikesを取得
       favorite_samples.each do |sample|
         sample.likes.reload
       end
-      
+
       render json: favorite_samples
     else
       render json: { error: 'user_id parameter is missing' }, status: :bad_request
