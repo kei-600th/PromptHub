@@ -18,7 +18,7 @@
     </v-card-title>
 
     <v-card-text class="text-h5">
-      {{ requestText }}
+      <div v-html="formattedRequestText"></div>
     </v-card-text>
     <v-divider class="mx-4"></v-divider>
     <v-card-title>
@@ -59,22 +59,36 @@ export default {
     },
   },
   computed: {
+    formattedRequestText() {
+      return this.formatText(this.requestText);
+    },
     formattedResponseText() {
-      // バッククォートが3つ連続する部分を検知し、クラスを適用
-      let result = this.responseText.replace(
-        /```(\w*?)\n([\s\S]*?)```/g,
-        (match, language, code) => {
-          // ソースコード内の改行を<br>タグに置き換える
-          code = code.replace(/\n/g, '<br>');
-          return '<div class="code-block">' + code + '</div>';
-        },
-      );
-      // ソースコードブロック外の改行も<br>タグに置き換える（必要であれば）
-      result = result.replace(/\n/g, '<br>');
-      return result;
+      return this.formatText(this.responseText);
     },
   },
   methods: {
+    formatText(text) {
+      // 全体をエスケープ
+      const escapedText = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+      // コードブロック箇所にdivタグを適用
+      let result = escapedText.replace(
+        /```(\w*?)\n([\s\S]*?)```/g,
+        (match, language, code) => {
+
+          return `<div class="code-block">${code}</div>`;
+        }
+      );
+
+      result = '<div style="white-space: pre-wrap;">' + result + '</div>';
+      result = result.replace(/\n/g, '<br>');
+      return result;
+    },
     async copyText(text) {
       try {
         await this.$copyText(text);
