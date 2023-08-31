@@ -20,51 +20,21 @@
           class="white--text align-end clickable"
           @click="$router.push(`/sample/${sample.id}`)"
         >
-          <v-card-subtitle style="position: absolute; top:0;">
+          <v-card-subtitle style="position: absolute; top: 0">
             {{ sample.category.name }}
           </v-card-subtitle>
           <v-card-title class="fixed-height-title">
             {{ sample.title }}
           </v-card-title>
-          <v-row class="ma-2">
-            <!-- いいねアイコン -->
-            <div>
-              <!-- ログインしている時 -->
-              <div v-if="isLoggedIn">
-                <!-- ユーザーがいいねをつけていない時 -->
-                <div
-                  v-if="
-                    !sample.likes.some((like) => like.user_id === $auth.user.id)
-                  "
-                >
-                  <v-icon color="white" @click.stop="addLike(sample.id)"
-                    >mdi-heart-outline</v-icon
-                  >
-                </div>
-                <!-- ユーザーがいいねをつけている時 -->
-                <div v-else>
-                  <v-icon
-                    color="white"
-                    @click.stop="deleteLike(findLikeId(sample))"
-                    >mdi-heart</v-icon
-                  >
-                </div>
-              </div>
-              <!-- ログインしていない時 -->
-              <div v-else>
-                <v-icon
-                  color="white"
-                  :disabled="isLoading"
-                  @click.stop="notLoginUserClick"
-                  >mdi-heart-outline</v-icon
-                >
-              </div>
-            </div>
-            <!-- いいね数 -->
-            <div v-if="sample.likes.length > 0">
-              <span class="white--text ma-1">{{ sample.likes.length }}</span>
-            </div>
-          </v-row>
+          <LikeCount
+            :sample="sample"
+            :is-logged-in="isLoggedIn"
+            :is-loading="isLoading"
+            :heart-color="heartColor"
+            @add-like="addLike"
+            @delete-like="deleteLike"
+            @not-login-user-click="notLoginUserClick"
+          />
         </v-img>
       </v-card>
     </v-col>
@@ -72,7 +42,11 @@
 </template>
 
 <script>
+import LikeCount from '@/components/Like/LikeCount.vue';
 export default {
+  components: {
+    LikeCount,
+  },
   props: {
     samples: {
       type: Array,
@@ -82,12 +56,20 @@ export default {
       type: Boolean,
       required: true,
     },
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
     card: {
       type: Object,
       required: true,
     },
     images: {
       type: Array,
+      required: true,
+    },
+    heartColor: {
+      type: String,
       required: true,
     },
   },
@@ -115,6 +97,5 @@ export default {
 <style scoped>
 .fixed-height-title {
   height: 98px;
-
 }
 </style>

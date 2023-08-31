@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="ma-5">
+    <v-row class="ma-3">
       <v-icon>mdi-star-shooting-outline</v-icon>
       <v-card-title>お気に入りのサンプル</v-card-title>
     </v-row>
@@ -8,7 +8,9 @@
       :samples="samples"
       :card="card"
       :is-logged-in="isLoggedIn"
+      :is-loading="isLoading"
       :images="images"
+      :heart-color="heartColor"
       @add-like="addLike"
       @find-like-id="findLikeId"
       @delete-like="deleteLike"
@@ -49,6 +51,7 @@ export default {
         require('@/assets/images/sample_images/books.jpeg'),
         require('@/assets/images/sample_images/designing.jpeg'),
       ],
+      heartColor: 'white',
     };
   },
   computed: {
