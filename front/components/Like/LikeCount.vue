@@ -20,7 +20,7 @@
     </div>
     <!-- いいね数 -->
     <div v-if="sample.likes.length > 0">
-      <span class="white--text ma-1">{{ sample.likes.length }}</span>
+      <span :color="heartColor" class="ma-1">{{ sample.likes.length }}</span>
     </div>
   </v-row>
 </template>
