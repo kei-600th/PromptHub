@@ -15,7 +15,11 @@ export default {
             user_id: this.$auth.user.id,
           },
         });
-        await this.getSamples();
+        if (typeof this.getSamples === 'function') {
+          await this.getSamples();
+        } else if (typeof this.getSample === 'function') {
+          await this.getSample();
+        }
       } catch (error) {
         this.handleFailure(error, this.$store);
       } finally {
@@ -33,7 +37,11 @@ export default {
       this.isLoading = true;
       try {
         await this.$axios.$delete(`/api/v1/likes/${likeId}`);
-        await this.getSamples();
+        if (typeof this.getSamples === 'function') {
+          await this.getSamples();
+        } else if (typeof this.getSample === 'function') {
+          await this.getSample();
+        }
       } catch (error) {
         this.handleFailure(error, this.$store);
       } finally {
