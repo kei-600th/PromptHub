@@ -20,21 +20,21 @@
           class="white--text align-end clickable"
           @click="$router.push(`/sample/${sample.id}`)"
         >
-          <v-card-subtitle style="position: absolute; top:0;">
+          <v-card-subtitle style="position: absolute; top: 0">
             {{ sample.category.name }}
           </v-card-subtitle>
           <v-card-title class="fixed-height-title">
             {{ sample.title }}
           </v-card-title>
           <LikeCount
-          :sample="sample"
-          :is-logged-in="isLoggedIn"
-          :is-loading="isLoading"
-          :heart-color="heartColor"
-          @add-like="addLike"
-          @delete-like="deleteLike"
-          @not-login-user-click="notLoginUserClick"
-        />
+            :sample="sample"
+            :is-logged-in="isLoggedIn"
+            :is-loading="isLoading"
+            :heart-color="heartColor"
+            @add-like="addLike"
+            @delete-like="deleteLike"
+            @not-login-user-click="notLoginUserClick"
+          />
         </v-img>
       </v-card>
     </v-col>

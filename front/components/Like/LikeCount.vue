@@ -5,17 +5,27 @@
       <!-- ログインしている時 -->
       <div v-if="isLoggedIn">
         <!-- ユーザーがいいねをつけていない時 -->
-        <div v-if="!sample.likes.some((like) => like.user_id === $auth.user.id)">
-          <v-icon :color="heartColor" @click.stop="addLike(sample.id)">mdi-heart-outline</v-icon>
+        <div
+          v-if="!sample.likes.some((like) => like.user_id === $auth.user.id)"
+        >
+          <v-icon :color="heartColor" @click.stop="addLike(sample.id)"
+            >mdi-heart-outline</v-icon
+          >
         </div>
         <!-- ユーザーがいいねをつけている時 -->
         <div v-else>
-          <v-icon :color="heartColor" @click.stop="deleteLike(findLikeId(sample))">mdi-heart</v-icon>
+          <v-icon
+            :color="heartColor"
+            @click.stop="deleteLike(findLikeId(sample))"
+            >mdi-heart</v-icon
+          >
         </div>
       </div>
       <!-- ログインしていない時 -->
       <div v-else>
-        <v-icon :color="heartColor" @click.stop="notLoginUserClick">mdi-heart-outline</v-icon>
+        <v-icon :color="heartColor" @click.stop="notLoginUserClick"
+          >mdi-heart-outline</v-icon
+        >
       </div>
     </div>
     <!-- いいね数 -->
@@ -51,7 +61,7 @@ export default {
     },
     findLikeId(sample) {
       const likeObject = sample.likes.find(
-        (like) => like.user_id === this.$auth.user.id
+        (like) => like.user_id === this.$auth.user.id,
       );
       return likeObject ? likeObject.id : null;
     },

@@ -55,7 +55,7 @@ export default {
         require('@/assets/images/sample_images/books.jpeg'),
         require('@/assets/images/sample_images/designing.jpeg'),
       ],
-      heartColor: "white"
+      heartColor: 'white',
     };
   },
   computed: {

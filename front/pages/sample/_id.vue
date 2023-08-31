@@ -77,7 +77,7 @@ export default {
       },
       sampleEditting: false,
       categories: [],
-      heartColor: "primary",
+      heartColor: 'primary',
     };
   },
   computed: {
