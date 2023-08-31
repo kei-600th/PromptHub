@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="ma-5">
+    <v-row class="ma-3">
       <v-icon>mdi-star-shooting-outline</v-icon>
       <v-card-title>お気に入りのサンプル</v-card-title>
     </v-row>
