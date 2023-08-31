@@ -12,7 +12,15 @@
       </v-chip>
       <v-spacer></v-spacer>
       <div class="ma-2">
-        <v-icon>mdi-heart</v-icon>
+        <LikeCount
+          :sample="sample"
+          :is-logged-in="isLoggedIn"
+          :is-loading="isLoading"
+          :heart-color="heartColor"
+          @add-like="addLike"
+          @delete-like="deleteLike"
+          @not-login-user-click="notLoginUserClick"
+        />
       </div>
     </v-row>
     <v-card-subtitle class="text-h6 my-2">
@@ -27,6 +35,35 @@ export default {
     sample: {
       type: Object,
       required: true,
+    },
+    isLoggedIn: {
+      type: Boolean,
+      required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
+    heartColor: {
+      type: String,
+      required: true,
+    },
+  },
+  methods: {
+    addLike(sampleId) {
+      this.$emit('add-like', sampleId);
+    },
+    findLikeId(sample) {
+      const likeObject = sample.likes.find(
+        (like) => like.user_id === this.$auth.user.id,
+      );
+      return likeObject ? likeObject.id : null;
+    },
+    deleteLike(likeId) {
+      this.$emit('delete-like', likeId);
+    },
+    notLoginUserClick() {
+      this.$emit('not-login-user-click');
     },
   },
 };

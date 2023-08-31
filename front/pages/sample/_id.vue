@@ -5,6 +5,13 @@
         <SampleInformation
           v-if="params.sample.title && params.sample.description"
           :sample="params.sample"
+          :is-logged-in="isLoggedIn"
+          :is-loading="isLoading"
+          :heart-color="heartColor"
+          @add-like="addLike"
+          @find-like-id="findLikeId"
+          @delete-like="deleteLike"
+          @not-login-user-click="notLoginUserClick"
         />
       </div>
       <div v-if="sampleEditting === true">
@@ -41,6 +48,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import qs from 'qs';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import SampleInformation from '@/components/Sample/SampleInformation.vue';
@@ -48,6 +56,7 @@ import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 import checkAdminMixin from '@/plugins/check-admin-mixin';
+import likeMixin from '@/mixins/likeMixin.js';
 export default {
   components: {
     ChatLog,
@@ -55,7 +64,7 @@ export default {
     SampleDetailButtons,
     SelectCategory,
   },
-  mixins: [checkAdminMixin],
+  mixins: [checkAdminMixin, likeMixin],
   data() {
     return {
       sampleId: null,
@@ -68,7 +77,11 @@ export default {
       },
       sampleEditting: false,
       categories: [],
+      heartColor: "primary",
     };
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn']),
   },
   async mounted() {
     await this.getSample();
