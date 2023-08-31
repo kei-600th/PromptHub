@@ -4,12 +4,14 @@
       {{ sample.title }}
     </v-card-title>
     <v-row>
-      <v-chip class="ma-2" color="primary">
-        {{ sample.prompts[0].gpt_model }}
-      </v-chip>
-      <v-chip class="ma-2" color="primary">
-        {{ sample.category.name }}
-      </v-chip>
+      <div class="mx-2">
+        <v-chip class="ma-2" color="primary">
+          {{ sample.prompts[0].gpt_model }}
+        </v-chip>
+        <v-chip class="ma-2" color="primary">
+          {{ sample.category.name }}
+        </v-chip>
+      </div>
       <v-spacer></v-spacer>
       <div class="ma-2">
         <LikeCount
