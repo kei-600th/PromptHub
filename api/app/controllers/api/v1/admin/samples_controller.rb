@@ -2,7 +2,7 @@ class Api::V1::Admin::SamplesController < ApplicationController
   before_action :check_admin, only: [:create, :update, :destroy]
 
   def create
-    service = SamplePromptCreationService.new(sample_params, prompt_params)
+    service = SamplePromptCreationService.new(sample_params, prompts_params)
 
     sample = service.call
     if sample
@@ -32,8 +32,10 @@ class Api::V1::Admin::SamplesController < ApplicationController
 
   private
 
-  def prompt_params
-    params.require(:prompt).permit(:request_text, :response_text, :gpt_model)
+  def prompts_params
+    params.require(:prompts).map do |prompt_param|
+      prompt_param.permit(:request_text, :response_text, :gpt_model)
+    end
   end
 
   def sample_params

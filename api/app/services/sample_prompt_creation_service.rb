@@ -1,16 +1,16 @@
 class SamplePromptCreationService
   attr_reader :error_message
 
-  def initialize(sample_params, prompt_params)
+  def initialize(sample_params, prompts_params)
     @sample_params = sample_params
-    @prompt_params = prompt_params
+    @prompts_params = prompts_params
   end
 
   def call
     sample = create_sample
     return false unless sample
 
-    create_prompt(sample.id)
+    create_prompts(sample.id)
   end
 
   private
@@ -25,13 +25,14 @@ class SamplePromptCreationService
     sample
   end
 
-  def create_prompt(sample_id)
-    prompt = Prompt.new(@prompt_params.merge(sample_id: sample_id))
-    unless prompt.save
-      @error_message = "プロンプトの作成に失敗しました。"
-      return false
+  def create_prompts(sample_id)
+    @prompts_params.each do |prompt_param|
+      prompt = Prompt.new(prompt_param.merge(sample_id: sample_id))
+      unless prompt.save
+        @error_message = "プロンプトの作成に失敗しました。"
+        return false
+      end
     end
-
     true
   end
 end

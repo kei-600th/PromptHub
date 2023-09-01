@@ -1,18 +1,7 @@
 <template>
   <div class="container">
-    <!-- サンプル投稿用テンプレート -->
-    <div v-if="promptCreated === false">
-      <PromptForm
-        :request-text="params.prompt.request_text"
-        :gpt-model="params.prompt.gpt_model"
-        :loading="loading"
-        @updateRequestText="params.prompt.request_text = $event"
-        @updateGptModel="params.prompt.gpt_model = $event"
-        @createPrompt="createPrompt"
-      />
-    </div>
     <!-- 作成中サンプル表示用テンプレート -->
-    <div v-if="promptCreated === true">
+    <div v-if="params.prompts.length > 0">
       <v-card>
         <v-card-title>作成するサンプルの確認</v-card-title>
         <SampleForm
@@ -26,10 +15,12 @@
           :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
-        <ChatLog
-          :request-text="params.prompt.request_text"
-          :response-text="params.prompt.response_text"
-        />
+        <div v-for="(prompt, index) in params.prompts" :key="index">
+          <ChatLog
+            :request-text="prompt.request_text"
+            :response-text="prompt.response_text"
+          />
+        </div>
         <v-row class="justify-end">
           <v-btn
             color="appblue"
@@ -55,6 +46,15 @@
         </v-row>
       </v-card>
     </div>
+    <!-- サンプル投稿用テンプレート -->
+    <PromptForm
+      :request-text="params.prompt.request_text"
+      :gpt-model="params.prompt.gpt_model"
+      :loading="loading"
+      @updateRequestText="params.prompt.request_text = $event"
+      @updateGptModel="params.prompt.gpt_model = $event"
+      @createPrompt="createPrompt"
+    />
   </div>
 </template>
 
@@ -80,6 +80,7 @@ export default {
       loading: false,
       categories: [],
       params: {
+        prompts:[],
         ...this.defaultPromptAndSampleParams(),
         user: {
           id: null,
@@ -127,6 +128,7 @@ export default {
           },
         });
         this.params.prompt.response_text = response.response_text;
+        this.params.prompts.push({ ...this.params.prompt }); 
         this.promptCreated = true;
       } catch (error) {
         handleFailure(error, this.$store);
@@ -149,6 +151,7 @@ export default {
     deletePrompt() {
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       Object.assign(this.params, this.defaultPromptAndSampleParams());
+      this.params.prompts.length = 0;
       this.promptCreated = false;
     },
   },
