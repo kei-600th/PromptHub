@@ -85,13 +85,7 @@ export default {
         user: {
           id: null,
         },
-      },
-      chat_params: {
-        model:"",
-        messages: []
-      },
-      sample_params:{
-
+        messages: [],
       },
     };
   },
@@ -126,7 +120,11 @@ export default {
     },
     async createPrompt() {
       this.loading = true;
-      console.log(this.params)
+      // ユーザが入力したmessagesをparams.messagesに保存
+      this.params.messages.push({
+          role: 'user',
+          content: this.params.prompt.request_text
+        }); 
       try {
         const response = await this.$axios.$get('/api/v1/admin/prompts/new', {
           params: this.params,
@@ -136,12 +134,13 @@ export default {
         });
         this.params.prompt.response_text = response.response_text;
         this.params.prompts.push({ ...this.params.prompt });
-        // OpenAIからのmessagesをchat_paramsに保存
-        this.chat_params.messages.push({
+        // OpenAIからのmessagesをparams.messagesに保存
+        this.params.messages.push({
           role: 'assistant',
           content: response.response_text
         }); 
-        console.log(this.chat_params)
+        this.params.prompt.request_text = ""
+        console.log(this.params.messages)
       } catch (error) {
         handleFailure(error, this.$store);
       }
@@ -164,6 +163,7 @@ export default {
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.params.prompts.length = 0;
+      this.params.messages.length = 0;
     },
   },
 };
