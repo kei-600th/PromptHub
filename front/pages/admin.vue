@@ -79,7 +79,7 @@ export default {
       loading: false,
       categories: [],
       params: {
-        prompts:[],
+        prompts: [],
         ...this.defaultPromptAndSampleParams(),
         user: {
           id: null,
@@ -121,19 +121,21 @@ export default {
       this.loading = true;
       // ユーザが入力したmessagesをparams.messagesに保存
       this.params.messages.push({
-          role: 'user',
-          content: this.params.prompt.request_text
-        }); 
+        role: 'user',
+        content: this.params.prompt.request_text,
+      });
       try {
-        const response = await this.$axios.$post('/api/v1/admin/prompts', this.params);
+        const response = await this.$axios.$post(
+          '/api/v1/admin/prompts',
+          this.params,
+        );
         this.params.prompt.response_text = response.response_text;
         this.params.prompts.push({ ...this.params.prompt });
         // OpenAIからのmessagesをparams.messagesに保存
         this.params.messages.push({
           role: 'assistant',
-          content: response.response_text
-        }); 
-        console.log(this.params.messages)
+          content: response.response_text,
+        });
       } catch (error) {
         handleFailure(error, this.$store);
       }
