@@ -1,8 +1,8 @@
 require 'openai'
 
 class OpenaiChatService
-  def initialize(request_text, gpt_model)
-    @request_text = request_text
+  def initialize(messages, gpt_model)
+    @messages = messages
     @gpt_model = gpt_model
   end
 
@@ -11,7 +11,7 @@ class OpenaiChatService
     response = client.chat(
       parameters: {
         model: @gpt_model,
-        messages: [{ role: "user", content: @request_text }],
+        messages: @messages,
         temperature: 0.7
       }
     )

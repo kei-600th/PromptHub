@@ -80,9 +80,8 @@ export default {
       let result = escapedText.replace(
         /```(\w*?)\n([\s\S]*?)```/g,
         (match, language, code) => {
-
           return `<div class="code-block">${code}</div>`;
-        }
+        },
       );
 
       result = '<div style="white-space: pre-wrap;">' + result + '</div>';

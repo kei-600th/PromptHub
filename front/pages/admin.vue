@@ -1,18 +1,7 @@
 <template>
   <div class="container">
-    <!-- サンプル投稿用テンプレート -->
-    <div v-if="promptCreated === false">
-      <PromptForm
-        :request-text="params.prompt.request_text"
-        :gpt-model="params.prompt.gpt_model"
-        :loading="loading"
-        @updateRequestText="params.prompt.request_text = $event"
-        @updateGptModel="params.prompt.gpt_model = $event"
-        @createPrompt="createPrompt"
-      />
-    </div>
     <!-- 作成中サンプル表示用テンプレート -->
-    <div v-if="promptCreated === true">
+    <div v-if="params.prompts.length > 0">
       <v-card>
         <v-card-title>作成するサンプルの確認</v-card-title>
         <SampleForm
@@ -26,10 +15,12 @@
           :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
-        <ChatLog
-          :request-text="params.prompt.request_text"
-          :response-text="params.prompt.response_text"
-        />
+        <div v-for="(prompt, index) in params.prompts" :key="index">
+          <ChatLog
+            :request-text="prompt.request_text"
+            :response-text="prompt.response_text"
+          />
+        </div>
         <v-row class="justify-end">
           <v-btn
             color="appblue"
@@ -55,11 +46,19 @@
         </v-row>
       </v-card>
     </div>
+    <!-- サンプル投稿用テンプレート -->
+    <PromptForm
+      :request-text="params.prompt.request_text"
+      :gpt-model="params.prompt.gpt_model"
+      :loading="loading"
+      @updateRequestText="params.prompt.request_text = $event"
+      @updateGptModel="params.prompt.gpt_model = $event"
+      @createPrompt="createPrompt"
+    />
   </div>
 </template>
 
 <script>
-import qs from 'qs';
 import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
@@ -80,12 +79,13 @@ export default {
       loading: false,
       categories: [],
       params: {
+        prompts: [],
         ...this.defaultPromptAndSampleParams(),
         user: {
           id: null,
         },
+        messages: [],
       },
-      promptCreated: false,
     };
   },
   async mounted() {
@@ -119,15 +119,23 @@ export default {
     },
     async createPrompt() {
       this.loading = true;
+      // ユーザが入力したmessagesをparams.messagesに保存
+      this.params.messages.push({
+        role: 'user',
+        content: this.params.prompt.request_text,
+      });
       try {
-        const response = await this.$axios.$get('/api/v1/admin/prompts/new', {
-          params: this.params,
-          paramsSerializer: (params) => {
-            return qs.stringify(params);
-          },
-        });
+        const response = await this.$axios.$post(
+          '/api/v1/admin/prompts',
+          this.params,
+        );
         this.params.prompt.response_text = response.response_text;
-        this.promptCreated = true;
+        this.params.prompts.push({ ...this.params.prompt });
+        // OpenAIからのmessagesをparams.messagesに保存
+        this.params.messages.push({
+          role: 'assistant',
+          content: response.response_text,
+        });
       } catch (error) {
         handleFailure(error, this.$store);
       }
@@ -149,7 +157,8 @@ export default {
     deletePrompt() {
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       Object.assign(this.params, this.defaultPromptAndSampleParams());
-      this.promptCreated = false;
+      this.params.prompts.length = 0;
+      this.params.messages.length = 0;
     },
   },
 };
