@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import qs from 'qs';
 import PromptForm from '@/components/Sample/PromptForm.vue';
 import SampleForm from '@/components/Sample/SampleForm.vue';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
@@ -126,12 +125,7 @@ export default {
           content: this.params.prompt.request_text
         }); 
       try {
-        const response = await this.$axios.$get('/api/v1/admin/prompts/new', {
-          params: this.params,
-          paramsSerializer: (params) => {
-            return qs.stringify(params);
-          },
-        });
+        const response = await this.$axios.$post('/api/v1/admin/prompts', this.params);
         this.params.prompt.response_text = response.response_text;
         this.params.prompts.push({ ...this.params.prompt });
         // OpenAIからのmessagesをparams.messagesに保存
@@ -139,7 +133,6 @@ export default {
           role: 'assistant',
           content: response.response_text
         }); 
-        this.params.prompt.request_text = ""
         console.log(this.params.messages)
       } catch (error) {
         handleFailure(error, this.$store);
