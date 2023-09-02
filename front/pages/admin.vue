@@ -86,7 +86,6 @@ export default {
           id: null,
         },
       },
-      promptCreated: false,
     };
   },
   async mounted() {
@@ -129,7 +128,6 @@ export default {
         });
         this.params.prompt.response_text = response.response_text;
         this.params.prompts.push({ ...this.params.prompt }); 
-        this.promptCreated = true;
       } catch (error) {
         handleFailure(error, this.$store);
       }
@@ -152,7 +150,6 @@ export default {
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.params.prompts.length = 0;
-      this.promptCreated = false;
     },
   },
 };
