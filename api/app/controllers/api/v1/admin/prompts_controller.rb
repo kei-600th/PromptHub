@@ -1,5 +1,5 @@
 class Api::V1::Admin::PromptsController < ApplicationController
-  before_action :check_admin, only: :new
+  before_action :check_admin, only: :create
 
   def create
     prompt = Prompt.new(prompt_params)
