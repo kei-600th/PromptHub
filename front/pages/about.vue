@@ -1,8 +1,11 @@
 <template>
   <div class="eye-catching-container">
-    <v-img :src="require('@/assets/images/sample_images/prompthub.jpeg')" alt="Prompthub" class="custom-img centered-img">
-      <h1>ChatGPTを共有しよう</h1>
-    </v-img>
+    <div class="title-container">
+      <h1>ChatGPTの使い方を共有しよう</h1>
+    </div>
+    <div class="img-container">
+      <v-img :src="require('@/assets/images/sample_images/prompthub.jpeg')" alt="Prompthub" class="custom-img"></v-img>
+    </div>
   </div>
 </template>
 
@@ -17,18 +20,19 @@ export default {
   background-color: #D6D2E0;
   display: flex;
   align-items: center;
-  justify-content: center; /* 中央寄せのために追加 */
+  justify-content: space-between;
   min-height: 400px;
 }
 
-.custom-img {
-  max-width: 400px;
+.title-container {
+  width: 70% !important;
+  margin-right: 20px;
 }
 
-.centered-img {
-  width: 80%;
-  height: 80%;
-  border-radius: 15px;
-  margin: auto; /* 中央寄せのために追加 */
+.img-container {
+  width: 30% !important;
+}
+
+.custom-img {
 }
 </style>
