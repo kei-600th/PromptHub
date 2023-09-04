@@ -20,19 +20,19 @@ export default {
   background-color: #D6D2E0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  min-height: 400px;
+  justify-content: space-around;
 }
 
 .title-container {
-  width: 70% !important;
   margin-right: 20px;
 }
 
 .img-container {
-  width: 30% !important;
 }
 
 .custom-img {
+  max-width: 400px;
+  max-height: 400px;
+  border-radius: 15px;
 }
 </style>
