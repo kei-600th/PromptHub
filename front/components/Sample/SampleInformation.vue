@@ -4,16 +4,16 @@
       {{ sample.title }}
     </v-card-title>
     <v-row>
-      <div class="mx-2">
-        <v-chip class="ma-2" color="primary">
+      <div class="ml-6 mt-4">
+        <v-chip color="primary">
           {{ sample.prompts[0].gpt_model }}
         </v-chip>
-        <v-chip class="ma-2" color="primary">
+        <v-chip class="ml-2" color="primary">
           {{ sample.category.name }}
         </v-chip>
       </div>
       <v-spacer></v-spacer>
-      <div class="ma-2">
+      <div class="mr-4">
         <LikeCount
           :sample="sample"
           :is-logged-in="isLoggedIn"
