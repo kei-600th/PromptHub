@@ -104,7 +104,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .code-block {
   background-color: black;
   color: white; /* 文字色を白に設定する */

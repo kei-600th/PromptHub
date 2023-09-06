@@ -133,7 +133,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .clickable {
   cursor: pointer;
 }

@@ -12,7 +12,7 @@
   </svg>
 </template>
 
-<style scoped>
+<style>
 .nuxt-logo {
   height: 180px;
 }
