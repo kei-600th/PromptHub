@@ -27,23 +27,23 @@
           @updateCategory="params.sample.category_id = $event"
         />
       </div>
-      <div v-for="(prompt, index) in params.sample.prompts" :key="index">
-        <ChatLog
-          :request-text="prompt.request_text"
-          :response-text="prompt.response_text"
-        />
-      </div>
-      <SampleDetailButtons
-        v-if="isAdmin"
-        :loading="loading"
-        :sample-editting="sampleEditting"
-        :params="params"
-        @editSample="editSample"
-        @deleteSample="deleteSample"
-        @updateSample="updateSample"
-        @cancelEditSample="cancelEditSample"
-      />
     </v-card>
+    <div v-for="(prompt, index) in params.sample.prompts" :key="index">
+      <ChatLog
+        :request-text="prompt.request_text"
+        :response-text="prompt.response_text"
+      />
+    </div>
+    <SampleDetailButtons
+      v-if="isAdmin"
+      :loading="loading"
+      :sample-editting="sampleEditting"
+      :params="params"
+      @editSample="editSample"
+      @deleteSample="deleteSample"
+      @updateSample="updateSample"
+      @cancelEditSample="cancelEditSample"
+    />
   </div>
 </template>
 

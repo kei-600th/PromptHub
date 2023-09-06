@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-divider class="mx-4"></v-divider>
+
+    <!-- ユーザー側 -->
     <v-card-title>
       <div>
         <v-icon large left> mdi-account </v-icon>
@@ -17,10 +18,14 @@
       </v-tooltip>
     </v-card-title>
 
-    <v-card-text class="text-h5">
-      <div v-html="formattedRequestText"></div>
-    </v-card-text>
-    <v-divider class="mx-4"></v-divider>
+    <!-- 本文 -->
+    <v-card color="#84E34B" class="rounded-xl user-message">
+      <v-card-text class="text-h5">
+        <div v-html="formattedRequestText"></div>
+      </v-card-text>
+    </v-card>
+
+    <!-- ChatGPT側 -->
     <v-card-title>
       <div>
         <v-icon large left> mdi-robot </v-icon>
@@ -37,10 +42,12 @@
       </v-tooltip>
     </v-card-title>
 
-    <v-card-text class="text-h5">
-      <div v-html="formattedResponseText"></div>
-    </v-card-text>
-    <v-divider class="mx-4"></v-divider>
+    <!-- 本文 -->
+    <v-card class="rounded-xl chatgpt-message">
+      <v-card-text class="text-h5">
+        <div v-html="formattedResponseText"></div>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -112,4 +119,13 @@ export default {
   border-radius: 5px;
   white-space: pre-wrap;
 }
+
+.user-message {
+  background-color: #00B8C0;
+}
+
+.chatgpt-message {
+  background-color: #EBECEE
+}
+
 </style>
