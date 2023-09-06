@@ -11,8 +11,11 @@
       </v-card-title>
 
       <!-- 本文 -->
-      <v-card color="#E7FDCC" class="rounded-xl">
-        <div style="text-align: right;">
+      <v-card color="#E7FDCC" class="user-message rounded-xl">
+        <v-card-text class="text-h5">
+          <div v-html="formattedRequestText"></div>
+        </v-card-text>
+        <div>
           <v-tooltip right>
             <template #activator="{ on, attrs }">
               <v-icon class="mr-4 mt-4" v-bind="attrs" @click="copyText(requestText)" v-on="on"
@@ -22,9 +25,6 @@
             <span>Copy</span>
           </v-tooltip>
         </div>
-        <v-card-text class="text-h5">
-          <div v-html="formattedRequestText"></div>
-        </v-card-text>
       </v-card>
     </div>
 
@@ -114,6 +114,11 @@ export default {
   padding: 10px;
   border-radius: 5px;
   white-space: pre-wrap;
+}
+
+.user-message {
+  display: flex;
+	justify-content: space-between;
 }
 
 </style>
