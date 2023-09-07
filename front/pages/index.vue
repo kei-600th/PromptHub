@@ -1,5 +1,9 @@
 <template>
   <div>
+    <v-row class="ma-4">
+      <v-icon class="mr-2">mdi-view-list</v-icon>
+      <h2>サンプル一覧</h2>
+    </v-row>
     <SelectCategory
       :category-id="params.category_id"
       :categories="categories"

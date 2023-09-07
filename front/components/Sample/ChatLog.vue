@@ -1,46 +1,52 @@
 <template>
-  <div>
-    <v-divider class="mx-4"></v-divider>
-    <v-card-title>
-      <div>
-        <v-icon large left> mdi-account </v-icon>
-        <span class="text-h6 font-weight-light">You</span>
-      </div>
-      <v-spacer></v-spacer>
-      <v-tooltip right>
-        <template #activator="{ on, attrs }">
-          <v-icon v-bind="attrs" @click="copyText(requestText)" v-on="on"
-            >mdi-clipboard-outline
-          </v-icon>
-        </template>
-        <span>Copy</span>
-      </v-tooltip>
-    </v-card-title>
+  <div class="my-4">
+    <!-- ユーザー側 -->
+    <div class="my-4">
+      <v-card-title>
+        <div class="sender">
+          <v-icon large left> mdi-account </v-icon>
+          <h4>あなた</h4>
+        </div>
+      </v-card-title>
 
-    <v-card-text class="text-h5">
-      <div v-html="formattedRequestText"></div>
-    </v-card-text>
-    <v-divider class="mx-4"></v-divider>
-    <v-card-title>
-      <div>
-        <v-icon large left> mdi-robot </v-icon>
-        <span class="text-h6 font-weight-light">ChatGPT</span>
-      </div>
-      <v-spacer></v-spacer>
-      <v-tooltip right>
-        <template #activator="{ on, attrs }">
-          <v-icon v-bind="attrs" @click="copyText(responseText)" v-on="on"
-            >mdi-clipboard-outline
-          </v-icon>
-        </template>
-        <span>Copy</span>
-      </v-tooltip>
-    </v-card-title>
+      <!-- 本文 -->
+      <v-card color="#E7FDCC" class="user-message rounded-xl">
+        <v-card-text class="text-h5">
+          <div v-html="formattedRequestText"></div>
+        </v-card-text>
+        <div>
+          <v-tooltip right>
+            <template #activator="{ on, attrs }">
+              <v-icon
+                class="mr-4 mt-4"
+                v-bind="attrs"
+                @click="copyText(requestText)"
+                v-on="on"
+                >mdi-clipboard-outline
+              </v-icon>
+            </template>
+            <span>Copy</span>
+          </v-tooltip>
+        </div>
+      </v-card>
+    </div>
 
-    <v-card-text class="text-h5">
-      <div v-html="formattedResponseText"></div>
-    </v-card-text>
-    <v-divider class="mx-4"></v-divider>
+    <!-- ChatGPT側 -->
+    <div class="my-4">
+      <v-card-title>
+        <div class="sender">
+          <v-icon large left> mdi-robot </v-icon>
+          <h4>ChatGPT</h4>
+        </div>
+      </v-card-title>
+
+      <!-- 本文 -->
+      <v-card color="#EBECEE" class="rounded-xl">
+        <v-card-text class="text-h5">
+          <div v-html="formattedResponseText"></div>
+        </v-card-text>
+      </v-card>
+    </div>
   </div>
 </template>
 
@@ -111,5 +117,14 @@ export default {
   padding: 10px;
   border-radius: 5px;
   white-space: pre-wrap;
+}
+
+.user-message {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sender {
+  display: flex;
 }
 </style>

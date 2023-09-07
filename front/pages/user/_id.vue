@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-row class="ma-3">
-      <v-icon>mdi-star-shooting-outline</v-icon>
-      <v-card-title>お気に入りのサンプル</v-card-title>
+    <v-row class="ma-4">
+      <v-icon class="mr-2">mdi-star-shooting-outline</v-icon>
+      <h2>お気に入りのサンプル</h2>
     </v-row>
     <SampleList
       :samples="samples"

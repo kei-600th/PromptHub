@@ -1,20 +1,30 @@
 <template>
   <div class="container">
-    <v-card>
-      <div v-if="sampleEditting === false">
-        <SampleInformation
-          v-if="params.sample.title && params.sample.description"
-          :sample="params.sample"
-          :is-logged-in="isLoggedIn"
-          :is-loading="isLoading"
-          :heart-color="heartColor"
-          @add-like="addLike"
-          @find-like-id="findLikeId"
-          @delete-like="deleteLike"
-          @not-login-user-click="notLoginUserClick"
-        />
-      </div>
-      <div v-if="sampleEditting === true">
+    <div v-if="sampleEditting === false">
+      <SampleInformation
+        v-if="params.sample.title && params.sample.description"
+        :sample="params.sample"
+        :is-logged-in="isLoggedIn"
+        :is-loading="isLoading"
+        :heart-color="heartColor"
+        @add-like="addLike"
+        @find-like-id="findLikeId"
+        @delete-like="deleteLike"
+        @not-login-user-click="notLoginUserClick"
+      />
+    </div>
+    <v-row class="mx-4 my-6">
+      <v-icon class="ml-1 mr-2">mdi-emoticon-outline</v-icon>
+      <h2>使用例</h2>
+    </v-row>
+    <div v-for="(prompt, index) in params.sample.prompts" :key="index">
+      <ChatLog
+        :request-text="prompt.request_text"
+        :response-text="prompt.response_text"
+      />
+    </div>
+    <div v-if="sampleEditting === true">
+      <v-card>
         <SampleForm
           :title="params.sample.title"
           :description="params.sample.description"
@@ -26,24 +36,18 @@
           :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
-      </div>
-      <div v-for="(prompt, index) in params.sample.prompts" :key="index">
-        <ChatLog
-          :request-text="prompt.request_text"
-          :response-text="prompt.response_text"
-        />
-      </div>
-      <SampleDetailButtons
-        v-if="isAdmin"
-        :loading="loading"
-        :sample-editting="sampleEditting"
-        :params="params"
-        @editSample="editSample"
-        @deleteSample="deleteSample"
-        @updateSample="updateSample"
-        @cancelEditSample="cancelEditSample"
-      />
-    </v-card>
+      </v-card>
+    </div>
+    <SampleDetailButtons
+      v-if="isAdmin"
+      :loading="loading"
+      :sample-editting="sampleEditting"
+      :params="params"
+      @editSample="editSample"
+      @deleteSample="deleteSample"
+      @updateSample="updateSample"
+      @cancelEditSample="cancelEditSample"
+    />
   </div>
 </template>
 
@@ -77,7 +81,7 @@ export default {
       },
       sampleEditting: false,
       categories: [],
-      heartColor: 'primary',
+      heartColor: '#ff8db3',
     };
   },
   computed: {
