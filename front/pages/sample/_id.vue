@@ -14,7 +14,15 @@
           @not-login-user-click="notLoginUserClick"
         />
       </div>
-      <div v-if="sampleEditting === true">
+    </v-card>
+    <div v-for="(prompt, index) in params.sample.prompts" :key="index">
+      <ChatLog
+        :request-text="prompt.request_text"
+        :response-text="prompt.response_text"
+      />
+    </div>
+    <div v-if="sampleEditting === true">
+      <v-card>
         <SampleForm
           :title="params.sample.title"
           :description="params.sample.description"
@@ -26,13 +34,7 @@
           :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
-      </div>
-    </v-card>
-    <div v-for="(prompt, index) in params.sample.prompts" :key="index">
-      <ChatLog
-        :request-text="prompt.request_text"
-        :response-text="prompt.response_text"
-      />
+      </v-card>
     </div>
     <SampleDetailButtons
       v-if="isAdmin"
