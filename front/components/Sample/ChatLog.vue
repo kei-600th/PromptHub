@@ -6,7 +6,7 @@
       <v-card-title>
         <div>
           <v-icon large left> mdi-account </v-icon>
-          <span class="text-h6 font-weight-light">You</span>
+          <span class="text-h6 font-weight-light">あなた</span>
         </div>
       </v-card-title>
 
