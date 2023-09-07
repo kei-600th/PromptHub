@@ -40,7 +40,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import isMobileBreakpoint from '~/mixins/isMobileBreakpoint';
 export default {
+  mixins: [isMobileBreakpoint],
   props: {
     drawer: {
       type: Boolean,
@@ -49,7 +51,6 @@ export default {
   },
   data() {
     return {
-      mobileBreakpoint: 960,
       right: null,
     };
   },
@@ -83,11 +84,6 @@ export default {
       set(newVal) {
         return this.$emit('update:drawer', newVal);
       },
-    },
-    isMobileBreakpointLessThan() {
-      // 現在のビューポートの幅を取得しwindowwidthに当てはめる
-      const windowWidth = this.$vuetify.breakpoint.width;
-      return this.mobileBreakpoint > windowWidth;
     },
   },
 };
