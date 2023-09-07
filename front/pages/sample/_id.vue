@@ -59,7 +59,7 @@ import SampleInformation from '@/components/Sample/SampleInformation.vue';
 import SampleDetailButtons from '@/components/Sample/SampleDetailButtons.vue';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
-import checkAdminMixin from '@/plugins/check-admin-mixin';
+import checkAdminMixin from '@/mixins/checkAdminMixin';
 import likeMixin from '@/mixins/likeMixin.js';
 export default {
   components: {
