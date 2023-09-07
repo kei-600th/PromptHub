@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-card class="sample-information-card mt-6 py-2 rounded-xl">
+    <v-card
+      color="#EBECEE"
+      class="sample-information-card mt-6 py-2 rounded-xl"
+    >
       <!-- タイトル -->
       <v-card-title class="sample-information-card-title my-4">
         <h1>
@@ -84,15 +87,12 @@ export default {
 </script>
 
 <style scoped>
-
-.sample-information-card-chip{
+.sample-information-card-chip {
   display: flex;
   justify-content: space-between;
 }
 
-.sample-information-card-description{
+.sample-information-card-description {
   display: flex;
 }
-
-
 </style>

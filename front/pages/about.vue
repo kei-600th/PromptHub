@@ -5,7 +5,11 @@
         <h1>ChatGPTの使い方を広げよう</h1>
       </div>
       <div>
-        <v-img :src="require('@/assets/images/introduce/prompthub.jpeg')" alt="Prompthub" class="eye-catching-img"></v-img>
+        <v-img
+          :src="require('@/assets/images/introduce/prompthub.jpeg')"
+          alt="Prompthub"
+          class="eye-catching-img"
+        ></v-img>
       </div>
     </div>
     <div class="features-container">
@@ -16,14 +20,20 @@
           <p>自分に合った参考例を見つけましょう</p>
         </div>
         <div class="card-img-container">
-          <v-img :src="require('@/assets/images/introduce/lunch-break-e1.png')" class="card-img"></v-img>
+          <v-img
+            :src="require('@/assets/images/introduce/lunch-break-e1.png')"
+            class="card-img"
+          ></v-img>
         </div>
         <div class="how-to-use">
           <h2>実際に使ってみる</h2>
           <p>サンプルをカスタマイズして実際に使ってみましょう</p>
         </div>
         <div class="card-img-container">
-          <v-img :src="require('@/assets/images/introduce/user-interface-8.png')" class="card-img"></v-img>
+          <v-img
+            :src="require('@/assets/images/introduce/user-interface-8.png')"
+            class="card-img"
+          ></v-img>
         </div>
       </div>
     </div>
@@ -31,14 +41,13 @@
 </template>
 
 <script>
-export default {
-}
+export default {};
 </script>
 
 <style scoped>
 .eye-catching-container {
   position: relative;
-  background-color: #D6D2E0;
+  background-color: #d6d2e0;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -60,7 +69,7 @@ export default {
 
 .features-row {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px; /* 各要素の間隔 */
   margin-top: 50px;
 }
@@ -76,5 +85,4 @@ export default {
 
 .card-img {
 }
-
 </style>

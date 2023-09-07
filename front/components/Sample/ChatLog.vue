@@ -1,12 +1,11 @@
 <template>
   <div class="my-4">
-
     <!-- ユーザー側 -->
     <div class="my-4">
       <v-card-title>
-        <div>
+        <div class="sender">
           <v-icon large left> mdi-account </v-icon>
-          <span class="text-h6 font-weight-light">あなた</span>
+          <h4>あなた</h4>
         </div>
       </v-card-title>
 
@@ -18,7 +17,11 @@
         <div>
           <v-tooltip right>
             <template #activator="{ on, attrs }">
-              <v-icon class="mr-4 mt-4" v-bind="attrs" @click="copyText(requestText)" v-on="on"
+              <v-icon
+                class="mr-4 mt-4"
+                v-bind="attrs"
+                @click="copyText(requestText)"
+                v-on="on"
                 >mdi-clipboard-outline
               </v-icon>
             </template>
@@ -31,9 +34,9 @@
     <!-- ChatGPT側 -->
     <div class="my-4">
       <v-card-title>
-        <div>
+        <div class="sender">
           <v-icon large left> mdi-robot </v-icon>
-          <span class="text-h6 font-weight-light">ChatGPT</span>
+          <h4>ChatGPT</h4>
         </div>
       </v-card-title>
 
@@ -118,7 +121,10 @@ export default {
 
 .user-message {
   display: flex;
-	justify-content: space-between;
+  justify-content: space-between;
 }
 
+.sender {
+  display: flex;
+}
 </style>

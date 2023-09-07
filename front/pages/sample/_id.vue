@@ -13,6 +13,10 @@
         @not-login-user-click="notLoginUserClick"
       />
     </div>
+    <v-row class="mx-4 my-6">
+      <v-icon class="ml-1 mr-2">mdi-emoticon-outline</v-icon>
+      <h2>使用例</h2>
+    </v-row>
     <div v-for="(prompt, index) in params.sample.prompts" :key="index">
       <ChatLog
         :request-text="prompt.request_text"
@@ -77,7 +81,7 @@ export default {
       },
       sampleEditting: false,
       categories: [],
-      heartColor: 'primary',
+      heartColor: '#ff8db3',
     };
   },
   computed: {
