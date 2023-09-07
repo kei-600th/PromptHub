@@ -34,8 +34,7 @@ export default {
     return {
       isValid: false,
       loading: false,
-      // TODO 削除する
-      params: { auth: { email: 'user0@example.com', password: 'password' } },
+      params: { auth: { email: '', password: '' } },
     };
   },
   methods: {

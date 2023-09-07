@@ -64,7 +64,7 @@ import SampleForm from '@/components/Sample/SampleForm.vue';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
 import ChatLog from '@/components/Sample/ChatLog.vue';
 import { handleFailure } from '@/plugins/error-handler';
-import checkAdminMixin from '@/plugins/check-admin-mixin';
+import checkAdminMixin from '@/mixins/checkAdminMixin';
 
 export default {
   components: {
