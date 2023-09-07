@@ -1,20 +1,18 @@
 <template>
   <div class="container">
-    <v-card>
-      <div v-if="sampleEditting === false">
-        <SampleInformation
-          v-if="params.sample.title && params.sample.description"
-          :sample="params.sample"
-          :is-logged-in="isLoggedIn"
-          :is-loading="isLoading"
-          :heart-color="heartColor"
-          @add-like="addLike"
-          @find-like-id="findLikeId"
-          @delete-like="deleteLike"
-          @not-login-user-click="notLoginUserClick"
-        />
-      </div>
-    </v-card>
+    <div v-if="sampleEditting === false">
+      <SampleInformation
+        v-if="params.sample.title && params.sample.description"
+        :sample="params.sample"
+        :is-logged-in="isLoggedIn"
+        :is-loading="isLoading"
+        :heart-color="heartColor"
+        @add-like="addLike"
+        @find-like-id="findLikeId"
+        @delete-like="deleteLike"
+        @not-login-user-click="notLoginUserClick"
+      />
+    </div>
     <div v-for="(prompt, index) in params.sample.prompts" :key="index">
       <ChatLog
         :request-text="prompt.request_text"
