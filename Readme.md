@@ -31,7 +31,7 @@ prompthubはChatGPTの仕様例(prompt)を共有するサービスです。
 | Rails  6.1.7.3 |
 | MySQL 8.0.31|
 | Nginx/puma |
-| RoboCop |
+| RuboCop |
 | Rspec |
 <br />
 
