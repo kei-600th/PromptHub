@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <!-- 作成中サンプル表示用テンプレート -->
+    <!-- プロンプトが作成されていれば表示する -->
     <div v-if="params.prompts.length > 0">
       <v-card>
+        <!-- サンプル投稿用フォーム -->
         <v-card-title>作成するサンプルの確認</v-card-title>
         <SampleForm
           :title="params.sample.title"
@@ -15,6 +16,7 @@
           :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
+        <!-- チャットログの表示 -->
         <div v-for="(prompt, index) in params.prompts" :key="index">
           <ChatLog
             :request-text="prompt.request_text"
@@ -46,7 +48,8 @@
         </v-row>
       </v-card>
     </div>
-    <!-- サンプル投稿用テンプレート -->
+    <!-- 全ての状態で表示 -->
+    <!-- プロンプト作成用テンプレート -->
     <PromptForm
       :request-text="params.prompt.request_text"
       :gpt-model="params.prompt.gpt_model"
@@ -136,6 +139,7 @@ export default {
           role: 'assistant',
           content: response.response_text,
         });
+        window.scrollTo(0, 0);
       } catch (error) {
         handleFailure(error, this.$store);
       }
