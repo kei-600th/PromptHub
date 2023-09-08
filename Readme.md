@@ -8,6 +8,7 @@
 <br />
 
 # prompthub
+![Sample Image](./.github/images/sample.png)
 
 prompthubはChatGPTの仕様例(prompt)を共有するサービスです。
 ユーザーはこのアプリを通してChatGPTの新たな使い方の発見ができます。更にユーザー自身のChatGPTの使い方を共有することによって相互的にさらにChatGPTの使い方が増えていくといったメリットが得られます。
