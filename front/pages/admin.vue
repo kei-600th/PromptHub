@@ -1,60 +1,88 @@
 <template>
   <div class="container">
-    <!-- 作成中サンプル表示用テンプレート -->
+    <!-- プロンプトが作成されていれば表示する -->
     <div v-if="params.prompts.length > 0">
+      <!-- チャットログの表示 -->
+      <div v-for="(prompt, index) in params.prompts" :key="index">
+        <ChatLog
+          :request-text="prompt.request_text"
+          :response-text="prompt.response_text"
+        />
+      </div>
       <v-card>
-        <v-card-title>作成するサンプルの確認</v-card-title>
-        <SampleForm
-          :title="params.sample.title"
-          :description="params.sample.description"
-          @updateTitle="params.sample.title = $event"
-          @updateDescription="params.sample.description = $event"
-        />
-        <SelectCategory
-          :category-id="params.sample.category_id"
-          :categories="categories"
-          @updateCategory="params.sample.category_id = $event"
-        />
-        <div v-for="(prompt, index) in params.prompts" :key="index">
-          <ChatLog
-            :request-text="prompt.request_text"
-            :response-text="prompt.response_text"
-          />
-        </div>
-        <v-row class="justify-end">
-          <v-btn
-            color="appblue"
-            :disabled="
-              anyIsEmptyOrWhitespace(
-                params.sample.title,
-                params.sample.description,
-              ) || loading
-            "
-            :loading="loading"
-            class="white--text ma-5"
-            @click="createSample()"
-          >
-            作成する
-          </v-btn>
-          <v-btn
-            color="appblue"
-            class="white--text ma-5"
-            @click="deletePrompt()"
-          >
-            作成を中止
-          </v-btn>
-        </v-row>
+        <!-- プロンプト作成用タブ -->
+        <v-tabs v-model="tab" background-color="cyan" dark>
+          <v-tabs-slider color="yellow"></v-tabs-slider>
+          <v-tab key="1">プロンプトの作成</v-tab>
+          <v-tab key="2">サンプルの保存</v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tab">
+          <v-tab-item key="1">
+            <PromptForm
+              :request-text="params.prompt.request_text"
+              :gpt-model="params.prompt.gpt_model"
+              :loading="loading"
+              @updateRequestText="params.prompt.request_text = $event"
+              @updateGptModel="params.prompt.gpt_model = $event"
+              @createPrompt="createPrompt"
+            />
+          </v-tab-item>
+
+          <!-- サンプル投稿用タブ -->
+          <v-tab-item key="2">
+            <v-card>
+              <v-card-title>サンプルを保存する</v-card-title>
+              <SampleForm
+                :title="params.sample.title"
+                :description="params.sample.description"
+                @updateTitle="params.sample.title = $event"
+                @updateDescription="params.sample.description = $event"
+              />
+              <SelectCategory
+                :category-id="params.sample.category_id"
+                :categories="categories"
+                @updateCategory="params.sample.category_id = $event"
+              />
+              <v-row class="justify-end">
+                <v-btn
+                  color="appblue"
+                  :disabled="
+                    anyIsEmptyOrWhitespace(
+                      params.sample.title,
+                      params.sample.description,
+                    ) || loading
+                  "
+                  :loading="loading"
+                  class="white--text ma-5"
+                  @click="createSample()"
+                >
+                  作成する
+                </v-btn>
+                <v-btn
+                  color="appblue"
+                  class="white--text ma-5"
+                  @click="deletePrompt()"
+                >
+                  作成を中止
+                </v-btn>
+              </v-row>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
       </v-card>
     </div>
-    <!-- サンプル投稿用テンプレート -->
-    <PromptForm
-      :request-text="params.prompt.request_text"
-      :gpt-model="params.prompt.gpt_model"
-      :loading="loading"
-      @updateRequestText="params.prompt.request_text = $event"
-      @updateGptModel="params.prompt.gpt_model = $event"
-      @createPrompt="createPrompt"
-    />
+    <!-- プロンプトが作成されていなければ表示する -->
+    <div v-if="params.prompts.length === 0">
+      <!-- プロンプト作成用テンプレート -->
+      <PromptForm
+        :request-text="params.prompt.request_text"
+        :gpt-model="params.prompt.gpt_model"
+        :loading="loading"
+        @updateRequestText="params.prompt.request_text = $event"
+        @updateGptModel="params.prompt.gpt_model = $event"
+        @createPrompt="createPrompt"
+      />
+    </div>
   </div>
 </template>
 
@@ -77,6 +105,7 @@ export default {
   data() {
     return {
       loading: false,
+      tab: null,
       categories: [],
       params: {
         prompts: [],

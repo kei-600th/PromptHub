@@ -54,7 +54,7 @@
           ></v-img>
         </div>
       </div>
-        <div class="mobile-features-container">
+      <div class="mobile-features-container">
         <h1>Prompthubの使い方</h1>
         <div class="mobile-features-row">
           <div class="mobile-how-to-use">
@@ -91,7 +91,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* PC */
 .eye-catching-container {
   position: relative;
@@ -135,14 +134,14 @@ export default {
   background-color: #d6d2e0;
   display: block;
   text-align: center;
-  padding: 50px 0
+  padding: 50px 0;
 }
 
 .mobile-eye-catching-img {
   max-width: 400px;
   max-height: 400px;
   border-radius: 45px;
-  margin-top: 30px
+  margin-top: 30px;
 }
 
 .mobile-features-container {
@@ -170,5 +169,4 @@ export default {
   justify-content: center;
   margin-top: 30px;
 }
-
 </style>
