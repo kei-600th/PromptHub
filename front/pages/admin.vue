@@ -11,11 +11,7 @@
       </div>
       <v-card>
         <!-- プロンプト作成用タブ -->
-        <v-tabs 
-          v-model="tab"
-          background-color="cyan"
-          dark
-        >
+        <v-tabs v-model="tab" background-color="cyan" dark>
           <v-tabs-slider color="yellow"></v-tabs-slider>
           <v-tab key="1">プロンプトの作成</v-tab>
           <v-tab key="2">サンプルの保存</v-tab>
@@ -50,7 +46,12 @@
               <v-row class="justify-end">
                 <v-btn
                   color="appblue"
-                  :disabled="anyIsEmptyOrWhitespace(params.sample.title, params.sample.description) || loading"
+                  :disabled="
+                    anyIsEmptyOrWhitespace(
+                      params.sample.title,
+                      params.sample.description,
+                    ) || loading
+                  "
                   :loading="loading"
                   class="white--text ma-5"
                   @click="createSample()"
@@ -72,7 +73,7 @@
     </div>
     <!-- プロンプトが作成されていなければ表示する -->
     <div v-if="params.prompts.length === 0">
-    <!-- プロンプト作成用テンプレート -->
+      <!-- プロンプト作成用テンプレート -->
       <PromptForm
         :request-text="params.prompt.request_text"
         :gpt-model="params.prompt.gpt_model"
