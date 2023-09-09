@@ -2,8 +2,24 @@
   <div class="container">
     <!-- プロンプトが作成されていれば表示する -->
     <div v-if="params.prompts.length > 0">
+      <!-- チャットログの表示 -->
+      <div v-for="(prompt, index) in params.prompts" :key="index">
+        <ChatLog
+          :request-text="prompt.request_text"
+          :response-text="prompt.response_text"
+        />
+      </div>
+      <!-- プロンプト作成用テンプレート -->
+      <PromptForm
+        :request-text="params.prompt.request_text"
+        :gpt-model="params.prompt.gpt_model"
+        :loading="loading"
+        @updateRequestText="params.prompt.request_text = $event"
+        @updateGptModel="params.prompt.gpt_model = $event"
+        @createPrompt="createPrompt"
+      />
+      <!-- サンプル投稿用フォーム -->
       <v-card>
-        <!-- サンプル投稿用フォーム -->
         <v-card-title>作成するサンプルの確認</v-card-title>
         <SampleForm
           :title="params.sample.title"
@@ -16,13 +32,6 @@
           :categories="categories"
           @updateCategory="params.sample.category_id = $event"
         />
-        <!-- チャットログの表示 -->
-        <div v-for="(prompt, index) in params.prompts" :key="index">
-          <ChatLog
-            :request-text="prompt.request_text"
-            :response-text="prompt.response_text"
-          />
-        </div>
         <v-row class="justify-end">
           <v-btn
             color="appblue"
@@ -48,16 +57,18 @@
         </v-row>
       </v-card>
     </div>
-    <!-- 全ての状態で表示 -->
+    <!-- プロンプトが作成されていなければ表示する -->
+    <div v-if="params.prompts.length === 0">
     <!-- プロンプト作成用テンプレート -->
-    <PromptForm
-      :request-text="params.prompt.request_text"
-      :gpt-model="params.prompt.gpt_model"
-      :loading="loading"
-      @updateRequestText="params.prompt.request_text = $event"
-      @updateGptModel="params.prompt.gpt_model = $event"
-      @createPrompt="createPrompt"
-    />
+      <PromptForm
+        :request-text="params.prompt.request_text"
+        :gpt-model="params.prompt.gpt_model"
+        :loading="loading"
+        @updateRequestText="params.prompt.request_text = $event"
+        @updateGptModel="params.prompt.gpt_model = $event"
+        @createPrompt="createPrompt"
+      />
+    </div>
   </div>
 </template>
 
