@@ -68,3 +68,8 @@ prompthubはChatGPTの仕様例(prompt)を共有するサービスです。
   - ワンクリックコピー
 - カテゴリの絞り込み
 <br />
+
+#　工夫した点
+![Ingenuity Image](./.github/images/ingenuity.gif)
+
+<br />
