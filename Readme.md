@@ -4,7 +4,8 @@
 | 2 | [作成背景](#作成背景) |
 | 3 | [使用技術](#使用技術) |
 | 4 | [機能一覧](#機能一覧) |
-| 5 | [工夫した点](#工夫した点) |
+| 5 | [インフラ構成図](#インフラ構成図) |
+| 6 | [工夫した点](#工夫した点) |
 
 <br />
 
@@ -70,6 +71,11 @@ prompthubはChatGPTの使用例(prompt)を共有するサービスです。
 - カテゴリの絞り込み
 <br />
 
+# インフラ構成図
+![Infrastructure Image](./.github/images/infrastructure.png)
+
+<br />
+
 # 工夫した点
 - 読みやすいコードの意識
   - コード整形ツールを導入して各機能を実装する度にコードのフォーマット化を行いました。
@@ -82,3 +88,4 @@ prompthubはChatGPTの使用例(prompt)を共有するサービスです。
 ![Ingenuity Image](./.github/images/ingenuity.gif)
 
 <br />
+
