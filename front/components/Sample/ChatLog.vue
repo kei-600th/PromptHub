@@ -11,7 +11,7 @@
 
       <!-- 本文 -->
       <v-card color="#E7FDCC" class="user-message rounded-xl">
-        <v-card-text :class="isMobileBreakpointLessThan ? 'text-h7' : 'text-h5'">
+        <v-card-text :class="isMobileBreakpointLessThan ? 'text-h6' : 'text-h5'">
           <div v-html="formattedRequestText"></div>
         </v-card-text>
         <div>
@@ -42,7 +42,7 @@
 
       <!-- 本文 -->
       <v-card color="#EBECEE" class="rounded-xl">
-        <v-card-text :class="isMobileBreakpointLessThan ? 'text-h7' : 'text-h5'">
+        <v-card-text :class="isMobileBreakpointLessThan ? 'text-h6' : 'text-h5'">
           <div v-html="formattedResponseText"></div>
         </v-card-text>
       </v-card>
