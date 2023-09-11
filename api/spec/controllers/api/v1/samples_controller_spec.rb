@@ -3,11 +3,9 @@ require 'rails_helper'
 RSpec.describe Api::V1::SamplesController do
   describe 'GET #index' do
     context 'when category_id does not exist' do
-      before do
-        get :index, xhr: true
-      end
 
       it 'returns http success' do
+        get :index, xhr: true
         expect(response).to have_http_status(:success)
       end
     end
@@ -15,11 +13,8 @@ RSpec.describe Api::V1::SamplesController do
     context 'when category_id exists' do
       let(:category) { FactoryBot.create(:category) }
 
-      before do
-        get :index, params: { category_id: category.id }, xhr: true
-      end
-
       it 'returns http success' do
+        get :index, params: { category_id: category.id }, xhr: true
         expect(response).to have_http_status(:success)
       end
     end
@@ -28,11 +23,8 @@ RSpec.describe Api::V1::SamplesController do
   describe 'GET #show' do
     let(:sample) { FactoryBot.create(:sample) }
 
-    before do
-      get :show, params: { id: sample.id }, xhr: true
-    end
-
     it 'returns http success' do
+      get :show, params: { id: sample.id }, xhr: true
       expect(response).to have_http_status(:success)
     end
   end
@@ -40,12 +32,18 @@ RSpec.describe Api::V1::SamplesController do
   describe 'GET #favorite' do
     let(:user) { FactoryBot.create(:user) }
 
-    before do
-      get :favorite, params: { user_id: user.id }, xhr: true
+    context 'when user_id exists' do
+      it 'returns http success' do
+        get :favorite, params: { user_id: user.id }, xhr: true
+        expect(response).to have_http_status(:success)
+      end
     end
 
-    it 'returns http success' do
-      expect(response).to have_http_status(:success)
+    context 'when user_id does not exist' do
+      it 'returns http bad_request' do
+        get :favorite, xhr: true
+        expect(response).to have_http_status(:bad_request)
+      end
     end
   end
 end
