@@ -15,7 +15,7 @@
           <div v-html="formattedRequestText"></div>
         </v-card-text>
         <div>
-          <v-tooltip right>
+          <v-tooltip bottom>
             <template #activator="{ on, attrs }">
               <v-icon
                 class="mr-4 mt-4"
