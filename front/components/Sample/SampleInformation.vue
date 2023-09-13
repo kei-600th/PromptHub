@@ -6,9 +6,9 @@
     >
       <!-- タイトル -->
       <v-card-title class="sample-information-card-title my-4">
-        <h1>
+        <h2>
           {{ sample.title }}
-        </h1>
+        </h2>
       </v-card-title>
       <!-- タグとアイコン -->
       <div class="sample-information-card-chip my-4">

@@ -14,7 +14,7 @@ export default {
       { hid: 'description', name: 'description', content: 'PrompthubはChatGPTのさまざまな使い方を紹介するサービスです。実際に使って試してみたり、文章を一部変えて工夫してみたりすることで色々な使い方を体験してみましょう。' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/Ph_logo.jpg' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
