@@ -1,9 +1,9 @@
 class Api::V1::SamplesController < ApplicationController
   def index
     samples = if params[:category_id]
-                Sample.includes(:category).where(category_id: params[:category_id])
+                Sample.includes(:category).where(category_id: params[:category_id]).order('created_at DESC')
               else
-                Sample.includes(:category).all
+                Sample.includes(:category).all.order('created_at DESC')
               end
     render json: samples
   end
@@ -17,7 +17,7 @@ class Api::V1::SamplesController < ApplicationController
     if params[:user_id]
       # user_idにマッチするSampleオブジェクトを取得
       sample_ids = Like.where(user_id: params[:user_id]).pluck(:sample_id)
-      favorite_samples = Sample.includes(:category, :likes).where(id: sample_ids)
+      favorite_samples = Sample.includes(:category, :likes).where(id: sample_ids).order('created_at DESC')
 
       # 取得したSampleオブジェクトから、全ての関連するlikesを取得
       favorite_samples.each do |sample|
