@@ -4,7 +4,7 @@
       <v-icon class="mr-2">mdi-view-list</v-icon>
       <h2>サンプル一覧</h2>
     </v-row>
-    <div class="selects-container mt-4">
+    <div class="sample-sorting-container mt-4">
       <SelectCategory
         class="ml-1"
         :category-id="params.category_id"
@@ -110,7 +110,7 @@ export default {
   cursor: pointer;
 }
 
-.selects-container {
+.sample-sorting-container {
   margin-left:3%;
 }
 
