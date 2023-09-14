@@ -1,10 +1,17 @@
 class Api::V1::SamplesController < ApplicationController
   def index
-    samples = if params[:category_id]
-                Sample.includes(:category).where(category_id: params[:category_id]).order('created_at DESC')
-              else
-                Sample.includes(:category).all.order('created_at DESC')
-              end
+    samples = Sample.includes(:category).all
+    if params[:category_id]
+      samples = samples.where(category_id: params[:category_id])
+    end
+    puts params[:is_popular_order]
+    if params[:is_popular_order] == "true"
+      samples = samples.left_outer_joins(:likes)
+                        .group('samples.id')
+                        .order('COUNT(likes.id) DESC, samples.created_at DESC')
+    else
+      samples = samples.order('created_at DESC')
+    end
     render json: samples
   end
 
