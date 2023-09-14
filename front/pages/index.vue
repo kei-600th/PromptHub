@@ -4,11 +4,19 @@
       <v-icon class="mr-2">mdi-view-list</v-icon>
       <h2>サンプル一覧</h2>
     </v-row>
-    <SelectCategory
-      :category-id="params.category_id"
-      :categories="categories"
-      @updateCategory="params.category_id = $event"
-    />
+    <div class="selects-container mt-4">
+      <SelectCategory
+        class="ml-1"
+        :category-id="params.category_id"
+        :categories="categories"
+        @updateCategory="params.category_id = $event"
+      />
+      <div class="ma-1 switch">
+        新着順
+        <v-switch class="ml-3 mr-1"></v-switch>
+        人気順
+      </div>
+    </div>
     <SampleList
       :samples="samples"
       :card="card"
@@ -60,6 +68,7 @@ export default {
         require('@/assets/images/sample_images/designing.jpeg'),
       ],
       heartColor: 'white',
+      items: ['新着順', '人気順'],
     };
   },
   computed: {
@@ -99,5 +108,14 @@ export default {
 <style>
 .clickable {
   cursor: pointer;
+}
+
+.selects-container {
+  margin-left:3%;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
 }
 </style>
