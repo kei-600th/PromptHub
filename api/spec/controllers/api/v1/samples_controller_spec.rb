@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::SamplesController do
   describe 'GET #index' do
     context 'when category_id and is_popular_order does not exist' do
-
       it 'returns http success' do
         get :index, xhr: true
         expect(response).to have_http_status(:success)
