@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::SamplesController do
   describe 'GET #index' do
-    context 'when category_id does not exist' do
+    context 'when category_id and is_popular_order does not exist' do
 
       it 'returns http success' do
         get :index, xhr: true
@@ -15,6 +15,24 @@ RSpec.describe Api::V1::SamplesController do
 
       it 'returns http success' do
         get :index, params: { category_id: category.id }, xhr: true
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when is_popular_order exists' do
+      let(:category) { FactoryBot.create(:category) }
+
+      it 'returns http success' do
+        get :index, params: { is_popular_order: true }, xhr: true
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when category_id and is_popular_order exists' do
+      let(:category) { FactoryBot.create(:category) }
+
+      it 'returns http success' do
+        get :index, params: { category_id: category.id, is_popular_order: true }, xhr: true
         expect(response).to have_http_status(:success)
       end
     end
