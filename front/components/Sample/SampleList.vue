@@ -3,9 +3,11 @@
     <v-col
       v-for="(sample, index) in samples"
       :key="index"
-      cols="12"
+      cols="6"
       :sm="card.sm"
       :md="card.md"
+      :lg="card.lg"
+      :xl="card.xl"
     >
       <v-card
         :height="card.height"

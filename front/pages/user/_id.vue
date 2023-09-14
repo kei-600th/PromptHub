@@ -23,35 +23,20 @@
 import { mapGetters } from 'vuex';
 import { handleFailure } from '@/plugins/error-handler';
 import SampleList from '@/components/Sample/SampleList.vue';
+import likeMixin from '@/mixins/likeMixin.js';
+import sampleListCardMixin from '@/mixins/sampleListCardMixin.js';
 export default {
   components: {
     SampleList,
   },
+  mixins: [likeMixin, sampleListCardMixin],
   data() {
     return {
-      isLoading: false,
       params: {
         category_id: null,
       },
       categories: [{ id: null, name: 'すべてのカテゴリ' }],
       samples: [],
-      card: {
-        sm: 6,
-        md: 4,
-        height: 180,
-        elevation: 4,
-      },
-      images: [
-        require('@/assets/images/sample_images/pc.jpeg'),
-        require('@/assets/images/sample_images/talking.jpeg'),
-        require('@/assets/images/sample_images/buisiness.jpeg'),
-        require('@/assets/images/sample_images/heart.jpeg'),
-        require('@/assets/images/sample_images/academy.jpeg'),
-        require('@/assets/images/sample_images/house.jpeg'),
-        require('@/assets/images/sample_images/books.jpeg'),
-        require('@/assets/images/sample_images/designing.jpeg'),
-      ],
-      heartColor: 'white',
     };
   },
   computed: {
@@ -87,53 +72,11 @@ export default {
         handleFailure(error, this.$store);
       }
     },
-    async addLike(sampleId) {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      try {
-        await this.$axios.$post('/api/v1/likes/', {
-          like: {
-            sample_id: sampleId,
-            user_id: this.$auth.user.id,
-          },
-        });
-        await this.getSamples();
-      } catch (error) {
-        handleFailure(error, this.$store);
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    findLikeId(sample) {
-      const likeObject = sample.likes.find(
-        (like) => like.user_id === this.$auth.user.id,
-      );
-      return likeObject ? likeObject.id : null;
-    },
-    async deleteLike(likeId) {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      try {
-        await this.$axios.$delete(`/api/v1/likes/${likeId}`);
-        await this.getSamples();
-      } catch (error) {
-        handleFailure(error, this.$store);
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    notLoginUserClick() {
-      this.$store.dispatch('getToast', {
-        msg: 'ログインユーザのみいいねをつけることができます',
-        color: 'primary',
-        timeout: 4000,
-      });
-    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .clickable {
   cursor: pointer;
 }

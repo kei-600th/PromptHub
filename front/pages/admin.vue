@@ -39,6 +39,7 @@
                 @updateDescription="params.sample.description = $event"
               />
               <SelectCategory
+                class="ml-4"
                 :category-id="params.sample.category_id"
                 :categories="categories"
                 @updateCategory="params.sample.category_id = $event"

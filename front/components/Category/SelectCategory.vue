@@ -1,14 +1,12 @@
 <template>
-  <v-card-subtitle class="ma-1">
-    <v-select
-      v-model="localCategoryId"
-      :items="categories"
-      item-text="name"
-      item-value="id"
-      label="カテゴリを選択"
-      style="max-width: 200px"
-    ></v-select>
-  </v-card-subtitle>
+  <v-select
+    v-model="localCategoryId"
+    :items="categories"
+    item-text="name"
+    item-value="id"
+    label="カテゴリを選択"
+    style="max-width: 200px"
+  ></v-select>
 </template>
 
 <script>

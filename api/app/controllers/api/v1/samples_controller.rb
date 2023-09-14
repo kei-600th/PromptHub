@@ -1,10 +1,8 @@
 class Api::V1::SamplesController < ApplicationController
   def index
-    samples = if params[:category_id]
-                Sample.includes(:category).where(category_id: params[:category_id])
-              else
-                Sample.includes(:category).all
-              end
+    samples = Sample.includes(:category).all
+    samples = filter_by_category(samples)
+    samples = sort_samples(samples)
     render json: samples
   end
 
@@ -17,7 +15,7 @@ class Api::V1::SamplesController < ApplicationController
     if params[:user_id]
       # user_idにマッチするSampleオブジェクトを取得
       sample_ids = Like.where(user_id: params[:user_id]).pluck(:sample_id)
-      favorite_samples = Sample.includes(:category, :likes).where(id: sample_ids)
+      favorite_samples = Sample.includes(:category, :likes).where(id: sample_ids).order('created_at DESC')
 
       # 取得したSampleオブジェクトから、全ての関連するlikesを取得
       favorite_samples.each do |sample|
@@ -27,6 +25,26 @@ class Api::V1::SamplesController < ApplicationController
       render json: favorite_samples
     else
       render json: { error: 'user_id parameter is missing' }, status: :bad_request
+    end
+  end
+
+  private
+
+  def filter_by_category(samples)
+    if params[:category_id]
+      samples.where(category_id: params[:category_id])
+    else
+      samples
+    end
+  end
+
+  def sort_samples(samples)
+    if params[:is_popular_order] == "true"
+      samples.left_outer_joins(:likes)
+             .group('samples.id')
+             .order('COUNT(likes.id) DESC, samples.created_at DESC')
+    else
+      samples.order('created_at DESC')
     end
   end
 end
