@@ -13,7 +13,11 @@
       />
       <div class="ma-1 switch">
         新着順
-        <v-switch v-model="isPopularOrder" :disabled="isLoadingSwitch" class="ml-3 mr-1"></v-switch>
+        <v-switch
+          v-model="isPopularOrder"
+          :disabled="isLoadingSwitch"
+          class="ml-3 mr-1"
+        ></v-switch>
         人気順
       </div>
     </div>
@@ -81,7 +85,7 @@ export default {
         this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
       }
     },
-    'isPopularOrder': function (newVal, oldVal) {
+    isPopularOrder: function (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.getSamples(); // 人気順判定変数が変更された時にサンプルを更新
       }
@@ -101,7 +105,10 @@ export default {
       this.isLoadingSwitch = true;
       try {
         const response = await this.$axios.$get('/api/v1/samples/', {
-          params: { category_id: this.params.category_id, is_popular_order: this.isPopularOrder }, // カテゴリIDをパラメータとして追加
+          params: {
+            category_id: this.params.category_id,
+            is_popular_order: this.isPopularOrder,
+          }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
       } catch (error) {
@@ -122,7 +129,7 @@ export default {
 }
 
 .sample-sorting-container {
-  margin-left:3%;
+  margin-left: 3%;
 }
 
 .switch {
