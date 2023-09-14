@@ -13,7 +13,7 @@
       />
       <div class="ma-1 switch">
         新着順
-        <v-switch class="ml-3 mr-1"></v-switch>
+        <v-switch v-model="isPopularOrder" class="ml-3 mr-1"></v-switch>
         人気順
       </div>
     </div>
@@ -69,6 +69,7 @@ export default {
       ],
       heartColor: 'white',
       items: ['新着順', '人気順'],
+      isPopularOrder: false,
     };
   },
   computed: {
@@ -94,7 +95,7 @@ export default {
     async getSamples() {
       try {
         const response = await this.$axios.$get('/api/v1/samples/', {
-          params: { category_id: this.params.category_id }, // カテゴリIDをパラメータとして追加
+          params: { category_id: this.params.category_id, is_popular_order: this.isPopularOrder }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
       } catch (error) {
