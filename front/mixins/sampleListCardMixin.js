@@ -4,6 +4,8 @@ export default {
       card: {
         sm: 6,
         md: 4,
+        lg: 4,
+        xl: 3,
         height: 180,
         elevation: 4,
       },
