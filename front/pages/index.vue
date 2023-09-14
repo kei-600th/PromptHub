@@ -81,6 +81,11 @@ export default {
         this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
       }
     },
+    'isPopularOrder': function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.getSamples(); // 人気順判定変数が変更された時にサンプルを更新
+      }
+    },
   },
   async mounted() {
     await this.getSamples();
