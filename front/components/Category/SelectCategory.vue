@@ -1,6 +1,7 @@
 <template>
   <v-select
     v-model="localCategoryId"
+    class="ml-4"
     :items="categories"
     item-text="name"
     item-value="id"
