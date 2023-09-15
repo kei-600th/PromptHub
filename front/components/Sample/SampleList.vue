@@ -25,9 +25,10 @@
           <v-card-subtitle style="position: absolute; top: 0">
             {{ sample.category.name }}
           </v-card-subtitle>
-          <v-card-title class="fixed-height-title">
+          <v-card-subtitle 
+          :class="isMobileBreakpointLessThan ? 'mobile-card-title font-weight-bold' : 'unmobile-card-title text-h6'">
             {{ sample.title }}
-          </v-card-title>
+          </v-card-subtitle>
           <LikeCount
             :sample="sample"
             :is-logged-in="isLoggedIn"
@@ -45,10 +46,12 @@
 
 <script>
 import LikeCount from '@/components/Like/LikeCount.vue';
+import isMobileBreakpoint from '~/mixins/isMobileBreakpoint';
 export default {
   components: {
     LikeCount,
   },
+  mixins: [isMobileBreakpoint],
   props: {
     samples: {
       type: Array,
@@ -97,7 +100,13 @@ export default {
 </script>
 
 <style scoped>
-.fixed-height-title {
+
+.mobile-card-title {
+  height: 92px;
+}
+
+.unmobile-card-title {
   height: 98px;
 }
+
 </style>
