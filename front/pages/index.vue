@@ -108,9 +108,6 @@ export default {
 </script>
 
 <style scoped>
-.clickable {
-  cursor: pointer;
-}
 
 .sample-sorting-container {
   margin-left: 3%;
