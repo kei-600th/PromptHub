@@ -7,9 +7,9 @@
     <div class="sample-sorting-container mt-4">
       <SelectCategory
         class="ml-1"
-        :category-id="params.category_id"
+        :category-id="getCategoryId"
         :categories="categories"
-        @updateCategory="params.category_id = $event"
+        @updateCategory="updateCategoryId($event)"
       />
       <div class="ma-1 switch">
         新着順
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import SelectCategory from '@/components/Category/SelectCategory.vue';
 import { handleFailure } from '@/plugins/error-handler';
 import SampleList from '@/components/Sample/SampleList.vue';
@@ -51,9 +51,6 @@ export default {
   mixins: [likeMixin, sampleListCardMixin],
   data() {
     return {
-      params: {
-        category_id: null,
-      },
       categories: [{ id: null, name: 'すべてのカテゴリ' }],
       samples: [],
       isPopularOrder: false,
@@ -61,10 +58,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['isLoggedIn', 'getCategoryId']),
   },
   watch: {
-    'params.category_id': function (newCategoryId, oldCategoryId) {
+    getCategoryId: function (newCategoryId, oldCategoryId) {
       if (newCategoryId !== oldCategoryId) {
         this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
       }
@@ -85,12 +82,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['updateCategoryId']),
     async getSamples() {
       this.isLoadingSwitch = true;
       try {
         const response = await this.$axios.$get('/api/v1/samples/', {
           params: {
-            category_id: this.params.category_id,
+            category_id: this.getCategoryId,
             is_popular_order: this.isPopularOrder,
           }, // カテゴリIDをパラメータとして追加
         });

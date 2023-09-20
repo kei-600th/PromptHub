@@ -13,12 +13,16 @@ export const state = () => ({
     color: 'error',
     timeout: 4000,
   },
+  params: {
+    category_id: null,
+  },
 });
 
 // 算出プロパティ
 export const getters = {
   isLoggedIn: (state) => !!state.user.current,
   isAdmin: (state) => (state.user.current ? !!state.user.current.admin : false),
+  getCategoryId: (state) => state.params.category_id,
 };
 // stateの値を変更する場所
 export const mutations = {
@@ -36,6 +40,9 @@ export const mutations = {
   },
   setToast(state, payload) {
     state.toast = payload;
+  },
+  setCategoryId(state, payload) {
+    state.params.category_id = payload;
   },
 };
 
@@ -59,5 +66,8 @@ export const actions = {
     color = color || 'error';
     timeout = timeout || 4000;
     commit('setToast', { msg, color, timeout });
+  },
+  updateCategoryId({ commit }, newCategoryId) {
+    commit('setCategoryId', newCategoryId);
   },
 };
