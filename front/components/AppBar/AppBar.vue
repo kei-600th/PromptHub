@@ -10,6 +10,9 @@
         <app-bar-signup-button />
         <app-bar-login-button />
       </div>
+      <div v-else>
+        <app-bar-logout-button />
+      </div>
     </v-app-bar>
   </div>
 </template>

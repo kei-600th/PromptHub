@@ -7,7 +7,7 @@ export default {
         lg: 4,
         xl: 3,
         height: 180,
-        elevation: 4,
+        elevation: 12,
       },
       images: [
         require('@/assets/images/sample_images/pc.jpeg'),
