@@ -11,6 +11,7 @@
         @find-like-id="findLikeId"
         @delete-like="deleteLike"
         @not-login-user-click="notLoginUserClick"
+        @sayHelloChatGPT="updateCategoryId"
       />
     </div>
     <v-row class="mx-4 my-6">
@@ -146,6 +147,10 @@ export default {
           handleFailure(error, this.$store);
         }
       }
+    },
+    async updateCategoryId(categoryId) {
+      await this.$store.dispatch('updateCategoryId', categoryId);
+      this.$router.push('/');
     },
   },
 };

@@ -32,22 +32,12 @@ export default {
   mixins: [likeMixin, sampleListCardMixin],
   data() {
     return {
-      params: {
-        category_id: null,
-      },
       categories: [{ id: null, name: 'すべてのカテゴリ' }],
       samples: [],
     };
   },
   computed: {
     ...mapGetters(['isLoggedIn']),
-  },
-  watch: {
-    'params.category_id': function (newCategoryId, oldCategoryId) {
-      if (newCategoryId !== oldCategoryId) {
-        this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
-      }
-    },
   },
   async mounted() {
     if (Number(this.$route.params.id) !== Number(this.$auth.user.id)) {
