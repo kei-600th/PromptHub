@@ -110,7 +110,13 @@ export default {
 }
 
 .clickable {
+  transition: transform 0.3s ease;
   cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 </style>
