@@ -17,7 +17,7 @@
             {{ sample.prompts[0].gpt_model }}
           </strong>
         </v-chip>
-        <v-chip class="ml-2" color="primary">
+        <v-chip class="ml-2" color="primary" @click="emitUpdateCategoryId">
           <strong>
             {{ sample.category.name }}
           </strong>
@@ -81,6 +81,9 @@ export default {
     },
     notLoginUserClick() {
       this.$emit('not-login-user-click');
+    },
+    emitUpdateCategoryId() {
+      this.$emit('sayHelloChatGPT', this.sample.category.id);
     },
   },
 };
