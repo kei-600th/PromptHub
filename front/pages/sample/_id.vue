@@ -11,7 +11,8 @@
         @find-like-id="findLikeId"
         @delete-like="deleteLike"
         @not-login-user-click="notLoginUserClick"
-        @sayHelloChatGPT="updateCategoryId"
+        @update-category-id="updateCategoryId"
+        @update-gpt-model="updateGptModel"
       />
     </div>
     <v-row class="mx-4 my-6">
@@ -150,6 +151,12 @@ export default {
     },
     async updateCategoryId(categoryId) {
       await this.$store.dispatch('updateCategoryId', categoryId);
+      await this.$store.dispatch('updateGptModel', 'すべてのモデル');
+      this.$router.push('/');
+    },
+    async updateGptModel(gptModel) {
+      await this.$store.dispatch('updateCategoryId', null);
+      await this.$store.dispatch('updateGptModel', gptModel);
       this.$router.push('/');
     },
   },

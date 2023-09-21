@@ -12,7 +12,7 @@
       </v-card-title>
       <!-- タグとアイコン -->
       <div class="sample-information-card-chip my-4">
-        <v-chip class="ml-3" color="primary">
+        <v-chip class="ml-3" color="primary" @click="emitUpdateGptModel">
           <strong>
             {{ sample.prompts[0].gpt_model }}
           </strong>
@@ -83,7 +83,10 @@ export default {
       this.$emit('not-login-user-click');
     },
     emitUpdateCategoryId() {
-      this.$emit('sayHelloChatGPT', this.sample.category.id);
+      this.$emit('update-category-id', this.sample.category.id);
+    },
+    emitUpdateGptModel() {
+      this.$emit('update-gpt-model', this.sample.prompts[0].gpt_model);
     },
   },
 };
