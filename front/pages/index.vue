@@ -79,7 +79,9 @@ export default {
   watch: {
     getCategoryId: function (newCategoryId, oldCategoryId) {
       if (newCategoryId !== oldCategoryId) {
+        this.pageLoading = true;
         this.getSamples(); // カテゴリIDが変更された時にサンプルを更新
+        this.pageLoading = false;
       }
     },
     isPopularOrder: function (newVal, oldVal) {
@@ -89,24 +91,27 @@ export default {
     },
     getGptModel: function (newGptModel, oldGptModel) {
       if (newGptModel !== oldGptModel) {
+        this.pageLoading = true;
         this.getSamples();
+        this.pageLoading = false;
       }
     },
   },
   async mounted() {
-    this.selectedModel = this.models[0];
+    this.pageLoading = true;
     await this.getSamples();
     try {
       const response = await this.$axios.$get('/api/v1/categories');
       this.categories = [{ id: null, name: 'すべてのカテゴリ' }, ...response];
     } catch (error) {
       handleFailure(error, this.$store);
+    } finally {
+      this.pageLoading = false;
     }
   },
   methods: {
     ...mapActions(['updateCategoryId', 'updateGptModel']),
     async getSamples() {
-      this.pageLoading = true;
       this.isLoadingSwitch = true;
       try {
         const response = await this.$axios.$get('/api/v1/samples/', {
@@ -122,7 +127,6 @@ export default {
       } finally {
         setTimeout(() => {
           this.isLoadingSwitch = false;
-          this.pageLoading = false;
         }, 500);
       }
     },

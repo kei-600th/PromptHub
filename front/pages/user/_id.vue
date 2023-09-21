@@ -11,6 +11,7 @@
       :is-loading="isLoading"
       :images="images"
       :heart-color="heartColor"
+      :page-loading="pageLoading"
       @add-like="addLike"
       @find-like-id="findLikeId"
       @delete-like="deleteLike"
@@ -34,6 +35,7 @@ export default {
     return {
       categories: [{ id: null, name: 'すべてのカテゴリ' }],
       samples: [],
+      pageLoading: true,
     };
   },
   computed: {
@@ -53,6 +55,7 @@ export default {
   },
   methods: {
     async getSamples() {
+      this.pageLoading = true;
       try {
         const response = await this.$axios.$get('/api/v1/samples/favorite', {
           params: { user_id: Number(this.$route.params.id) }, // カテゴリIDをパラメータとして追加
@@ -60,6 +63,8 @@ export default {
         this.samples = response;
       } catch (error) {
         handleFailure(error, this.$store);
+      } finally {
+        this.pageLoading = false;
       }
     },
   },
