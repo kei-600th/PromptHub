@@ -15,6 +15,7 @@ export const state = () => ({
   },
   params: {
     category_id: null,
+    gpt_model: 'すべてのモデル',
   },
 });
 
@@ -23,6 +24,7 @@ export const getters = {
   isLoggedIn: (state) => !!state.user.current,
   isAdmin: (state) => (state.user.current ? !!state.user.current.admin : false),
   getCategoryId: (state) => state.params.category_id,
+  getGptModel: (state) => state.params.gpt_model,
 };
 // stateの値を変更する場所
 export const mutations = {
@@ -43,6 +45,9 @@ export const mutations = {
   },
   setCategoryId(state, payload) {
     state.params.category_id = payload;
+  },
+  setGptModel(state, payload) {
+    state.params.gpt_model = payload;
   },
 };
 
@@ -69,5 +74,8 @@ export const actions = {
   },
   updateCategoryId({ commit }, newCategoryId) {
     commit('setCategoryId', newCategoryId);
+  },
+  updateGptModel({ commit }, newGptModel) {
+    commit('setGptModel', newGptModel);
   },
 };

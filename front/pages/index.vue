@@ -11,6 +11,14 @@
         :categories="categories"
         @updateCategory="updateCategoryId($event)"
       />
+      <v-select
+        :value="getGptModel"
+        class="ml-4"
+        :items="models"
+        label="ChatGPTのモデルを選択"
+        style="max-width: 200px"
+        @input="newGptModel => updateGptModel(newGptModel)"
+      ></v-select>
       <div class="ma-1 switch">
         新着順
         <v-switch
@@ -55,10 +63,11 @@ export default {
       samples: [],
       isPopularOrder: false,
       isLoadingSwitch: false,
+      models: ['すべてのモデル','gpt-3.5-turbo','gpt-4'],
     };
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'getCategoryId']),
+    ...mapGetters(['isLoggedIn', 'getCategoryId', 'getGptModel']),
   },
   watch: {
     getCategoryId: function (newCategoryId, oldCategoryId) {
@@ -71,8 +80,14 @@ export default {
         this.getSamples(); // 人気順判定変数が変更された時にサンプルを更新
       }
     },
+    getGptModel: function (newGptModel, oldGptModel) {
+      if (newGptModel !== oldGptModel) {
+        this.getSamples();
+      }
+    },
   },
   async mounted() {
+    this.selectedModel = this.models[0];
     await this.getSamples();
     try {
       const response = await this.$axios.$get('/api/v1/categories');
@@ -82,7 +97,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['updateCategoryId']),
+    ...mapActions(['updateCategoryId', 'updateGptModel']),
     async getSamples() {
       this.isLoadingSwitch = true;
       try {
@@ -90,6 +105,7 @@ export default {
           params: {
             category_id: this.getCategoryId,
             is_popular_order: this.isPopularOrder,
+            gpt_model: this.getGptModel
           }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
