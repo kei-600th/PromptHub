@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div v-if="pageLoading">
-    </div>
+    <div v-if="pageLoading"></div>
     <div v-else-if="samples.length === 0">
       <div class="not-found-box mt-4">
         <v-img
@@ -39,8 +38,13 @@
               <v-card-subtitle style="position: absolute; top: 0">
                 {{ sample.category.name }}
               </v-card-subtitle>
-              <v-card-subtitle 
-              :class="isMobileBreakpointLessThan ? 'mobile-card-title font-weight-bold' : 'unmobile-card-title text-h6'">
+              <v-card-subtitle
+                :class="
+                  isMobileBreakpointLessThan
+                    ? 'mobile-card-title font-weight-bold'
+                    : 'unmobile-card-title text-h6'
+                "
+              >
                 {{ sample.title }}
               </v-card-subtitle>
               <LikeCount
@@ -120,7 +124,6 @@ export default {
 </script>
 
 <style scoped>
-
 .mobile-card-title {
   height: 92px;
 }
@@ -142,7 +145,6 @@ export default {
 .not-found-box {
   max-width: 400px;
   max-height: 400px;
-  text-align:center;
+  text-align: center;
 }
-
 </style>

@@ -17,7 +17,7 @@
           :items="models"
           label="ChatGPTのモデルを選択"
           style="max-width: 200px"
-          @input="newGptModel => updateGptModel(newGptModel)"
+          @input="(newGptModel) => updateGptModel(newGptModel)"
         ></v-select>
       </div>
       <div v-if="!pageLoading">
@@ -69,7 +69,7 @@ export default {
       samples: [],
       isPopularOrder: false,
       isLoadingSwitch: false,
-      models: ['すべてのモデル','gpt-3.5-turbo','gpt-4'],
+      models: ['すべてのモデル', 'gpt-3.5-turbo', 'gpt-4'],
       pageLoading: true,
     };
   },
@@ -118,7 +118,7 @@ export default {
           params: {
             category_id: this.getCategoryId,
             is_popular_order: this.isPopularOrder,
-            gpt_model: this.getGptModel
+            gpt_model: this.getGptModel,
           }, // カテゴリIDをパラメータとして追加
         });
         this.samples = response;
@@ -135,13 +135,12 @@ export default {
 </script>
 
 <style scoped>
-
 .sample-sorting-container {
   margin-left: 3%;
 }
 
-.select-boxes{
-  display:flex;
+.select-boxes {
+  display: flex;
 }
 .switch {
   display: flex;
