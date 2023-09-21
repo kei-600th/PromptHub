@@ -1,7 +1,7 @@
 class Api::V1::SamplesController < ApplicationController
   def index
     samples = Sample.includes(:category).all
-    samples = filter_by_category(samples)
+    samples = filter_by_conditions(samples)
     samples = sort_samples(samples)
     render json: samples
   end
@@ -28,23 +28,30 @@ class Api::V1::SamplesController < ApplicationController
     end
   end
 
+  def filter_by_conditions(samples)
+    return filter_by_category_and_model(samples) if params[:category_id] && params[:gpt_model] != "すべてのモデル"
+    return filter_by_category_only(samples) if params[:category_id]
+    return filter_by_model_only(samples) if params[:gpt_model] != "すべてのモデル"
+
+    samples
+  end
+
   private
 
-  def filter_by_category(samples)
-    if params[:category_id] && params[:gpt_model] != "すべてのモデル"
-      samples.joins(:prompts)
-             .where(category_id: params[:category_id])
-             .where(prompts: { gpt_model: params[:gpt_model] })
-             .distinct
-    elsif params[:category_id]
-      samples.where(category_id: params[:category_id])
-    elsif params[:gpt_model] != "すべてのモデル"
-      samples.joins(:prompts)
-             .where(prompts: { gpt_model: params[:gpt_model] })
-             .distinct
-    else
-      samples
-    end
+  def filter_by_category_and_model(samples)
+    samples.joins(:prompts)
+           .where(category_id: params[:category_id], prompts: { gpt_model: params[:gpt_model] })
+           .distinct
+  end
+
+  def filter_by_category_only(samples)
+    samples.where(category_id: params[:category_id])
+  end
+
+  def filter_by_model_only(samples)
+    samples.joins(:prompts)
+           .where(prompts: { gpt_model: params[:gpt_model] })
+           .distinct
   end
 
   def sort_samples(samples)
