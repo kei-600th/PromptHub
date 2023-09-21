@@ -20,14 +20,18 @@
           @input="newGptModel => updateGptModel(newGptModel)"
         ></v-select>
       </div>
-      <div class="my-1 ml-4 switch">
-        新着順
-        <v-switch
-          v-model="isPopularOrder"
-          :disabled="isLoadingSwitch"
-          class="ml-3 mr-1"
-        ></v-switch>
-        人気順
+      <div v-if="!pageLoading">
+        <div v-if="!(samples.length === 0)">
+          <div class="my-1 ml-4 switch">
+            新着順
+            <v-switch
+              v-model="isPopularOrder"
+              :disabled="isLoadingSwitch"
+              class="ml-3 mr-1"
+            ></v-switch>
+            人気順
+          </div>
+        </div>
       </div>
     </div>
     <SampleList
@@ -37,6 +41,7 @@
       :images="images"
       :is-loading="isLoading"
       :heart-color="heartColor"
+      :page-loading="pageLoading"
       @add-like="addLike"
       @find-like-id="findLikeId"
       @delete-like="deleteLike"
@@ -65,6 +70,7 @@ export default {
       isPopularOrder: false,
       isLoadingSwitch: false,
       models: ['すべてのモデル','gpt-3.5-turbo','gpt-4'],
+      pageLoading: true,
     };
   },
   computed: {
@@ -100,6 +106,7 @@ export default {
   methods: {
     ...mapActions(['updateCategoryId', 'updateGptModel']),
     async getSamples() {
+      this.pageLoading = true;
       this.isLoadingSwitch = true;
       try {
         const response = await this.$axios.$get('/api/v1/samples/', {
@@ -115,6 +122,7 @@ export default {
       } finally {
         setTimeout(() => {
           this.isLoadingSwitch = false;
+          this.pageLoading = false;
         }, 500);
       }
     },
