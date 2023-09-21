@@ -31,8 +31,17 @@ class Api::V1::SamplesController < ApplicationController
   private
 
   def filter_by_category(samples)
-    if params[:category_id]
+    if params[:category_id] && params[:gpt_model] != "すべてのモデル"
+      samples.joins(:prompts)
+             .where(category_id: params[:category_id])
+             .where(prompts: { gpt_model: params[:gpt_model] })
+             .distinct
+    elsif params[:category_id]
       samples.where(category_id: params[:category_id])
+    elsif params[:gpt_model] != "すべてのモデル"
+      samples.joins(:prompts)
+             .where(prompts: { gpt_model: params[:gpt_model] })
+             .distinct
     else
       samples
     end
