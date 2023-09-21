@@ -5,21 +5,22 @@
       <h2>サンプル一覧</h2>
     </v-row>
     <div class="sample-sorting-container mt-4">
-      <SelectCategory
-        class="ml-1"
-        :category-id="getCategoryId"
-        :categories="categories"
-        @updateCategory="updateCategoryId($event)"
-      />
-      <v-select
-        :value="getGptModel"
-        class="ml-4"
-        :items="models"
-        label="ChatGPTのモデルを選択"
-        style="max-width: 200px"
-        @input="newGptModel => updateGptModel(newGptModel)"
-      ></v-select>
-      <div class="ma-1 switch">
+      <div class="select-boxes">
+        <SelectCategory
+          :category-id="getCategoryId"
+          :categories="categories"
+          @updateCategory="updateCategoryId($event)"
+        />
+        <v-select
+          :value="getGptModel"
+          class="ml-8"
+          :items="models"
+          label="ChatGPTのモデルを選択"
+          style="max-width: 200px"
+          @input="newGptModel => updateGptModel(newGptModel)"
+        ></v-select>
+      </div>
+      <div class="my-1 ml-4 switch">
         新着順
         <v-switch
           v-model="isPopularOrder"
@@ -127,6 +128,9 @@ export default {
   margin-left: 3%;
 }
 
+.select-boxes{
+  display:flex;
+}
 .switch {
   display: flex;
   align-items: center;
