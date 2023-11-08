@@ -21,9 +21,11 @@
             <PromptForm
               :request-text="params.prompt.request_text"
               :gpt-model="params.prompt.gpt_model"
+              :image="params.prompt.image"
               :loading="loading"
               @updateRequestText="params.prompt.request_text = $event"
               @updateGptModel="params.prompt.gpt_model = $event"
+              @updateImage="params.prompt.image = $event"
               @createPrompt="createPrompt"
             />
           </v-tab-item>
@@ -77,9 +79,11 @@
       <PromptForm
         :request-text="params.prompt.request_text"
         :gpt-model="params.prompt.gpt_model"
+        :image="params.prompt.image"
         :loading="loading"
         @updateRequestText="params.prompt.request_text = $event"
         @updateGptModel="params.prompt.gpt_model = $event"
+        @updateImage="params.prompt.image = $event"
         @createPrompt="createPrompt"
       />
     </div>
@@ -135,6 +139,7 @@ export default {
           request_text: '',
           response_text: '',
           gpt_model: 'gpt-3.5-turbo',
+          image: null,
         },
         sample: {
           title: '',
@@ -151,7 +156,16 @@ export default {
       // ユーザが入力したmessagesをparams.messagesに保存
       this.params.messages.push({
         role: 'user',
-        content: this.params.prompt.request_text,
+        content: [
+          {
+            type: 'text',
+            text: this.params.prompt.request_text,
+          },
+          {
+            type: 'image_url',
+            image_url: '',
+          },
+        ],
       });
       try {
         const response = await this.$axios.$post(
@@ -165,6 +179,7 @@ export default {
           role: 'assistant',
           content: response.response_text,
         });
+        console.log(this.params);
       } catch (error) {
         handleFailure(error, this.$store);
       }
@@ -184,7 +199,6 @@ export default {
       }
     },
     deletePrompt() {
-      Object.assign(this.params, this.defaultPromptAndSampleParams());
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.params.prompts.length = 0;
       this.params.messages.length = 0;

@@ -19,6 +19,14 @@
         class="ma-5"
         style="max-width: 180px"
       ></v-select>
+      <!-- 画像送信フォームの追加 -->
+      <v-file-input
+        v-model="localImage"
+        label="画像を選択"
+        prepend-icon="mdi-camera"
+        outlined
+        class="ma-5"
+      ></v-file-input>
       <v-spacer></v-spacer>
       <v-btn
         color="appblue"
@@ -48,12 +56,17 @@ export default {
       type: String,
       required: true,
     },
+    image: {
+      type: [File, Array],
+      default: () => null,
+    },
   },
   data() {
     return {
-      items: ['gpt-3.5-turbo', 'gpt-4'],
+      items: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-vision-preview'],
       localRequestText: this.requestText,
       localGptModel: this.gptModel,
+      localImage: this.image,
     };
   },
   watch: {
@@ -62,6 +75,9 @@ export default {
     },
     localGptModel: function (newGptModel) {
       this.$emit('updateGptModel', newGptModel);
+    },
+    localImage: function (newImage) {
+      this.$emit('updateImage', newImage);
     },
   },
   methods: {
