@@ -21,6 +21,7 @@
       ></v-select>
       <!-- 画像送信フォームの追加 -->
       <v-file-input
+        v-show="gptModel === 'gpt-4-vision-preview'"
         v-model="localImage"
         label="画像を選択"
         prepend-icon="mdi-camera"
