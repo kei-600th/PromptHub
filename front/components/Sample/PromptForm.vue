@@ -28,6 +28,16 @@
         class="ma-5"
         @change="handleImageChange"
       ></v-file-input>
+    </div>
+    <div style="display: flex; align-items: center">
+      <div v-if="image" class="ma-5">
+        <h3>アップロードした画像</h3>
+        <img
+          :src="image"
+          alt="アップロードされた画像"
+          style="max-width: 200px; max-height: 200px; margin-right: 10px"
+        />
+      </div>
       <v-spacer></v-spacer>
       <v-btn
         color="appblue"
@@ -87,13 +97,11 @@ export default {
       this.$emit('createPrompt', this.localRequestText, this.localGptModel);
     },
     handleImageChange(file) {
-      console.log('HelloWorld!');
       if (!file) {
         this.localBase64Image = null;
         this.$emit('updateImage', null);
         return;
       }
-      console.log('HelloHelpMe!');
       this.convertToBase64(file);
     },
     convertToBase64(file) {
