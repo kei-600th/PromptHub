@@ -154,21 +154,26 @@ export default {
     },
     async createPrompt() {
       this.loading = true;
-      console.log(this.params);
-      // ユーザが入力したmessagesをparams.messagesに保存
-      this.params.messages.push({
-        role: 'user',
-        content: [
-          {
-            type: 'text',
-            text: this.params.prompt.request_text,
-          },
-          {
-            type: 'image_url',
-            image_url: this.params.prompt.image,
-          },
-        ],
-      });
+      if (this.params.prompt.gpt_model === 'gpt-4-vision-preview') {
+        this.params.messages.push({
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: this.params.prompt.request_text,
+            },
+            {
+              type: 'image_url',
+              image_url: this.params.prompt.image,
+            },
+          ],
+        });
+      } else {
+        this.params.messages.push({
+          role: 'user',
+          content: this.params.prompt.request_text,
+        });
+      }
       try {
         const response = await this.$axios.$post(
           '/api/v1/admin/prompts',
