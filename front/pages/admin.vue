@@ -25,7 +25,7 @@
               :loading="loading"
               @updateRequestText="params.prompt.request_text = $event"
               @updateGptModel="params.prompt.gpt_model = $event"
-              @updateImage="params.prompt.image = $event"
+              @updateImage="updateImage"
               @createPrompt="createPrompt"
             />
           </v-tab-item>
@@ -83,7 +83,7 @@
         :loading="loading"
         @updateRequestText="params.prompt.request_text = $event"
         @updateGptModel="params.prompt.gpt_model = $event"
-        @updateImage="params.prompt.image = $event"
+        @updateImage="updateImage"
         @createPrompt="createPrompt"
       />
     </div>
@@ -153,6 +153,7 @@ export default {
     },
     async createPrompt() {
       this.loading = true;
+      console.log(this.params);
       // ユーザが入力したmessagesをparams.messagesに保存
       this.params.messages.push({
         role: 'user',
@@ -163,7 +164,7 @@ export default {
           },
           {
             type: 'image_url',
-            image_url: '',
+            image_url: this.params.prompt.image,
           },
         ],
       });
@@ -202,6 +203,9 @@ export default {
       Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.params.prompts.length = 0;
       this.params.messages.length = 0;
+    },
+    updateImage(base64Image) {
+      this.params.prompt.image = base64Image;
     },
   },
 };

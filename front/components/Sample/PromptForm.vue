@@ -26,6 +26,7 @@
         prepend-icon="mdi-camera"
         outlined
         class="ma-5"
+        @change="handleImageChange"
       ></v-file-input>
       <v-spacer></v-spacer>
       <v-btn
@@ -57,7 +58,7 @@ export default {
       required: true,
     },
     image: {
-      type: [File, Array],
+      type: String,
       default: () => null,
     },
   },
@@ -66,7 +67,8 @@ export default {
       items: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-vision-preview'],
       localRequestText: this.requestText,
       localGptModel: this.gptModel,
-      localImage: this.image,
+      localImage: null, // ファイルオブジェクト用
+      localBase64Image: null, // Base64文字列用
     };
   },
   watch: {
@@ -76,9 +78,6 @@ export default {
     localGptModel: function (newGptModel) {
       this.$emit('updateGptModel', newGptModel);
     },
-    localImage: function (newImage) {
-      this.$emit('updateImage', newImage);
-    },
   },
   methods: {
     isEmptyOrWhitespace(text) {
@@ -86,6 +85,24 @@ export default {
     },
     submitPrompt() {
       this.$emit('createPrompt', this.localRequestText, this.localGptModel);
+    },
+    handleImageChange(file) {
+      console.log('HelloWorld!');
+      if (!file) {
+        this.localBase64Image = null;
+        this.$emit('updateImage', null);
+        return;
+      }
+      console.log('HelloHelpMe!');
+      this.convertToBase64(file);
+    },
+    convertToBase64(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.localBase64Image = e.target.result; // ここでBase64文字列をセット
+        this.$emit('updateImage', this.localBase64Image); // ここで親コンポーネントに通知
+      };
+      reader.readAsDataURL(file);
     },
   },
 };

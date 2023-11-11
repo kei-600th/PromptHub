@@ -8,11 +8,13 @@ class OpenaiChatService
 
   def chat
     client = initialize_openai_client
+    puts @messages
     response = client.chat(
       parameters: {
         model: @gpt_model,
         messages: @messages,
-        temperature: 0.7
+        temperature: 0.7,
+        max_tokens: 300
       }
     )
     raise StandardError, "OpenAIからの応答でエラーが発生しました: #{response['error']['message']}" if response["error"]
@@ -25,4 +27,5 @@ class OpenaiChatService
   def initialize_openai_client
     OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil))
   end
+  
 end
