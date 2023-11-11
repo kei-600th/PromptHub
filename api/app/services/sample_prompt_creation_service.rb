@@ -27,12 +27,19 @@ class SamplePromptCreationService
 
   def create_prompts(sample_id)
     @prompts_params.each do |prompt_param|
-      prompt = Prompt.new(prompt_param.merge(sample_id: sample_id))
+      decoded_image = decode_image(prompt_param['image']) if prompt_param['image'].present?
+      prompt = Prompt.new(prompt_param.except('image').merge(sample_id: sample_id))
+      prompt.image.attach(io: decoded_image, filename: "#{prompt.id}.jpg") if decoded_image
       unless prompt.save
         @error_message = "プロンプトの作成に失敗しました。"
         return false
       end
     end
     true
+  end
+
+  def decode_image(data)
+    content_type, encoding, string = data.match(/\Adata:(.*?);(.*?),(.*)\z/).captures
+    StringIO.new(Base64.decode64(string))
   end
 end

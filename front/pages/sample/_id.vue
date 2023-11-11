@@ -23,6 +23,7 @@
       <ChatLog
         :request-text="prompt.request_text"
         :response-text="prompt.response_text"
+        :image="prompt.image"
       />
     </div>
     <div v-if="sampleEditting === true">
