@@ -10,25 +10,34 @@
       </v-card-title>
 
       <!-- 本文 -->
-      <v-card color="#E7FDCC" class="user-message rounded-xl">
-        <v-card-text
-          :class="isMobileBreakpointLessThan ? 'text-h6' : 'text-h5'"
-        >
-          <div v-html="formattedRequestText"></div>
-        </v-card-text>
-        <div>
-          <v-tooltip bottom>
-            <template #activator="{ on, attrs }">
-              <v-icon
-                class="mr-4 mt-4"
-                v-bind="attrs"
-                @click="copyText(requestText)"
-                v-on="on"
-                >mdi-clipboard-outline
-              </v-icon>
-            </template>
-            <span>Copy</span>
-          </v-tooltip>
+      <v-card color="#E7FDCC" class="test rounded-xl">
+        <div class="user-message-text">
+          <v-card-text
+            :class="isMobileBreakpointLessThan ? 'text-h6' : 'text-h5'"
+          >
+            <div v-html="formattedRequestText"></div>
+          </v-card-text>
+          <div>
+            <v-tooltip bottom>
+              <template #activator="{ on, attrs }">
+                <v-icon
+                  class="mr-4 mt-4"
+                  v-bind="attrs"
+                  @click="copyText(requestText)"
+                  v-on="on"
+                  >mdi-clipboard-outline
+                </v-icon>
+              </template>
+              <span>Copy</span>
+            </v-tooltip>
+          </div>
+        </div>
+        <div v-if="image" class="ma-5 rounded-xl">
+          <img
+            :src="image"
+            alt="アップロードされた画像"
+            style="max-width: 200px; max-height: 200px; margin-right: 10px"
+          />
         </div>
       </v-card>
     </div>
@@ -67,6 +76,10 @@ export default {
     responseText: {
       type: String,
       required: true,
+    },
+    image: {
+      type: String,
+      default: () => null,
     },
   },
   computed: {
@@ -124,7 +137,7 @@ export default {
   white-space: pre-wrap;
 }
 
-.user-message {
+.user-message-text {
   display: flex;
   justify-content: space-between;
 }

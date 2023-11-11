@@ -7,6 +7,7 @@
         <ChatLog
           :request-text="prompt.request_text"
           :response-text="prompt.response_text"
+          :image="params.prompt.image"
         />
       </div>
       <v-card>
