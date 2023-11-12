@@ -38,6 +38,7 @@
             alt="アップロードされた画像"
             class="rounded-xl"
             style="max-width: 200px; max-height: 200px; margin-right: 10px"
+            @click="dialog = true"
           />
         </div>
       </v-card>
@@ -61,6 +62,25 @@
         </v-card-text>
       </v-card>
     </div>
+
+    <!-- モーダルウィンドウ -->
+    <v-dialog v-model="dialog">
+      <v-card>
+        <v-card-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="text-center">
+          <img
+            :src="image"
+            alt="オリジナル画像"
+            style="display: block; margin: auto"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -82,6 +102,11 @@ export default {
       type: String,
       default: () => null,
     },
+  },
+  data() {
+    return {
+      dialog: false,
+    };
   },
   computed: {
     formattedRequestText() {
