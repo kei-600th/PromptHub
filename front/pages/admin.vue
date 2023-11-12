@@ -186,7 +186,6 @@ export default {
           role: 'assistant',
           content: response.response_text,
         });
-        console.log(this.params);
       } catch (error) {
         handleFailure(error, this.$store);
       }

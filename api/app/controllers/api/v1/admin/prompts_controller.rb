@@ -13,6 +13,6 @@ class Api::V1::Admin::PromptsController < ApplicationController
   private
 
   def prompt_params
-    params.require(:prompt).permit(:request_text, :response_text, :gpt_model, :image)
+    params.require(:prompt).permit(:request_text, :response_text, :gpt_model)
   end
 end
