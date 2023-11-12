@@ -30,8 +30,8 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.12'
 gem 'jwt', '~> 2.2'
 
 gem 'dotenv-rails'
+gem 'ruby-openai', '~> 6.0.1'
 
-gem 'ruby-openai'
 
 gem 'active_model_serializers'
 
@@ -60,3 +60,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'aws-sdk-s3', require: false

@@ -34,7 +34,7 @@ class Api::V1::Admin::SamplesController < ApplicationController
 
   def prompts_params
     params.require(:prompts).map do |prompt_param|
-      prompt_param.permit(:request_text, :response_text, :gpt_model)
+      prompt_param.permit(:request_text, :response_text, :gpt_model, :image)
     end
   end
 

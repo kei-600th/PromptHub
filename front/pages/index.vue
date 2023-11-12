@@ -69,7 +69,12 @@ export default {
       samples: [],
       isPopularOrder: false,
       isLoadingSwitch: false,
-      models: ['すべてのモデル', 'gpt-3.5-turbo', 'gpt-4'],
+      models: [
+        'すべてのモデル',
+        'gpt-3.5-turbo',
+        'gpt-4',
+        'gpt-4-vision-preview',
+      ],
       pageLoading: true,
     };
   },

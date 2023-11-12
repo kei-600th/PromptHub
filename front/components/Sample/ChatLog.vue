@@ -10,25 +10,36 @@
       </v-card-title>
 
       <!-- 本文 -->
-      <v-card color="#E7FDCC" class="user-message rounded-xl">
-        <v-card-text
-          :class="isMobileBreakpointLessThan ? 'text-h6' : 'text-h5'"
-        >
-          <div v-html="formattedRequestText"></div>
-        </v-card-text>
-        <div>
-          <v-tooltip bottom>
-            <template #activator="{ on, attrs }">
-              <v-icon
-                class="mr-4 mt-4"
-                v-bind="attrs"
-                @click="copyText(requestText)"
-                v-on="on"
-                >mdi-clipboard-outline
-              </v-icon>
-            </template>
-            <span>Copy</span>
-          </v-tooltip>
+      <v-card color="#E7FDCC" class="test rounded-xl">
+        <div class="user-message-text">
+          <v-card-text
+            :class="isMobileBreakpointLessThan ? 'text-h6' : 'text-h5'"
+          >
+            <div v-html="formattedRequestText"></div>
+          </v-card-text>
+          <div>
+            <v-tooltip bottom>
+              <template #activator="{ on, attrs }">
+                <v-icon
+                  class="mr-4 mt-4"
+                  v-bind="attrs"
+                  @click="copyText(requestText)"
+                  v-on="on"
+                  >mdi-clipboard-outline
+                </v-icon>
+              </template>
+              <span>Copy</span>
+            </v-tooltip>
+          </div>
+        </div>
+        <div v-if="image" class="ma-5">
+          <img
+            :src="image"
+            alt="アップロードされた画像"
+            class="rounded-xl"
+            style="max-width: 25%; height: auto; margin-right: 10px"
+            @click="dialog = true"
+          />
         </div>
       </v-card>
     </div>
@@ -51,6 +62,25 @@
         </v-card-text>
       </v-card>
     </div>
+
+    <!-- モーダルウィンドウ -->
+    <v-dialog v-model="dialog">
+      <v-card>
+        <v-card-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-card-text class="text-center">
+          <img
+            :src="image"
+            alt="オリジナル画像"
+            style="display: block; margin: auto"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -68,6 +98,15 @@ export default {
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      default: () => null,
+    },
+  },
+  data() {
+    return {
+      dialog: false,
+    };
   },
   computed: {
     formattedRequestText() {
@@ -124,7 +163,7 @@ export default {
   white-space: pre-wrap;
 }
 
-.user-message {
+.user-message-text {
   display: flex;
   justify-content: space-between;
 }

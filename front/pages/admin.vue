@@ -7,6 +7,7 @@
         <ChatLog
           :request-text="prompt.request_text"
           :response-text="prompt.response_text"
+          :image="params.prompt.image"
         />
       </div>
       <v-card>
@@ -21,9 +22,11 @@
             <PromptForm
               :request-text="params.prompt.request_text"
               :gpt-model="params.prompt.gpt_model"
+              :image="params.prompt.image"
               :loading="loading"
               @updateRequestText="params.prompt.request_text = $event"
               @updateGptModel="params.prompt.gpt_model = $event"
+              @updateImage="updateImage"
               @createPrompt="createPrompt"
             />
           </v-tab-item>
@@ -77,9 +80,11 @@
       <PromptForm
         :request-text="params.prompt.request_text"
         :gpt-model="params.prompt.gpt_model"
+        :image="params.prompt.image"
         :loading="loading"
         @updateRequestText="params.prompt.request_text = $event"
         @updateGptModel="params.prompt.gpt_model = $event"
+        @updateImage="updateImage"
         @createPrompt="createPrompt"
       />
     </div>
@@ -135,6 +140,7 @@ export default {
           request_text: '',
           response_text: '',
           gpt_model: 'gpt-3.5-turbo',
+          image: null,
         },
         sample: {
           title: '',
@@ -148,11 +154,26 @@ export default {
     },
     async createPrompt() {
       this.loading = true;
-      // ユーザが入力したmessagesをparams.messagesに保存
-      this.params.messages.push({
-        role: 'user',
-        content: this.params.prompt.request_text,
-      });
+      if (this.params.prompt.gpt_model === 'gpt-4-vision-preview') {
+        this.params.messages.push({
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: this.params.prompt.request_text,
+            },
+            {
+              type: 'image_url',
+              image_url: this.params.prompt.image,
+            },
+          ],
+        });
+      } else {
+        this.params.messages.push({
+          role: 'user',
+          content: this.params.prompt.request_text,
+        });
+      }
       try {
         const response = await this.$axios.$post(
           '/api/v1/admin/prompts',
@@ -167,6 +188,10 @@ export default {
         });
       } catch (error) {
         handleFailure(error, this.$store);
+        // エラーが発生した場合、params.messagesの最後の要素を削除
+        if (this.params.messages.length > 0) {
+          this.params.messages.pop();
+        }
       }
       this.loading = false;
     },
@@ -185,9 +210,11 @@ export default {
     },
     deletePrompt() {
       Object.assign(this.params, this.defaultPromptAndSampleParams());
-      Object.assign(this.params, this.defaultPromptAndSampleParams());
       this.params.prompts.length = 0;
       this.params.messages.length = 0;
+    },
+    updateImage(base64Image) {
+      this.params.prompt.image = base64Image;
     },
   },
 };

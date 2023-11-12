@@ -19,6 +19,26 @@
         class="ma-5"
         style="max-width: 180px"
       ></v-select>
+      <!-- 画像送信フォームの追加 -->
+      <v-file-input
+        v-show="gptModel === 'gpt-4-vision-preview'"
+        v-model="localImage"
+        label="画像を選択"
+        prepend-icon="mdi-camera"
+        outlined
+        class="ma-5"
+        @change="handleImageChange"
+      ></v-file-input>
+    </div>
+    <div style="display: flex; align-items: center">
+      <div v-if="image" class="ma-5">
+        <h3>アップロードした画像</h3>
+        <img
+          :src="image"
+          alt="アップロードされた画像"
+          style="max-width: 200px; max-height: 200px; margin-right: 10px"
+        />
+      </div>
       <v-spacer></v-spacer>
       <v-btn
         color="appblue"
@@ -48,12 +68,18 @@ export default {
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      default: () => null,
+    },
   },
   data() {
     return {
-      items: ['gpt-3.5-turbo', 'gpt-4'],
+      items: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-vision-preview'],
       localRequestText: this.requestText,
       localGptModel: this.gptModel,
+      localImage: null, // ファイルオブジェクト用
+      localBase64Image: null, // Base64文字列用
     };
   },
   watch: {
@@ -70,6 +96,22 @@ export default {
     },
     submitPrompt() {
       this.$emit('createPrompt', this.localRequestText, this.localGptModel);
+    },
+    handleImageChange(file) {
+      if (!file) {
+        this.localBase64Image = null;
+        this.$emit('updateImage', null);
+        return;
+      }
+      this.convertToBase64(file);
+    },
+    convertToBase64(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.localBase64Image = e.target.result; // ここでBase64文字列をセット
+        this.$emit('updateImage', this.localBase64Image); // ここで親コンポーネントに通知
+      };
+      reader.readAsDataURL(file);
     },
   },
 };
