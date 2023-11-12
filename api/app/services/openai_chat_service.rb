@@ -8,7 +8,6 @@ class OpenaiChatService
 
   def chat
     client = initialize_openai_client
-    puts @messages
     response = client.chat(
       parameters: {
         model: @gpt_model,
@@ -27,5 +26,4 @@ class OpenaiChatService
   def initialize_openai_client
     OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY', nil))
   end
-  
 end
