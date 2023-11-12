@@ -188,6 +188,10 @@ export default {
         });
       } catch (error) {
         handleFailure(error, this.$store);
+        // エラーが発生した場合、params.messagesの最後の要素を削除
+        if (this.params.messages.length > 0) {
+          this.params.messages.pop();
+        }
       }
       this.loading = false;
     },
