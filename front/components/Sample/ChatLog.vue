@@ -37,7 +37,7 @@
             :src="image"
             alt="アップロードされた画像"
             class="rounded-xl"
-            style="max-width: 200px; max-height: 200px; margin-right: 10px"
+            style="max-width: 25%; height: auto; margin-right: 10px"
             @click="dialog = true"
           />
         </div>
