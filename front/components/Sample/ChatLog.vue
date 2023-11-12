@@ -32,10 +32,11 @@
             </v-tooltip>
           </div>
         </div>
-        <div v-if="image" class="ma-5 rounded-xl">
+        <div v-if="image" class="ma-5">
           <img
             :src="image"
             alt="アップロードされた画像"
+            class="rounded-xl"
             style="max-width: 200px; max-height: 200px; margin-right: 10px"
           />
         </div>
