@@ -20,7 +20,7 @@ class Api::V1::Admin::PromptsController < ApplicationController
 
   def validate_image_data
     image_data = params[:prompt][:image]
-    if image_data && image_data.match(%r{\Adata:image/(png|jpg|jpeg);base64,})
+    if image_data&.match(%r{\Adata:image/(png|jpg|jpeg);base64,})
       true
     else
       render json: { error: 'Invalid image data' }, status: :unprocessable_entity
