@@ -7,8 +7,7 @@ class OpenaiChatService
   end
 
   def chat
-    client = initialize_openai_client
-    response = client.chat(
+    response = initialize_openai_client.chat(
       parameters: {
         model: @gpt_model,
         messages: @messages,
