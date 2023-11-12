@@ -39,7 +39,7 @@ class SamplePromptCreationService
   end
 
   def decode_image(data)
-    content_type, encoding, string = data.match(/\Adata:(.*?);(.*?),(.*)\z/).captures
+    string = data.match(/\Adata:(.*?);(.*?),(.*)\z/).captures
     StringIO.new(Base64.decode64(string))
   end
 end
