@@ -12,7 +12,7 @@ class OpenaiChatService
         model: @gpt_model,
         messages: @messages,
         temperature: 0.7,
-        max_tokens: 600
+        max_tokens: 300
       }
     )
     raise StandardError, "OpenAIからの応答でエラーが発生しました: #{response['error']['message']}" if response["error"]
