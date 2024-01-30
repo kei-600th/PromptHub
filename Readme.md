@@ -77,6 +77,11 @@ prompthubはChatGPTの使用例(prompt)を共有するサービスです。
 
 <br />
 
+# ER図
+![ER Image](./.github/images/ERimage.png)
+
+<br />
+
 # 工夫した点
 - 読みやすいコードの意識
   - コード整形ツールを導入して各機能を実装する度にコードのフォーマット化を行いました。
